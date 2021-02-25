@@ -123,67 +123,67 @@ function createRobot() {
     second_base.position.set(-3.5, 4.9, -0.8);
     second_base.rotation.z = -Math.PI/3
     
-    // Rotation cylinder (RC)
+    /* // Rotation cylinder (RC)
     const second_arm_geometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 32);
     const arm2 = new THREE.Mesh(second_arm_geometry, grey_mesh);
-    meshes.push(arm2);
+    meshes.push(arm2); */
     /* // Create pivot point between upper base and rotation cylinder (UB to RC)
     const pivotPointUBtoRC = new THREE.Object3D();
     upperBase.add(pivotPointUBtoRC); */
     // Set upper base (UB) as reference for rotation cylinder (RC)
     //pivotPointUBtoRC.add(rotationCylinder);
-    arm2.position.set(-2.5, 4.9, -0.8);
+    //arm2.position.set(-2.5, 4.9, -0.8);
     
     // Pliers base (PB)
-    const boxGeometryPB = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+/*     const boxGeometryPB = new THREE.BoxGeometry(0.4, 0.4, 0.4);
     const pliersBase = new THREE.Mesh(boxGeometryPB, orange_mesh);
-    meshes.push(pliersBase);
+    meshes.push(pliersBase); */
     /* // Create pivot point between Rotation cylinder and pliers base (RC to PB)
     const pivotPointRCtoPB = new THREE.Object3D();
     rotationCylinder.add(pivotPointRCtoPB);
     // Set rotation cylinder (RC) as reference for pliers base (PB)
     pivotPointRCtoPB.add(pliersBase); */
-    pliersBase.position.set(0, 0.7, 0);
+    //pliersBase.position.set(0, 0.7, 0);
     
     // Pliers disc 1 (PD1)
-    const cylinderGeometryPD1 = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
-    const pliersDisc1 = new THREE.Mesh(cylinderGeometryPD1, orange_mesh);
-    meshes.push(pliersDisc1);
+ /*    const second_arm_geometry = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
+    const second_arm = new THREE.Mesh(second_arm_geometry, orange_mesh);
+    meshes.push(second_arm);
     // Create pivot point between pliers base and pliers disc 1 (PB to PD1)
-    const pivotPointPBtoPD1 = new THREE.Object3D();
-    pliersBase.add(pivotPointPBtoPD1);
+    /* const pivotPointPBtoPD1 = new THREE.Object3D();
+    pliersBase.add(pivotPointPBtoPD1); 
     // Set pliers base (PB) as reference for pliers disc 1 (PD1)
-    pivotPointPBtoPD1.add(pliersDisc1);
-    pliersDisc1.position.set(0.0, 0.23, 0.175);
-    pliersDisc1.rotation.x += Math.PI/2;
+    //pivotPointPBtoPD1.add(pliersDisc1);
+    second_arm.position.set(0.0, 0.23, 1.5);
+    second_arm.rotation.x += Math.PI/2; */
     
     // Pliers disc 2 (PD2)
-    const cylinderGeometryPD2 = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
+/*     const cylinderGeometryPD2 = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
     const pliersDisc2 = new THREE.Mesh(cylinderGeometryPD2, orange_mesh);
     meshes.push(pliersDisc2);
     // Create pivot point between pliers base and pliers disc 2 (PB to PD2)
-    const pivotPointPBtoPD2 = new THREE.Object3D();
+    /* const pivotPointPBtoPD2 = new THREE.Object3D();
     pliersBase.add(pivotPointPBtoPD2);
     // Set pliers base (PB) as reference for pliers disc 2 (PD2)
-    pivotPointPBtoPD2.add(pliersDisc2);
+    //pivotPointPBtoPD2.add(pliersDisc2);
     pliersDisc2.position.set(0.0, 0.23, -0.175);
-    pliersDisc2.rotation.x += Math.PI/2;
+    pliersDisc2.rotation.x += Math.PI/2; */
     
     // Pliers rotation cylinder (PRC)
-    const cylinderGeometryPRC = new THREE.CylinderGeometry(0.155, 0.155, 0.4, 32);
-    const pliersRotationCylinder = new THREE.Mesh(cylinderGeometryPRC, grey_mesh);
-    meshes.push(pliersRotationCylinder);
+    const second_arm_geometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32);
+    const second_arm = new THREE.Mesh(second_arm_geometry, grey_mesh);
+    meshes.push(second_arm);
     // Create pivot point between pliers base and pliers rotation cylinder (PB to PRC)
-    const pivotPointPBtoPRC = new THREE.Object3D();
-    pliersBase.add(pivotPointPBtoPRC);
+    //const pivotPointPBtoPRC = new THREE.Object3D();
+    //pliersBase.add(pivotPointPBtoPRC);
     // Set pliers base (PB) as reference for pliers rotation cylinder (PRC)
-    pivotPointPBtoPRC.add(pliersRotationCylinder);
-    pivotPointPBtoPRC.position.set(0.0, 0.3, 0);
-    pliersRotationCylinder.position.set(0.0, 0.2, 0);
-    pivotPointPBtoPRC.rotation.z += Math.PI/6;
+/*     pivotPointPBtoPRC.add(pliersRotationCylinder);
+    pivotPointPBtoPRC.position.set(0.0, 0.3, 0); */
+    second_arm.position.set(-1.5, 6.1, -0.8);
+    second_arm.rotation.z = -Math.PI/3;
     
     // Pliers decoration cylinder 2 (PDC)
-    const cylinderGeometryPDC = new THREE.CylinderGeometry(0.2, 0.155, 0.15, 32);
+/*     const cylinderGeometryPDC = new THREE.CylinderGeometry(0.2, 0.155, 0.15, 32);
     const pliersDecorationCylinder2 = new THREE.Mesh(cylinderGeometryPDC, orange_mesh);
     meshes.push(pliersDecorationCylinder2);
     // Create pivot point between pliers decoration cylinder and pliers decoration cylinder 2 (PRC to PDC)
@@ -191,41 +191,41 @@ function createRobot() {
     pliersRotationCylinder.add(pivotPointPRCtoPDC);
     // Set pliers decoration cylinder (PCR) as reference for pliers decoration cylinder 2 (PDC)
     pivotPointPRCtoPDC.add(pliersDecorationCylinder2);
-    pliersDecorationCylinder2.position.set(0.0, 0.05, 0);
+    pliersDecorationCylinder2.position.set(0.0, 0.05, 3); */
     
     // Pliers holder 1 (PH1)
     const boxGeometryPH1 = new THREE.BoxGeometry(0.03, 0.155, 0.5);
     const pliersHolder1 = new THREE.Mesh(boxGeometryPH1, grey_mesh);
     meshes.push(pliersHolder1);
     // Create pivot point between pliers rotation cylinder and pliers holder 1 (PRC to PH1)
-    const pivotPointPRCtoPH1 = new THREE.Object3D();
+    /* const pivotPointPRCtoPH1 = new THREE.Object3D();
     pliersRotationCylinder.add(pivotPointPRCtoPH1);
     // Set pliers rotation cylinder (PCR) as reference for pliers holder 1 (PH1)
-    pivotPointPRCtoPH1.add(pliersHolder1);
-    pliersHolder1.position.set(0.05, 0.2, 0);
+    pivotPointPRCtoPH1.add(pliersHolder1); */
+    pliersHolder1.position.set(0.05, 0.2, 3);
     
     // Pliers holder 2 (PH2)
     const boxGeometryPH2 = new THREE.BoxGeometry(0.03, 0.155, 0.5);
     const pliersHolder2 = new THREE.Mesh(boxGeometryPH2, grey_mesh);
     meshes.push(pliersHolder2);
     // Create pivot point between pliers rotation cylinder and pliers holder 2 (PRC to PH2)
-    const pivotPointPRCtoPH2 = new THREE.Object3D();
+    /* const pivotPointPRCtoPH2 = new THREE.Object3D();
     pliersRotationCylinder.add(pivotPointPRCtoPH2);
     // Set pliers rotation cylinder (PCR) as reference for pliers holder 2 (PH2)
-    pivotPointPRCtoPH2.add(pliersHolder2);
-    pliersHolder2.position.set(-0.05, 0.2, 0);
+    pivotPointPRCtoPH2.add(pliersHolder2); */
+    pliersHolder2.position.set(-0.05, 0.2, 1.5);
     
     // Pliers grabber base 1 (PGB1)
     const boxGeometryPGB1 = new THREE.BoxGeometry(0.08, 0.155, 0.3);
     const pliersGrabberBase1 = new THREE.Mesh(boxGeometryPGB1, grey_mesh);
     meshes.push(pliersGrabberBase1);
     // Create pivot point between pliers holder 1 and pliers grabber base 1 (PH1 to PGB1)
-    const pivotPointPH1toPGB1 = new THREE.Object3D();
+    /* const pivotPointPH1toPGB1 = new THREE.Object3D();
     pliersHolder1.add(pivotPointPH1toPGB1);
     // Set pliers rotation holder 1 (PCR) as reference for pliers grabber base 1 (PGB1)
     pivotPointPH1toPGB1.add(pliersGrabberBase1);
     pivotPointPH1toPGB1.position.set(0, 0, 0.18);
-    pivotPointPH1toPGB1.rotation.x -= Math.PI/6;
+    pivotPointPH1toPGB1.rotation.x -= Math.PI/6; */
     pliersGrabberBase1.position.set(-0.05, 0, 0.15);
     
     // Pliers grabber base 2 (PGB1)
