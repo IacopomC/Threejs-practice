@@ -21,6 +21,13 @@ function main() {
         light.position.set(-1, 2, 4);
         scene.add(light);
     }
+    {
+        const color = 0xFFFFFF;
+        const intensity = 1;
+        const light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(1, -2, -4);
+        scene.add(light);
+    }
 
     // Camera
     const fov = 75;
@@ -42,6 +49,10 @@ function main() {
 
     // Robot
     meshes = createRobot();
+
+    meshes.forEach(element =>{
+        scene.add(element);
+    })
 
     // Renderer
     renderer.setPixelRatio( window.devicePixelRatio );
