@@ -11,7 +11,7 @@ function main() {
 
     // Scene
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0x21272e );
+    scene.background = new THREE.Color( 0xB1ABA7 );
 
     // Light
     {
