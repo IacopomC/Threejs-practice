@@ -48,11 +48,9 @@ function main() {
     scene.add( grid );
 
     // Robot
-    meshes = createRobot();
+    const robot_arm = createRobot();
 
-    meshes.forEach(element =>{
-        scene.add(element);
-    })
+    scene.add(robot_arm);
 
     // Renderer
     renderer.setPixelRatio( window.devicePixelRatio );
