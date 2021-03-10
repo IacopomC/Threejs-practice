@@ -17,12 +17,12 @@ function createRobot() {
     });
   
     // Robot primitives
-    const grey_base_geometry = new THREE.CylinderGeometry(1.5, 1.5, 0.5, 32);
+    const grey_base_geometry = new THREE.CylinderGeometry(2.5, 2.5, 0.5, 32);
     const gray_base = new THREE.Mesh(grey_base_geometry, grey_mesh);
     gray_base.position.set(0, 0, 0);
     meshes.push(gray_base);
   
-    const orange_base_geometry = new THREE.CylinderGeometry(1, 1, 0.2, 32);
+    const orange_base_geometry = new THREE.CylinderGeometry(2, 2, 0.2, 32);
     const orange_base = new THREE.Mesh(orange_base_geometry, orange_mesh);
     orange_base.position.set(0, 0.3, 0);
     meshes.push(orange_base);
@@ -61,6 +61,18 @@ function createRobot() {
     second_arm.position.set(-1.5, 6.1, -0.8);
     second_arm.rotation.z = -Math.PI/3;
     meshes.push(second_arm);
+
+    const side_arm_geometry = new THREE.BoxGeometry(0.8, 2.0, 0.3);
+    const arm_sides = new THREE.Mesh(side_arm_geometry, orange_mesh);
+    arm_sides.position.set(-1.5, 6.1, -0.8);
+    arm_sides.rotation.z = -Math.PI/3;
+    meshes.push(arm_sides);
+
+    const hand_base_geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const hand_base = new THREE.Mesh(hand_base_geometry, orange_mesh);
+    hand_base.position.set(-0.5, 6.65, -0.8);
+    hand_base.rotation.z = -Math.PI/3;
+    meshes.push(hand_base);
 
     return meshes;
 }
