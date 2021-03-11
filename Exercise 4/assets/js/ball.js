@@ -21,7 +21,7 @@ function generateBalls() {
       return `hsl(${rand(360) | 0}, ${rand(50, 100) | 0}%, 50%)`;
     }
      
-    const numObjects = 100;
+    const numObjects = 20;
     for (let i = 0; i < numObjects; ++i) {
       const material = new THREE.MeshPhongMaterial({
         color: randomColor(),
