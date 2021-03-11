@@ -4,10 +4,10 @@ function generateBalls() {
 
     let balls = [];
 
-    const boxWidth = 1;
-    const boxHeight = 1;
-    const boxDepth = 1;
-    const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+    const radius = 0.1;
+    const widthSegments = 12;
+    const heightSegments = 8;
+    const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
      
     function rand(min, max) {
       if (max === undefined) {
