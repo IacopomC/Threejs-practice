@@ -1,6 +1,7 @@
 import * as THREE from '../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import createRobot from './robot.js'
+import createRobot from './robot.js';
+import generateBalls from './ball.js';
 
 let scene, camera, renderer;
 let meshes = [];
@@ -51,6 +52,13 @@ function main() {
     const robot_arm = createRobot();
 
     scene.add(robot_arm);
+
+    // Balls
+    const balls = generateBalls();
+
+    balls.forEach( ball => {
+        scene.add(ball);
+    });
 
     // Renderer
     renderer.setPixelRatio( window.devicePixelRatio );
