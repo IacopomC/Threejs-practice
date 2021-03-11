@@ -20,6 +20,7 @@ class PickHelper {
       if (intersectedObjects.length) {
         // pick the first object. It's the closest one
         this.pickedObject = intersectedObjects[0].object;
+        console.log('pickedObject ', this.pickedObject);
         // save its color
         this.pickedObjectSavedColor = this.pickedObject.material.emissive.getHex();
         // set its emissive color to flashing red/yellow

@@ -5,7 +5,6 @@ import generateBalls from './ball.js';
 import PickHelper from './pick_helper.js';
 
 let scene, camera, renderer;
-let meshes = [];
 
 function main() {
     const canvas = document.querySelector( '#c' );
@@ -41,13 +40,6 @@ function main() {
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
-    
-    // Grid
-    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
-    grid.material.opacity = 0.5;
-    grid.material.depthWrite = false;
-    grid.material.transparent = true;
-    scene.add( grid );
 
     // Robot
     const robot_arm = createRobot();
@@ -64,7 +56,41 @@ function main() {
     // Initialize PickHelper and clear position
     const pickPosition = {x: 0, y: 0};
     const pickHelper = new PickHelper();
-    clearPickPosition(pickPosition);
+    clearPickPosition();
+
+    function animate(time) {
+        time *= 0.001;  // convert to seconds;
+        
+        pickHelper.pick(pickPosition, scene, camera, time);
+    
+        requestAnimationFrame( animate );
+    
+        renderer.render(scene, camera);
+    
+    }
+    
+    function getCanvasRelativePosition(event) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (event.clientX - rect.left) * canvas.width  / rect.width,
+          y: (event.clientY - rect.top ) * canvas.height / rect.height,
+        };
+    }
+    
+    function setPickPosition(event) {
+        const pos = getCanvasRelativePosition(event);
+        pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+        pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+    }
+    
+    function clearPickPosition() {
+        // unlike the mouse which always has a position
+        // if the user stops touching the screen we want
+        // to stop picking. For now we just pick a value
+        // unlikely to pick something
+        pickPosition.x = -100000;
+        pickPosition.y = -100000;
+    }    
 
     // Renderer
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -75,42 +101,6 @@ function main() {
     window.addEventListener('mouseleave', clearPickPosition);
 
     animate(pickHelper, pickPosition, scene, camera);
-}
-
-function animate(time, pickHelper, pickPosition, scene, camera) {
-    time *= 0.001;  // convert to seconds;
-
-    console.log(pickHelper);
-
-    pickHelper.prototype.pick(pickPosition, scene, camera, time);
-
-    requestAnimationFrame( animate );
-
-    renderer.render(scene, camera);
-
-}
-
-function getCanvasRelativePosition(event) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: (event.clientX - rect.left) * canvas.width  / rect.width,
-      y: (event.clientY - rect.top ) * canvas.height / rect.height,
-    };
-}
-
-function setPickPosition(event) {
-    const pos = getCanvasRelativePosition(event);
-    pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
-    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
-}
-
-function clearPickPosition(pickPosition) {
-    // unlike the mouse which always has a position
-    // if the user stops touching the screen we want
-    // to stop picking. For now we just pick a value
-    // unlikely to pick something
-    pickPosition.x = -100000;
-    pickPosition.y = -100000;
 }
 
 main();
