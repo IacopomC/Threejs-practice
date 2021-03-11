@@ -4,7 +4,7 @@ function generateBalls() {
 
     let balls = [];
 
-    const radius = 0.1;
+    const radius = 0.4;
     const widthSegments = 12;
     const heightSegments = 8;
     const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
@@ -27,13 +27,11 @@ function generateBalls() {
         color: randomColor(),
       });
      
-      const cube = new THREE.Mesh(geometry, material);
+      const ball = new THREE.Mesh(geometry, material);
      
-      cube.position.set(rand(-20, 20), rand(-20, 20), rand(-20, 20));
-      cube.rotation.set(rand(Math.PI), rand(Math.PI), 0);
-      cube.scale.set(rand(3, 6), rand(3, 6), rand(3, 6));
+      ball.position.set(rand(-20, 20), 0, rand(-20, 20));
 
-      balls.push(cube);
+      balls.push(ball);
     }
 
     return balls;
