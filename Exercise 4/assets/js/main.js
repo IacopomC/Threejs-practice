@@ -17,14 +17,14 @@ function main() {
     // Light
     {
         const color = 0xFFFFFF;
-        const intensity = 10;
+        const intensity = 8;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(-1, 2, 4);
         scene.add(light);
     }
     {
         const color = 0xFFFFFF;
-        const intensity = 10;
+        const intensity = 8;
         const light = new THREE.DirectionalLight(color, intensity);
         light.position.set(1, -2, -4);
         scene.add(light);
@@ -40,6 +40,13 @@ function main() {
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
+
+    // Grid
+    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
+    grid.material.opacity = 0.5;
+    grid.material.depthWrite = false;
+    grid.material.transparent = true;
+    scene.add( grid );
 
     // Robot
     const robot_arm = createRobot();
