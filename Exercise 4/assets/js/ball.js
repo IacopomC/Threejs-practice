@@ -18,7 +18,7 @@ function generateBalls() {
     }
      
     function randomColor() {
-      return `hsl(${rand(360) | 0}, ${rand(50, 100) | 0}%, 50%)`;
+      return `hsl(${rand(360) | 0}, ${rand(50, 100) | 0}%, 10%)`;
     }
      
     const numObjects = 20;
@@ -29,7 +29,7 @@ function generateBalls() {
      
       const ball = new THREE.Mesh(geometry, material);
      
-      ball.position.set(rand(-20, 20), 0, rand(-20, 20));
+      ball.position.set(rand(-10, 10), 0, rand(-10, 10));
 
       balls.push(ball);
     }
