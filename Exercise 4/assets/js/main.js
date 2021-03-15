@@ -66,7 +66,6 @@ function main() {
     clearPickPosition();
 
     function animate(time) {
-        time *= 0.001;  // convert to seconds;
         
         pickHelper.pick(pickPosition, scene, camera, time);
     
@@ -97,6 +96,23 @@ function main() {
     }
 
     function pickBall() {
+        let fps = 60;           // fps/seconds
+        let tau = 2;            // 2 seconds
+        const step = 1 / (tau * fps);  // step per frame
+
+        const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
+        const finalAngle = polaCoord.angle;
+        const angleStep = finalAngle * step;
+        let t = 0;
+
+        function animateRobotArm(t){
+            if (t >= 1) return; // Motion ended
+            t += step;  // Increment time
+            robot_arm.rotation.y += angleStep; // Increment rotation
+            requestAnimationFrame(() => animateRobotArm(t));
+        }
+
+        animateRobotArm(t);
     }
 
     // Renderer
