@@ -96,8 +96,7 @@ function main() {
         pickPosition.y = -100000;
     }
 
-    function pickBall(event) {
-        console.log('pick position ', pickPosition);
+    function pickBall() {
     }
 
     // Renderer
@@ -115,8 +114,8 @@ function main() {
 function cartesianToPolar(x, y){
     // Convert cartesian coordinates
     // to polar coordinates
-    r = Math.sqrt(x*x + y*y);
-    theta = Math.atan2(y,x);
+    let r = Math.sqrt(x*x + y*y);
+    let theta = Math.atan2(y,x);
     return { radius: r, angle: theta }
 }
 
