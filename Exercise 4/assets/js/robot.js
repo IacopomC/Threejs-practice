@@ -91,11 +91,31 @@ function createRobot() {
     hand_group.add(hand_junction);
 
     const lateral_geometry = new THREE.BoxGeometry(0.8, 1.2, 0.1);
-    const lateral_junc = new THREE.Mesh(lateral_geometry, orange_mesh);
-    lateral_junc.position.set(-0.42, 6.72, -1.2);
-    lateral_junc.rotation.z = -Math.PI/3;
+    const lateral_junc_1 = new THREE.Mesh(lateral_geometry, orange_mesh);
+    lateral_junc_1.position.set(-0.42, 6.72, -1.2);
+    lateral_junc_1.rotation.z = -Math.PI/3;
 
-    hand_group.add(lateral_junc);
+    hand_group.add(lateral_junc_1);
+
+    const lateral_junc_2 = new THREE.Mesh(lateral_geometry, orange_mesh);
+    lateral_junc_2.position.set(-0.42, 6.72, -0.4);
+    lateral_junc_2.rotation.z = -Math.PI/3;
+
+    hand_group.add(lateral_junc_2);
+
+    const wrist_bottom_geometry = new THREE.CylinderGeometry(0.45, 0.3, 0.8, 32);
+    const wrist_bottom = new THREE.Mesh(wrist_bottom_geometry, grey_mesh);
+    wrist_bottom.position.set(-0.12, 6.85, -0.8);
+    wrist_bottom.rotation.z = -Math.PI/3;
+
+    hand_group.add(wrist_bottom);
+
+    const wrist_top_geometry = new THREE.CylinderGeometry(0.3, 0.45, 0.3, 32);
+    const wrist_top = new THREE.Mesh(wrist_top_geometry, orange_mesh);
+    wrist_top.position.set(0.35, 7.1, -0.8);
+    wrist_top.rotation.z = -Math.PI/3;
+
+    hand_group.add(wrist_top);
 
     second_junc_group.add(hand_group);
 
