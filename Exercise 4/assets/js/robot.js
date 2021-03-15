@@ -90,6 +90,13 @@ function createRobot() {
 
     hand_group.add(hand_junction);
 
+    const lateral_geometry = new THREE.BoxGeometry(0.8, 1.2, 0.1);
+    const lateral_junc = new THREE.Mesh(lateral_geometry, orange_mesh);
+    lateral_junc.position.set(-0.42, 6.72, -1.2);
+    lateral_junc.rotation.z = -Math.PI/3;
+
+    hand_group.add(lateral_junc);
+
     second_junc_group.add(hand_group);
 
     first_junc_group.add(second_junc_group);

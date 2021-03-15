@@ -112,7 +112,7 @@ function main() {
             requestAnimationFrame(() => animateRobotArm(t));
         }
 
-        animateRobotArm(t);
+        //animateRobotArm(t);
     }
 
     // Renderer
