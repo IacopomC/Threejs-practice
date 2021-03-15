@@ -97,7 +97,11 @@ function main() {
         // unlikely to pick something
         pickPosition.x = -100000;
         pickPosition.y = -100000;
-    }    
+    }
+
+    function pickBall(event) {
+        console.log(event);
+    }
 
     // Renderer
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -106,6 +110,7 @@ function main() {
     window.addEventListener('mousemove', setPickPosition);
     window.addEventListener('mouseout', clearPickPosition);
     window.addEventListener('mouseleave', clearPickPosition);
+    window.addEventListener('pointerdown', pickBall);
 
     animate(pickHelper, pickPosition, scene, camera);
 }
