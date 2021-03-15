@@ -91,16 +91,13 @@ function main() {
     }
     
     function clearPickPosition() {
-        // unlike the mouse which always has a position
-        // if the user stops touching the screen we want
-        // to stop picking. For now we just pick a value
-        // unlikely to pick something
+        // Pick a value unlikely to pick something
         pickPosition.x = -100000;
         pickPosition.y = -100000;
     }
 
     function pickBall(event) {
-        console.log(event);
+        console.log('pick position ', pickPosition);
     }
 
     // Renderer
@@ -113,6 +110,23 @@ function main() {
     window.addEventListener('pointerdown', pickBall);
 
     animate(pickHelper, pickPosition, scene, camera);
+}
+
+function cartesianToPolar(x, y){
+    // Convert cartesian coordinates
+    // to polar coordinates
+    r = Math.sqrt(x*x + y*y);
+    theta = Math.atan2(y,x);
+    return { radius: r, angle: theta }
+}
+
+function polarToCartesian ( t, theta ) {
+    // Convert polar coordinates
+    // to cartesian coordinates
+    let x = r * cos(theta);
+    let y = r * sin(theta);
+
+    return {x: x, y: y};
 }
 
 main();
