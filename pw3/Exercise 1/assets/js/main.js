@@ -22,13 +22,6 @@ function main() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xB1ABA7);
 
-    // Grid
-    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
-    grid.material.opacity = 0.5;
-    grid.material.depthWrite = false;
-    grid.material.transparent = true;
-    scene.add( grid );
-
     // Light
     {
         const color = 0xFFFFFF;
