@@ -50,7 +50,7 @@ function main() {
 
    scene.add(robot_arm);
 
-   const initialAngle = - Math.PI/4;
+   let initialAngle = - Math.PI/4;
 
   // Balls
   const balls = generateBalls();
@@ -118,17 +118,15 @@ function main() {
 
       const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
       
-      console.log('INITIAL RAD ',initialAngle);
+      // console.log('INITIAL RAD ',initialAngle);
       console.log('INITIAL DEGREE', initialAngle*180/3.14159);
-      console.log('ANGLE RAD ', polaCoord.angle);
+      // console.log('ANGLE RAD ', polaCoord.angle);
       console.log('ANGLE DEGREE', polaCoord.angle*180/3.14159);
       
-      const finalAngle = polaCoord.angle - initialAngle;
-      if (finalAngle < 0 ) {
-
-      }
-      console.log('angle ', finalAngle*180/3.14159);
-      const angleStep = finalAngle * step;
+      const deltaRotation = polaCoord.angle - initialAngle;
+      initialAngle = polaCoord.angle;
+      console.log('delta Rotation ', deltaRotation*180/3.14159);
+      const angleStep = deltaRotation * step;
       let t = 0;
 
       function animateRobotArm(t){
