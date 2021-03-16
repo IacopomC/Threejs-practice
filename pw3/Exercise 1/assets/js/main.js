@@ -1,6 +1,6 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-
+import cornelBox from './cornel_box.js';
 
 function main() {
     const canvas = document.querySelector('#c');
@@ -13,13 +13,21 @@ function main() {
     const near = 0.1;
     const far = 1000;
     const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-    camera.position.set( 10, 10, 10 );
+    camera.position.set( 0, 12, 12 );
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
 
+    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xB1ABA7);
+
+    // Grid
+    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
+    grid.material.opacity = 0.5;
+    grid.material.depthWrite = false;
+    grid.material.transparent = true;
+    scene.add( grid );
 
     // Light
     {
@@ -36,6 +44,10 @@ function main() {
         light.position.set(1, -2, -4);
         scene.add(light);
     }
+
+    // Cornel Box
+    const corbelBox = cornelBox();
+    scene.add(corbelBox);
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
