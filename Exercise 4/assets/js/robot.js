@@ -32,7 +32,7 @@ function createRobot() {
     const base_box_geometry = new THREE.BoxGeometry(0.8, 2.0, 0.3);
     const base_box = new THREE.Mesh(base_box_geometry, orange_mesh);
     base_box.position.set(-0.4, 1.2, -0.2);
-    base_box.rotation.z = Math.PI/4
+    base_box.rotation.z = Math.PI/4;
 
     arm_group.add(base_box);
 
@@ -41,14 +41,14 @@ function createRobot() {
     const junction_geometry = new THREE.CylinderGeometry(0.6, 0.6, 0.8, 32);
     const first_junction = new THREE.Mesh(junction_geometry, grey_mesh);
     first_junction.position.set(-0.9, 1.9, 0);
-    first_junction.rotation.x = Math.PI/2
+    first_junction.rotation.x = Math.PI/2;
 
     first_junc_group.add(first_junction);
     
     const first_arm_geometry = new THREE.BoxGeometry(0.8, 3.5, 0.3);
     const first_arm = new THREE.Mesh(first_arm_geometry, orange_mesh);
     first_arm.position.set(-2.4, 3.4, 0.2);
-    first_arm.rotation.z = Math.PI/4
+    first_arm.rotation.z = Math.PI/4;
 
     first_junc_group.add(first_arm);
 
@@ -56,14 +56,14 @@ function createRobot() {
  
     const second_junction = new THREE.Mesh(junction_geometry, grey_mesh);
     second_junction.position.set(-3.9, 4.5, 0);
-    second_junction.rotation.x = Math.PI/2
+    second_junction.rotation.x = Math.PI/2;
 
     second_junc_group.add(second_junction);
 
     const second_base_geometry = new THREE.CylinderGeometry(0.4, 0.6, 3, 32);
     const second_base = new THREE.Mesh(second_base_geometry, orange_mesh);
     second_base.position.set(-3.5, 4.9, -0.8);
-    second_base.rotation.z = -Math.PI/3
+    second_base.rotation.z = -Math.PI/3;
 
     second_junc_group.add(second_base);
     

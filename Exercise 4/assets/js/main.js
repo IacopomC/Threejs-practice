@@ -50,6 +50,8 @@ function main() {
 
    scene.add(robot_arm);
 
+   const initialAngle = - Math.PI/4;
+
   // Balls
   const balls = generateBalls();
 
@@ -100,7 +102,7 @@ function main() {
   function setPickPosition(event) {
     const pos = getCanvasRelativePosition(event);
     pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
-    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+    pickPosition.y = - (pos.y / canvas.height) * 2 + 1;  // note we flip Y
   }
 
   function clearPickPosition() {
@@ -114,11 +116,17 @@ function main() {
       let tau = 2;            // 2 seconds
       const step = 1 / (tau * fps);  // step per frame
 
-      console.log('coordinates ', pickPosition);
-      console.log('pick helper ', pickHelper);
-
       const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
-      const finalAngle = polaCoord.angle;
+      
+      console.log('INITIAL RAD ',initialAngle);
+      console.log('INITIAL DEGREE', initialAngle*180/3.14159);
+      console.log('ANGLE RAD ', polaCoord.angle);
+      console.log('ANGLE DEGREE', polaCoord.angle*180/3.14159);
+      
+      const finalAngle = polaCoord.angle - initialAngle;
+      if (finalAngle < 0 ) {
+
+      }
       console.log('angle ', finalAngle*180/3.14159);
       const angleStep = finalAngle * step;
       let t = 0;
