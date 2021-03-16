@@ -6,7 +6,7 @@ class PickHelper {
     this.pickedObject = null;
     this.pickedObjectSavedColor = 0;
   }
-  pick(normalizedPosition, scene, camera, time) {
+  pick(normalizedPosition, scene, camera, balls, time) {
     // restore the color if there is a picked object
     if (this.pickedObject) {
       this.pickedObject.material.emissive.setHex(this.pickedObjectSavedColor);
@@ -16,7 +16,7 @@ class PickHelper {
     // cast a ray through the frustum
     this.raycaster.setFromCamera(normalizedPosition, camera);
     // get the list of objects the ray intersected
-    const intersectedObjects = this.raycaster.intersectObjects(scene.children);
+    const intersectedObjects = this.raycaster.intersectObjects(balls);
     if (intersectedObjects.length) {
       // pick the first object. It's the closest one
       this.pickedObject = intersectedObjects[0].object;
