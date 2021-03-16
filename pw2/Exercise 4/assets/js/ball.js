@@ -23,7 +23,7 @@ function generateBalls() {
      
     const numObjects = 20;
     for (let i = 0; i < numObjects; ++i) {
-      const material = new THREE.MeshPhongMaterial({
+      const material = new THREE.MeshStandardMaterial({
         color: randomColor(),
       });
      
