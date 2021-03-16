@@ -1,130 +1,147 @@
 import * as THREE from '../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import createRobot from './robot.js';
-import generateBalls from './ball.js';
 import PickHelper from './pick_helper.js';
-
-let scene, camera, renderer;
+import generateBalls from './ball.js';
 
 function main() {
-    const canvas = document.querySelector( '#c' );
-    renderer = new THREE.WebGLRenderer( { canvas } );
+  const canvas = document.querySelector('#c');
+  const renderer = new THREE.WebGLRenderer({canvas});
 
-    // Scene
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xB1ABA7 );
+  // Camera
+  const fov = 75;
+  const aspect = window.innerWidth/window.innerHeight;
+  const near = 0.1;
+  const far = 1000;
+  const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
+  camera.position.set( 10, 10, 10 );
 
-    // Light
-    {
-        const color = 0xFFFFFF;
-        const intensity = 8;
-        const light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(-1, 2, 4);
-        scene.add(light);
+  // Controls
+  const controls = new OrbitControls(camera, canvas);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xB1ABA7);
+
+  // Light
+  {
+    const color = 0xFFFFFF;
+    const intensity = 8;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    scene.add(light);
+   }
+   {
+    const color = 0xFFFFFF;
+    const intensity = 8;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(1, -2, -4);
+    scene.add(light);
+   }
+
+   // Robot
+   const robot_arm = createRobot();
+
+   scene.add(robot_arm);
+
+  // Balls
+  const balls = generateBalls();
+
+  balls.forEach( ball => {
+      scene.add(ball);
+  });
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
     }
-    {
-        const color = 0xFFFFFF;
-        const intensity = 8;
-        const light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(1, -2, -4);
-        scene.add(light);
-    }
+    return needResize;
+  }
 
-    // Camera
-    const fov = 75;
-    const aspect = window.innerWidth/window.innerHeight;
-    const near = 0.1;
-    const far = 1000;
-    camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-	camera.position.set( 10, 10, 10 );
+  const pickPosition = {x: 0, y: 0};
+  const pickHelper = new PickHelper();
+  clearPickPosition();
 
-    // Controls
-    const controls = new OrbitControls(camera, canvas);
+  function render(time) {
+    time *= 0.001;  // convert to seconds;
 
-    // Grid
-    const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
-    grid.material.opacity = 0.5;
-    grid.material.depthWrite = false;
-    grid.material.transparent = true;
-    scene.add( grid );
-
-    // Robot
-    const robot_arm = createRobot();
-
-    scene.add(robot_arm);
-
-    // Balls
-    const balls = generateBalls();
-
-    balls.forEach( ball => {
-        scene.add(ball);
-    });
-
-    // Initialize PickHelper and clear position
-    const pickPosition = {x: 0, y: 0};
-    const pickHelper = new PickHelper();
-    clearPickPosition();
-
-    function animate(time) {
-        
-        pickHelper.pick(pickPosition, scene, camera, time);
-    
-        requestAnimationFrame( animate );
-    
-        renderer.render(scene, camera);
-    
-    }
-    
-    function getCanvasRelativePosition(event) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-          x: (event.clientX - rect.left) * canvas.width  / rect.width,
-          y: (event.clientY - rect.top ) * canvas.height / rect.height,
-        };
-    }
-    
-    function setPickPosition(event) {
-        const pos = getCanvasRelativePosition(event);
-        pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
-        pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
-    }
-    
-    function clearPickPosition() {
-        // Pick a value unlikely to pick something
-        pickPosition.x = -100000;
-        pickPosition.y = -100000;
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
     }
 
-    function pickBall() {
-        let fps = 60;           // fps/seconds
-        let tau = 2;            // 2 seconds
-        const step = 1 / (tau * fps);  // step per frame
+    pickHelper.pick(pickPosition, scene, camera, time);
 
-        const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
-        const finalAngle = polaCoord.angle;
-        const angleStep = finalAngle * step;
-        let t = 0;
+    renderer.render(scene, camera);
 
-        function animateRobotArm(t){
-            if (t >= 1) return; // Motion ended
-            t += step;  // Increment time
-            robot_arm.rotation.y += angleStep; // Increment rotation
-            requestAnimationFrame(() => animateRobotArm(t));
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left) * canvas.width  / rect.width,
+      y: (event.clientY - rect.top ) * canvas.height / rect.height,
+    };
+  }
+
+  function setPickPosition(event) {
+    const pos = getCanvasRelativePosition(event);
+    pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+  }
+
+  function clearPickPosition() {
+    // Ppick a value unlikely to pick something
+    pickPosition.x = -100000;
+    pickPosition.y = -100000;
+  }
+
+  function pickBall() {
+      let fps = 60;           // fps/seconds
+      let tau = 2;            // 2 seconds
+      const step = 1 / (tau * fps);  // step per frame
+
+      console.log('coordinates ', pickPosition);
+      console.log('pick helper ', pickHelper);
+
+      const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
+      const finalAngle = polaCoord.angle;
+      console.log('angle ', finalAngle*180/3.14159);
+      const angleStep = finalAngle * step;
+      let t = 0;
+
+      function animateRobotArm(t){
+          if (t >= 1) return; // Motion ended
+          t += step;  // Increment time
+          robot_arm.rotation.y += angleStep; // Increment rotation
+          requestAnimationFrame(() => animateRobotArm(t));
         }
 
-        //animateRobotArm(t);
+      animateRobotArm(t);
     }
 
-    // Renderer
-    renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth, window.innerHeight );
+  window.addEventListener('mousemove', setPickPosition);
+  window.addEventListener('mouseout', clearPickPosition);
+  window.addEventListener('mouseleave', clearPickPosition);
+  window.addEventListener('pointerdown', pickBall);
 
-    window.addEventListener('mousemove', setPickPosition);
-    window.addEventListener('mouseout', clearPickPosition);
-    window.addEventListener('mouseleave', clearPickPosition);
-    window.addEventListener('pointerdown', pickBall);
+  window.addEventListener('touchstart', (event) => {
+    // prevent the window from scrolling
+    event.preventDefault();
+    setPickPosition(event.touches[0]);
+  }, {passive: false});
 
-    animate(pickHelper, pickPosition, scene, camera);
+  window.addEventListener('touchmove', (event) => {
+    setPickPosition(event.touches[0]);
+  });
+
+  window.addEventListener('touchend', clearPickPosition);
 }
 
 function cartesianToPolar(x, y){
