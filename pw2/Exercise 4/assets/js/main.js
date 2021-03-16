@@ -1,5 +1,5 @@
-import * as THREE from '../../../../node_modules/three/build/three.module.js';
-import { OrbitControls } from '../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import createRobot from './robot.js';
 import PickHelper from './pick_helper.js';
 import generateBalls from './ball.js';
