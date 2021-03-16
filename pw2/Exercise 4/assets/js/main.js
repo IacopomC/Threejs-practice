@@ -47,7 +47,7 @@ function main() {
 
    {
     const color = 0xFFFFFF;
-    const intensity = 1;
+    const intensity = 3;
     const light = new THREE.PointLight(color, intensity);
     light.position.set(0, 10, 0);
     scene.add(light);
@@ -124,12 +124,16 @@ function main() {
       let tau = 2;            // 2 seconds
       const step = 1 / (tau * fps);  // step per frame
 
+      //const yAxis = new THREE.Vector3(0, 1, 0);
+
       const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
       
       // console.log('INITIAL RAD ',initialAngle);
       console.log('INITIAL DEGREE', initialAngle*180/3.14159);
       // console.log('ANGLE RAD ', polaCoord.angle);
       console.log('ANGLE DEGREE', polaCoord.angle*180/3.14159);
+
+      //robot_arm.setRotationFromAxisAngle(yAxis, polaCoord.angle);
       
       const deltaRotation = polaCoord.angle - initialAngle;
       initialAngle = polaCoord.angle;
