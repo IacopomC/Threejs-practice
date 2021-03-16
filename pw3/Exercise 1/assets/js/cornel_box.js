@@ -11,7 +11,9 @@ function cornelBox() {
         color: 0xFF0000,
       });
 
-    const sphere_material = new THREE.MeshPhysicalMaterial({ });
+    const sphere_material = new THREE.MeshPhysicalMaterial({
+        color: 0x0000FF,
+     });
 
     const box_group = new THREE.Group();
 
@@ -46,6 +48,21 @@ function cornelBox() {
     ceiling.rotation.set(Math.PI/2, 0, 0);
 
     box_group.add(ceiling);
+
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), cone_material);
+    cone.position.set(-1, 1, -1);
+
+    box_group.add(cone);
+
+    const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 2), cylinder_material);
+    cylinder.position.set(2, 1, 0);
+
+    box_group.add(cylinder);
+
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), sphere_material);
+    sphere.position.set(0, 1, 2);
+
+    box_group.add(sphere);
 
     return box_group;
 }
