@@ -3,16 +3,14 @@ import * as THREE from '../../../../../node_modules/three/build/three.module.js'
 function createRobot() {
 
     // Color meshes
-    const orange_mesh =  new THREE.MeshStandardMaterial( {
+    const orange_mesh =  new THREE.MeshPhongMaterial( {
         color: 0xE55C08,
-        metalness: 1.5,
-        normalScale: 1.0
+        shininess: 150,
     });
   
-    const grey_mesh =  new THREE.MeshStandardMaterial( {
+    const grey_mesh =  new THREE.MeshPhongMaterial( {
         color: 0x756C6A,
-        metalness: 1.5,
-        normalScale: 1.0
+        shininess: 150,
     });
   
     // Robot primitives

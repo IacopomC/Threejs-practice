@@ -32,14 +32,14 @@ function main() {
   // Light
   {
     const color = 0xFFFFFF;
-    const intensity = 8;
+    const intensity = 2;
     const light = new THREE.DirectionalLight(color, intensity);
     light.position.set(-1, 2, 4);
     scene.add(light);
    }
    {
     const color = 0xFFFFFF;
-    const intensity = 8;
+    const intensity = 2;
     const light = new THREE.DirectionalLight(color, intensity);
     light.position.set(1, -2, -4);
     scene.add(light);
