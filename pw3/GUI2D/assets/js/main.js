@@ -47,12 +47,8 @@ function main() {
     }
 
     // Gui
-    var obj1 = { speed: 5 };
-
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
     ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
-    ui.add( obj1, 'speed', { min:-5, max:5, stype:1 } ).listen();
-    ui.add( obj1, 'speed', { min:-5, max:5, stype:2 } ).listen();
     ui.add( corbelBox.children[6].rotation, 'y',
             { type:'Circular', min:-5, max:5, size:80, rename:'Cylinder Orientation' } ).listen();
     ui.add( 'Knob',
