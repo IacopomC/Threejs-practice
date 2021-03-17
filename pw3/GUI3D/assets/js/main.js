@@ -20,13 +20,20 @@ function main() {
     const controls = new OrbitControls(camera, canvas);
 
     // Gui
-    var obj1 = { speed: 5 };
-    var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
-    ui.add( obj1, 'speed', { min:-5, max:5, rename:'speed R' } ).listen();
-    ui.add( obj1, 'speed', { min:-5, max:5, stype:1 } ).listen();
-    ui.add( obj1, 'speed', { min:-5, max:5, stype:2 } ).listen();
-    ui.add( obj1, 'speed', { type:'Circular', min:-5, max:5, size:120 } ).listen();
-    ui.add( obj1, 'speed', { type:'Knob', min:-5, max:5, size:120 } ).listen();
+
+    let cw = 128*5, ch=148;
+
+    let sets = {
+      intensity: 1,
+      rotation:0,
+      scale:1
+    }
+
+    let ui = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:false, transparent:true } );
+
+    ui.add( sets, 'intensity', { type:'Circular', min:0, max:10, w:128, precision:2, fontColor:'#D4B87B' } );
+    ui.add( sets, 'rotation', { type:'joystick', w:128, precision:2, fontColor:'#D4B87B' } );
+    ui.add( sets, 'scale', { type:'graph', w:128, precision:2, multiplicator:0.25, fontColor:'#D4B87B', autoWidth:false } );
 
     // Scene
     const scene = new THREE.Scene();
