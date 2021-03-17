@@ -55,9 +55,9 @@ function main() {
     ui.add( obj1, 'speed', { min:-5, max:5, stype:2 } ).listen();
     ui.add( corbelBox.children[6].rotation, 'y',
             { type:'Circular', min:-5, max:5, size:80, rename:'Cylinder Orientation' } ).listen();
-    ui.add( 'slide',
+    ui.add( 'Knob',
             {name:'Sphere radius',
-             callback: sphereCallback, type:'Knob', value:1, min:0, max:2}).listen();
+             callback: sphereCallback, value:1, min:0, max:2}).listen();
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
