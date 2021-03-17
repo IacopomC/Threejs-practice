@@ -25,11 +25,16 @@ function main() {
     // Light
     {
         const color = 0xFFFFFF;
-        const intensity = 1;
+        const intensity = 0.8;
         const light = new THREE.PointLight(color, intensity);
-        light.position.set(0, 6, 0);
+        light.position.set(0, 4, 0);
         scene.add(light);
     }
+    {
+      const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+      scene.add( light );
+    }
+
 
     // Cornel Box
     const corbelBox = cornelBox();
