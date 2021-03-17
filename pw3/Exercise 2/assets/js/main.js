@@ -1,4 +1,5 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import './uil/uil.js'
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import cornelBox from './cornel_box.js';
 
@@ -17,6 +18,8 @@ function main() {
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
+
+    var ui = new UIL.Gui( { css:'top:145px; left:50%;', size:300, center:true } );
 
     // Scene
     const scene = new THREE.Scene();
