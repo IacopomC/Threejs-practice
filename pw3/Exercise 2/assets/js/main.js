@@ -19,7 +19,14 @@ function main() {
     // Controls
     const controls = new OrbitControls(camera, canvas);
 
-    var ui = new UIL.Gui( { css:'top:145px; left:50%;', size:300, center:true } );
+    // Gui
+    var obj1 = { speed: 5 };
+    var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
+    ui.add( obj1, 'speed', { min:-5, max:5, rename:'speed R' } ).listen();
+    ui.add( obj1, 'speed', { min:-5, max:5, stype:1 } ).listen();
+    ui.add( obj1, 'speed', { min:-5, max:5, stype:2 } ).listen();
+    ui.add( obj1, 'speed', { type:'Circular', min:-5, max:5, size:120 } ).listen();
+    ui.add( obj1, 'speed', { type:'Knob', min:-5, max:5, size:120 } ).listen();
 
     // Scene
     const scene = new THREE.Scene();
