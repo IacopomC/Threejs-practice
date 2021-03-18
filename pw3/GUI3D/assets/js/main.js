@@ -1,7 +1,10 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
-import './uil/uil.js'
+import 'http://lo-th.github.io/uil/build/uil.js';
+import 'http://lo-th.github.io/uil/examples/js/math.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import cornelBox from './cornel_box.js';
+
+var screen = null;
 
 function main() {
     const canvas = document.querySelector('#c');
@@ -18,22 +21,6 @@ function main() {
 
     // Controls
     const controls = new OrbitControls(camera, canvas);
-
-    // Gui
-
-    let cw = 128*5, ch=148;
-
-    let sets = {
-      intensity: 1,
-      rotation:0,
-      scale:1
-    }
-
-    let ui = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:false, transparent:true } );
-
-    ui.add( sets, 'intensity', { type:'Circular', min:0, max:10, w:128, precision:2, fontColor:'#D4B87B' } );
-    ui.add( sets, 'rotation', { type:'joystick', w:128, precision:2, fontColor:'#D4B87B' } );
-    ui.add( sets, 'scale', { type:'graph', w:128, precision:2, multiplicator:0.25, fontColor:'#D4B87B', autoWidth:false } );
 
     // Scene
     const scene = new THREE.Scene();
@@ -52,10 +39,50 @@ function main() {
       scene.add( light );
     }
 
+    const plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 20, 4.625 , 5, 1 ), new THREE.MeshBasicMaterial( { transparent:true } ) );
+    plane.geometry.rotateX( -Math.PI90 );
+    plane.position.z = 1;
+    plane.visible = false;
 
     // Cornel Box
     const corbelBox = cornelBox();
     scene.add(corbelBox);
+
+    // Gui
+    let cw = 128*5, ch=148;
+
+    let sets = {
+      intensity: 1,
+      rotation:0,
+      scale:1
+    }
+
+    let ui = new UIL.Gui(
+                { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:false, transparent:true }
+                );
+
+    ui.add( sets, 'intensity', { type:'Circular', min:0, max:10, w:128, precision:2, fontColor:'#D4B87B' } );
+    ui.add( sets, 'rotation', { type:'joystick', w:128, precision:2, fontColor:'#D4B87B' } );
+    ui.add( sets, 'scale', { type:'graph', w:128, precision:2, multiplicator:0.25, fontColor:'#D4B87B', autoWidth:false } );
+
+    ui.onDraw = function () {
+
+      if( screen === null ){
+
+        screen = new THREE.Texture( this.canvas );
+        screen.minFilter = THREE.LinearFilter;
+        screen.needsUpdate = true;
+        plane.material.map = screen;
+        plane.material.needsUpdate = true;
+        plane.visible = true;
+          
+      } else {
+
+        screen.needsUpdate = true;
+
+      }
+
+    }
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
