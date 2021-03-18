@@ -119,36 +119,36 @@ function main() {
     pickPosition.y = -100000;
   }
 
+  let currentOrientation = 0;
+
   function pickBall() {
-      let fps = 60;           // fps/seconds
-      let tau = 2;            // 2 seconds
-      const step = 1 / (tau * fps);  // step per frame
+    
+    let fps = 60;           // fps/seconds
+    let tau = 2;            // 2 seconds
+    const step = 1 / (tau * fps);  // step per frame
 
-      //const yAxis = new THREE.Vector3(0, 1, 0);
+    let angle = 0;
+    
+    angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
 
-      const polaCoord = cartesianToPolar(pickPosition.x, pickPosition.y);
-      
-      // console.log('INITIAL RAD ',initialAngle);
-      console.log('INITIAL DEGREE', initialAngle*180/3.14159);
-      // console.log('ANGLE RAD ', polaCoord.angle);
-      console.log('ANGLE DEGREE', polaCoord.angle*180/3.14159);
+    // Calculate the angle increment
+    // from current orientation 
+    let rotationAngle = angle - currentOrientation;
 
-      //robot_arm.setRotationFromAxisAngle(yAxis, polaCoord.angle);
-      
-      const deltaRotation = polaCoord.angle - initialAngle;
-      initialAngle = polaCoord.angle;
-      console.log('delta Rotation ', deltaRotation*180/3.14159);
-      const angleStep = deltaRotation * step;
-      let t = 0;
+    // Updated current angle for new rotation
+    currentOrientation = angle;
 
-      function animateRobotArm(t){
-          if (t >= 1) return; // Motion ended
-          t += step;  // Increment time
-          robot_arm.rotation.y += angleStep; // Increment rotation
-          requestAnimationFrame(() => animateRobotArm(t));
-        }
+    const angleStep = rotationAngle * step;
+    let t = 0;
 
-      animateRobotArm(t);
+    function animateRobotArm(t){
+        if (t >= 1) return; // Motion ended
+        t += step;  // Increment time
+        robot_arm.rotation.y -= angleStep; // Increment rotation
+        requestAnimationFrame(() => animateRobotArm(t));
+      }
+
+    animateRobotArm(t);
     }
 
   window.addEventListener('mousemove', setPickPosition);
