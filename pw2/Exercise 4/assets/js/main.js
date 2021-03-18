@@ -122,34 +122,38 @@ function main() {
   let currentOrientation = 0;
 
   function pickBall() {
-    
-    let fps = 60;           // fps/seconds
-    let tau = 2;            // 2 seconds
-    const step = 1 / (tau * fps);  // step per frame
 
-    let angle = 0;
-    
-    angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
+    if (pickHelper.pickedObject){
+      let fps = 60;           // fps/seconds
+      let tau = 2;            // 2 seconds
+      const step = 1 / (tau * fps);  // step per frame
 
-    // Calculate the angle increment
-    // from current orientation 
-    let rotationAngle = angle - currentOrientation;
+      let angle = 0;
+      
+      angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
 
-    // Updated current angle for new rotation
-    currentOrientation = angle;
+      // Calculate the angle increment
+      // from current orientation 
+      let rotationAngle = angle - currentOrientation;
 
-    const angleStep = rotationAngle * step;
-    let t = 0;
+      // Updated current angle for new rotation
+      currentOrientation = angle;
 
-    function animateRobotArm(t){
-        if (t >= 1) return; // Motion ended
-        t += step;  // Increment time
-        robot_arm.rotation.y -= angleStep; // Increment rotation
-        requestAnimationFrame(() => animateRobotArm(t));
-      }
+      const angleStep = rotationAngle * step;
+      let t = 0;
 
-    animateRobotArm(t);
+      function animateRobotArm(t){
+          if (t >= 1) return; // Motion ended
+          t += step;  // Increment time
+          robot_arm.rotation.y -= angleStep; // Increment rotation
+          requestAnimationFrame(() => animateRobotArm(t));
+        }
+
+      animateRobotArm(t);
+
     }
+    
+  }
 
   window.addEventListener('mousemove', setPickPosition);
   window.addEventListener('mouseout', clearPickPosition);
