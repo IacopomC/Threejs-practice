@@ -36,7 +36,20 @@ function createRobot() {
 
     arm_group.add(base_box);
 
+    const bbox = new THREE.Group();
+
     const first_junc_group = new THREE.Group();
+
+    // Define bounding box to change rotation
+    // axis of the two arms together 
+    bbox.add(first_junc_group);
+
+    // Offset the two arms to change the center
+    // of rotation from center to cylinder position
+    first_junc_group.position.set(0.9, -1.9, 0);
+
+    // Place group in desired position
+    bbox.position.set(-0.9, 1.9, 0);
 
     const junction_geometry = new THREE.CylinderGeometry(0.6, 0.6, 0.8, 32);
     const first_junction = new THREE.Mesh(junction_geometry, grey_mesh);
@@ -121,7 +134,7 @@ function createRobot() {
 
     first_junc_group.add(second_junc_group);
 
-    arm_group.add(first_junc_group);
+    arm_group.add(bbox);
 
     return arm_group;
 }
