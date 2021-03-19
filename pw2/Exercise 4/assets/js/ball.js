@@ -29,7 +29,7 @@ function generateBalls() {
      
       const ball = new THREE.Mesh(geometry, material);
      
-      ball.position.set(rand(-9, 9), 0, rand(-9, 9));
+      ball.position.set(rand(-5, 5), 0, rand(-5, 5));
 
       balls.push(ball);
     }
