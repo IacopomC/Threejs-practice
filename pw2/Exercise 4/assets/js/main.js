@@ -112,7 +112,7 @@ function main() {
   }
 
   function clearPickPosition() {
-    // Ppick a value unlikely to pick something
+    // Pick a value unlikely to pick something
     pickPosition.x = -100000;
     pickPosition.y = -100000;
   }
@@ -141,14 +141,45 @@ function main() {
       let t = 0;
 
       function animateRobotArm(t){
-          if (t >= 1) return; // Motion ended
-          t += step;  // Increment time
-          robot_arm.rotation.y -= angleStep; // Increment rotation
-          requestAnimationFrame(() => animateRobotArm(t));
-        }
+
+        if (t >= 1) return; // Motion ended
+        t += step;  // Increment time
+        robot_arm.rotation.y -= angleStep; // Increment rotation
+        requestAnimationFrame(() => animateRobotArm(t));
+      }
+
+      function calculateAngles(){
+        // Calculate distance between arm (0,0)
+        // and the ball picked
+        let xdist = Math.pow(pickHelper.pickedObject.position.x, 2);
+        let zdist = Math.pow(pickHelper.pickedObject.position.z, 2);
+        let a = Math.sqrt(xdist + zdist);
+
+        console.log('A ', a);
+
+        let firstArmL = 4.5;
+
+        let theta = Math.acos((a**2)/(2 * a * firstArmL));
+        theta = Math.PI/2 - theta;
+        console.log('THETA ', theta);
+
+        let alpha = Math.acos((2 * (firstArmL**2) - a**2)/(2*firstArmL**2))
+        alpha = Math.PI - alpha;
+        console.log('ALPHA ', alpha);
+
+        return [theta, alpha]
+      }
+
+      let [theta,alpha] = calculateAngles();
 
       animateRobotArm(t);
-
+      
+      //console.log('first bbox ', robot_arm.children[3]);
+      //console.log('first group ', robot_arm.children[3].children[0]);
+      //console.log('second bbox ', robot_arm.children[3].children[0].children[2]);
+      
+      robot_arm.children[3].rotateZ(-alpha);
+      robot_arm.children[3].children[0].children[2].rotateZ(theta);
     }
     
   }
@@ -169,23 +200,6 @@ function main() {
   });
 
   window.addEventListener('touchend', clearPickPosition);
-}
-
-function cartesianToPolar(x, y){
-    // Convert cartesian coordinates
-    // to polar coordinates
-    let r = Math.sqrt(x*x + y*y);
-    let theta = Math.atan2(y,x);
-    return { radius: r, angle: theta }
-}
-
-function polarToCartesian ( t, theta ) {
-    // Convert polar coordinates
-    // to cartesian coordinates
-    let x = r * cos(theta);
-    let y = r * sin(theta);
-
-    return {x: x, y: y};
 }
 
 main();
