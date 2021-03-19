@@ -23,7 +23,7 @@ function main() {
   scene.background = new THREE.Color(0xB1ABA7);
 
   // Grid
-  const grid = new THREE.GridHelper( 20, 20, 0x888888, 0x444444 );
+  const grid = new THREE.GridHelper( 12, 12, 0x888888, 0x444444 );
   grid.material.opacity = 0.5;
   grid.material.depthWrite = false;
   grid.material.transparent = true;
@@ -140,46 +140,67 @@ function main() {
       const angleStep = rotationAngle * step;
       let t = 0;
 
+      let initialTheta = Math.PI/3;
+      let initialAlpha = -Math.PI/4;
+
+      let [theta,alpha] = calculateAngles();
+
+      const alphaStep = alpha*step;
+
+      const thetaStep = theta*step;
+
       function animateRobotArm(t){
 
         if (t >= 1) return; // Motion ended
         t += step;  // Increment time
         robot_arm.rotation.y -= angleStep; // Increment rotation
+        robot_arm.children[3].rotateZ(-alphaStep);
+        robot_arm.children[3].children[0].children[2].rotateZ(-thetaStep);
         requestAnimationFrame(() => animateRobotArm(t));
       }
 
       function calculateAngles(){
-        // Calculate distance between arm (0,0)
-        // and the ball picked
-        let xdist = Math.pow(pickHelper.pickedObject.position.x, 2);
-        let zdist = Math.pow(pickHelper.pickedObject.position.z, 2);
-        let a = Math.sqrt(xdist + zdist);
+        // Calculate distance between first
+        // rotation point and the ball picked
+        const pToC = robot_arm.children[3].position.distanceTo(pickHelper.pickedObject.position);
 
-        console.log('A ', a);
+        // Calculate distance between first
+        // and second rotation point
+        // (lower part arm length)
+        const cToC = robot_arm.children[3].position.distanceTo(robot_arm.children[3].children[0].children[2].position);
 
-        let firstArmL = 4.5;
+        // Calculate distance between second
+        // rotation point and end of robot hand
+        // (upper part arm length)
+        const cToH = robot_arm.children[3].children[0].children[2].position.distanceTo(
+                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[4].position);
 
-        let theta = Math.acos((a**2)/(2 * a * firstArmL));
-        theta = Math.PI/2 - theta;
-        console.log('THETA ', theta);
+        // Calculate rotation angle around
+        // first rotation point (lower arm
+        // rotation) using cosine law
+        let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(pToC, 2) - Math.pow(cToH, 2))/(2*cToC*pToC));
+        //alpha = Math.PI/2 - alpha - initialAlpha;
 
-        let alpha = Math.acos((2 * (firstArmL**2) - a**2)/(2*firstArmL**2))
-        alpha = Math.PI - alpha;
-        console.log('ALPHA ', alpha);
+        const ballRadius = -0.4;
+
+        let extraAngle = Math.PI/2 - Math.acos((robot_arm.children[3].position.y - ballRadius)/pToC);
+
+        alpha = Math.PI/2 + extraAngle - alpha - initialAlpha;
+        
+        // Calculate rotation angle around
+        // second rotation point (upper arm
+        // rotation) using cosine law
+        let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(pToC, 2))/(2*cToH*cToC));
+
+        let extraAngle2 = Math.PI/2 - alpha;
+
+        theta = Math.PI/2 - theta - extraAngle2 - (Math.PI/2 - initialTheta);
 
         return [theta, alpha]
       }
 
-      let [theta,alpha] = calculateAngles();
-
       animateRobotArm(t);
-      
-      //console.log('first bbox ', robot_arm.children[3]);
-      //console.log('first group ', robot_arm.children[3].children[0]);
-      //console.log('second bbox ', robot_arm.children[3].children[0].children[2]);
-      
-      robot_arm.children[3].rotateZ(-alpha);
-      robot_arm.children[3].children[0].children[2].rotateZ(theta);
+
     }
     
   }
