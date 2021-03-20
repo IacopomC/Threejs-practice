@@ -165,11 +165,17 @@ function main() {
       let initialTheta = Math.PI/3;
       let initialAlpha = -Math.PI/4;
 
-      let [theta,alpha] = calculateAngles();
+      const [theta,alpha] = calculateAngles();
 
       const alphaStep = alpha*step;
-
       const thetaStep = theta*step;
+
+      // Define angles compared to ring position
+      const [thetaRing, alphaRing] = calculateRingAngles();
+
+      const alphaRStep = alphaRing*step;
+      const thetaRStep = thetaRing*step;
+      const angleRStep = corrAngle * step;
 
       function animateRobotArm(t){
 
@@ -193,6 +199,12 @@ function main() {
           // Ball picked, hand back to original position
           if (t >= 2) {
 
+            if (t >= 3) return;
+
+            t += step;  // Increment time
+            robot_arm.rotation.y -= angleRStep;
+            robot_arm.children[3].rotateZ(-alphaRStep);
+            robot_arm.children[3].children[0].children[2].rotateZ(-thetaRStep);
           }
           // Move back to original position
           else {
@@ -241,6 +253,44 @@ function main() {
         // second rotation point (upper arm
         // rotation) using cosine law
         let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(pToC, 2))/(2*cToH*cToC));
+
+        const thetaCorrection = 0.1; 
+
+        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + thetaCorrection;
+
+        return [theta, alpha]
+      }
+
+      function calculateRingAngles(){
+        
+        // Calculate distance between first
+        // rotation point and the ball picked
+        const rToC = ring.position.distanceTo(robot_arm.children[3].position);
+
+        // Calculate distance between first
+        // and second rotation point
+        // (lower part arm length)
+        const cToC = robot_arm.children[3].position.distanceTo(robot_arm.children[3].children[0].children[2].position);
+
+        // Calculate distance between second
+        // rotation point and end of robot hand
+        // (upper part arm length)
+        const cToH = robot_arm.children[3].children[0].children[2].position.distanceTo(
+                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
+
+        // Calculate rotation angle around
+        // first rotation point (lower arm
+        // rotation) using cosine law
+        let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(rToC, 2) - Math.pow(cToH, 2))/(2*cToC*rToC));
+
+        const alphaCorrection = -Math.PI/7;
+
+        alpha = Math.PI/2 - alpha - initialAlpha + alphaCorrection;
+        
+        // Calculate rotation angle around
+        // second rotation point (upper arm
+        // rotation) using cosine law
+        let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(rToC, 2))/(2*cToH*cToC));
 
         const thetaCorrection = 0.1; 
 
