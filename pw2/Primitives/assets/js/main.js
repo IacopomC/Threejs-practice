@@ -1,4 +1,5 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 
 function main() {
     const canvas = document.querySelector('#c');
@@ -7,18 +8,17 @@ function main() {
 
     THREE.Object3D.DefaultUp.set(0, 0, 1);
 
-    const fov = 30;
+    const fov = 45;
     const aspect = window.innerWidth / window.innerHeight;
     const near = 0.1;
     const far = 1000;
     const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    
-    camera.position.z = 220;
-    camera.position.y = 220;
-    camera.position.x = 220;
+    camera.position.set(200, 200, 220);
 
-    camera.lookAt( 0, 0, 50 );
+    // Controls
+    const controls = new OrbitControls(camera, canvas);
 
+    // Scene
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x21272e);
 
@@ -346,8 +346,32 @@ function main() {
     addLayer(1.5);
     addLayer(2.5);
 
-    renderer.render(scene, camera);
+    function render(time) {
+        time *= 0.001;  // convert to seconds;
+    
+        if (resizeRendererToDisplaySize(renderer)) {
+          const canvas = renderer.domElement;
+          camera.aspect = canvas.clientWidth / canvas.clientHeight;
+          camera.updateProjectionMatrix();
+        }
+        
+        renderer.render(scene, camera);
+    
+        requestAnimationFrame(render);
+      }
+      requestAnimationFrame(render);
 
 }
+
+function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
 
 main();
