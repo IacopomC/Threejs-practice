@@ -29,7 +29,7 @@ function main() {
   scene.background = new THREE.Color(0xB1ABA7);
 
   // Grid
-  const grid = new THREE.GridHelper( 12, 12, 0x888888, 0x444444 );
+  const grid = new THREE.GridHelper( 2, 2, 0x888888, 0x444444 );
   grid.material.opacity = 0.5;
   grid.material.depthWrite = false;
   grid.material.transparent = true;
