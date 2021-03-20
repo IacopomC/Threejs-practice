@@ -26,14 +26,12 @@ function init() {
     sceneR.background = new THREE.Color( 0x21272e );
 
     cameraL = new THREE.PerspectiveCamera( 30, window.innerWidth / (2 * window.innerHeight), 0.1, 1000 );
-    cameraL.position.z = 400;
-    cameraL.position.x = 300;
-    cameraL.position.y = 300;
+    cameraL.position.set(300, 400, 400);
     cameraL.lookAt(0,0,0);
 
     controlsL = new FirstPersonControls( cameraL, left );
     controlsL.movementSpeed = 1000;
-    controlsL.lookSpeed = 0.01;
+    controlsL.lookSpeed = 0.005;
 
     cameraR = new THREE.OrthographicCamera(
         - 150, 150,
@@ -43,7 +41,6 @@ function init() {
     controlsR = new OrbitControls(cameraR, right);
     
     cameraR.position.set(100, 100, 100);
-    cameraR.lookAt( 0, 0, 20 );
     
     controlsR.update();
 
@@ -52,47 +49,9 @@ function init() {
     sceneL.add( light.clone() );
     sceneR.add( light.clone() );
 
-    {
-        const c = 0.6; //coverage
-        let step;
-        let points = [];
-        let  centers = [];
-        const size = 100;
-        for (var i = -size; i <= size; i+=7){
-            for (var j = -size; j <= size; j+=7){
-                points.push(new THREE.Vector3(i, j, 0));
-            }
-        }
-
-        step = points[0].distanceTo(points[1]);
-        points.forEach((point) => {
-            centers.push(new THREE.Vector3(point.x - (c*step/2), point.y, 0));
-            centers.push(new THREE.Vector3(point.x + (c*step/2), point.y, 0));
-            let geometry = new THREE.BufferGeometry().setFromPoints( centers );
-            const material = new THREE.LineBasicMaterial( {
-                color: 0xffffff,
-                linewidth: 1,
-                linecap: 'round', //ignored by WebGLRenderer
-                linejoin:  'round' //ignored by WebGLRenderer
-            } );
-            let line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
-            sceneR.add(line.clone());
-            sceneL.add(line.clone());
-            
-            centers = [];
-            centers.push(new THREE.Vector3(point.x, point.y - (c*step/2), 0));
-            centers.push(new THREE.Vector3(point.x, point.y + (c*step/2), 0));
-            geometry = new THREE.BufferGeometry().setFromPoints( centers );
-            line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
-            sceneR.add(line.clone());
-            sceneL.add(line.clone());
-            
-            centers = [];
-        }); 
-    }  
-
+    // Create cross pattern on both scenes
+    sceneR = createGroundPattern(sceneR);
+    sceneL = createGroundPattern(sceneL);
 
     initMeshes();
 
@@ -120,6 +79,48 @@ function initMeshes() {
             sceneR.add(primitive.clone());
         });
     });
+}
+
+function createGroundPattern(scene) {
+
+    const c = 0.6; //coverage
+    let step;
+    let points = [];
+    let  centers = [];
+    const size = 100;
+    for (var i = -size; i <= size; i+=7){
+        for (var j = -size; j <= size; j+=7){
+            points.push(new THREE.Vector3(i, j, 0));
+        }
+    }
+
+    step = points[0].distanceTo(points[1]);
+    points.forEach((point) => {
+        centers.push(new THREE.Vector3(point.x - (c*step/2), point.y, 0));
+        centers.push(new THREE.Vector3(point.x + (c*step/2), point.y, 0));
+        let geometry = new THREE.BufferGeometry().setFromPoints( centers );
+        const material = new THREE.LineBasicMaterial( {
+            color: 0xffffff,
+            linewidth: 1,
+            linecap: 'round', //ignored by WebGLRenderer
+            linejoin:  'round' //ignored by WebGLRenderer
+        } );
+        let line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+        scene.add(line);
+        
+        centers = [];
+        centers.push(new THREE.Vector3(point.x, point.y - (c*step/2), 0));
+        centers.push(new THREE.Vector3(point.x, point.y + (c*step/2), 0));
+        geometry = new THREE.BufferGeometry().setFromPoints( centers );
+        line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+        scene.add(line);
+        
+        centers = [];
+    });
+
+    return scene;
 }
 
 function animate() {
