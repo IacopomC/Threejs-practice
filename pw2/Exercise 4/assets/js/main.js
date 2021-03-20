@@ -123,8 +123,6 @@ function main() {
     pickPosition.y = -100000;
   }
 
-  let currentOrientation = 0;
-
   function pickBall() {
 
     if (pickHelper.pickedObject){
@@ -155,13 +153,10 @@ function main() {
 
       // Calculate the angle increment
       // from current orientation
-      let rotationAngle = angle - currentOrientation;
+      let rotationAngle = angle;
 
       // Apply correction
       rotationAngle += corrAngle;
-
-      // Updated current angle for new rotation
-      currentOrientation = angle;
 
       const angleStep = rotationAngle * step;
       let t = 0;
@@ -206,7 +201,11 @@ function main() {
 
             // Ball reached ring
             if (t >= 3) {
-              if (t >= 4) return;
+              if (t >= 4) {
+                // Restore mouse click
+                document.removeEventListener('pointerdown', stopClick);
+                return;
+              }
               t += step;  // Increment time
               robot_arm.rotation.y += angleRStep;
               lowerArm.rotateZ(alphaRStep);
@@ -229,6 +228,9 @@ function main() {
           }
         }
         else{
+          // Prevent from clicking other balls during motion
+          document.addEventListener('pointerdown', stopClick);
+
           t += step;  // Increment time
           robot_arm.rotation.y -= angleStep;
           lowerArm.rotateZ(-alphaStep);
@@ -335,6 +337,11 @@ function main() {
   });
 
   window.addEventListener('touchend', clearPickPosition);
+}
+
+function stopClick(e) {
+  e.stopPropagation();
+  e.preventDefault();
 }
 
 main();
