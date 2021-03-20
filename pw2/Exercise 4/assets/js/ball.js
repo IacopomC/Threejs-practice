@@ -14,11 +14,30 @@ function generateBalls() {
         max = min;
         min = 0;
       }
+
+      let x = min + (max - min) * Math.random();
+      
+      let z = min + (max - min) * Math.random();
+
+      while( x**2+z**2 < 9){
+        x = min + (max - min) * Math.random();
+      
+        z = min + (max - min) * Math.random();
+      }
+      return [x,0,z];
+    }
+
+    function randC(min, max) {
+      if (max === undefined) {
+        max = min;
+        min = 0;
+      }
+
       return min + (max - min) * Math.random();
     }
      
     function randomColor() {
-      return `hsl(${rand(360) | 0}, ${rand(50, 100) | 0}%, 10%)`;
+      return `hsl(${randC(360) | 0}, ${randC(50, 100) | 0}%, 10%)`;
     }
      
     const numObjects = 20;
@@ -28,8 +47,10 @@ function generateBalls() {
       });
      
       const ball = new THREE.Mesh(geometry, material);
+
+      let ballCoor = rand(-5, 5);
      
-      ball.position.set(rand(-5, 5), 0, rand(-5, 5));
+      ball.position.set(ballCoor[0], ballCoor[1], ballCoor[2]);
 
       balls.push(ball);
     }
