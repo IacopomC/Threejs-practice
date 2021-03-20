@@ -33,10 +33,7 @@ function init() {
     controlsL.movementSpeed = 1000;
     controlsL.lookSpeed = 0.005;
 
-    cameraR = new THREE.OrthographicCamera(
-        - 150, 150,
-        150, - 150,
-        1, 1000);
+    cameraR = new THREE.OrthographicCamera(- 150, 150, 150,- 150,1, 1000);
     
     controlsR = new OrbitControls(cameraR, right);
     
@@ -50,8 +47,8 @@ function init() {
     sceneR.add( light.clone() );
 
     // Create cross pattern on both scenes
-    sceneR = createGroundPattern(sceneR);
-    sceneL = createGroundPattern(sceneL);
+    createGroundPattern(sceneR);
+    createGroundPattern(sceneL);
 
     initMeshes();
 
@@ -119,8 +116,6 @@ function createGroundPattern(scene) {
         
         centers = [];
     });
-
-    return scene;
 }
 
 function animate() {
