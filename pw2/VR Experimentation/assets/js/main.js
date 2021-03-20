@@ -195,7 +195,7 @@ function main() {
 
           // Change ball position in the new frame
           // to match hand position
-          ballObj.position.set(0.8, 7.38, -0.79);
+          ballObj.position.set(0.08, 0.738, -0.079);
         };
 
         if(ballPicked) {
