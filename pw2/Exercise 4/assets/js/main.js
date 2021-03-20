@@ -129,6 +129,11 @@ function main() {
 
     if (pickHelper.pickedObject){
 
+      // Define useful varaibles
+      const robotHand = robot_arm.children[3].children[0].children[2].children[0].children[4];
+      const lowerArm = robot_arm.children[3];
+      const upperArm = robot_arm.children[3].children[0].children[2];
+
       let ballObj = pickHelper.pickedObject;
       
       let fps = 60;           // fps/seconds
@@ -139,13 +144,13 @@ function main() {
       
       angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
 
-      // Rotation correction between
-      // box and tobot hand position
-      const boxDist = robot_arm.children[3].children[0].children[2].position.distanceTo(
-          robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
+      // Rotation correction between invisible
+      // box and robot hand position
+      const boxDist = upperArm.position.distanceTo(
+                          robotHand.children[5].position);
       
-      const handDist = robot_arm.children[3].children[0].children[2].position.distanceTo(
-          robot_arm.children[3].children[0].children[2].children[0].children[4].children[4].position);
+      const handDist = upperArm.position.distanceTo(
+                          robotHand.children[4].position);
       const corrAngle = Math.acos(boxDist/handDist);
 
       // Calculate the angle increment
@@ -187,7 +192,7 @@ function main() {
           
           // Attach ball picked to robot hand
           // by addind it as a child
-          robot_arm.children[3].children[0].children[2].children[0].children[4].add(ballObj);
+          robotHand.add(ballObj);
 
           // Change ball position in the new frame
           // to match hand position
@@ -199,26 +204,35 @@ function main() {
           // Ball picked, hand back to original position
           if (t >= 2) {
 
-            if (t >= 3) return;
-
-            t += step;  // Increment time
-            robot_arm.rotation.y -= angleRStep;
-            robot_arm.children[3].rotateZ(-alphaRStep);
-            robot_arm.children[3].children[0].children[2].rotateZ(-thetaRStep);
+            // Ball reached ring
+            if (t >= 3) {
+              if (t >= 4) return;
+              t += step;  // Increment time
+              robot_arm.rotation.y += angleRStep;
+              lowerArm.rotateZ(alphaRStep);
+              upperArm.rotateZ(thetaRStep);
+              robotHand.children[robotHand.children.length - 1].visible = false;
+            }
+            else{
+              t += step;  // Increment time
+              robot_arm.rotation.y -= angleRStep;
+              lowerArm.rotateZ(-alphaRStep);
+              upperArm.rotateZ(-thetaRStep);
+            }
           }
           // Move back to original position
           else {
             t += step;  // Increment time
             robot_arm.rotation.y += angleStep;
-            robot_arm.children[3].rotateZ(alphaStep);
-            robot_arm.children[3].children[0].children[2].rotateZ(thetaStep);
+            lowerArm.rotateZ(alphaStep);
+            upperArm.rotateZ(thetaStep);
           }
         }
         else{
           t += step;  // Increment time
           robot_arm.rotation.y -= angleStep;
-          robot_arm.children[3].rotateZ(-alphaStep);
-          robot_arm.children[3].children[0].children[2].rotateZ(-thetaStep);
+          lowerArm.rotateZ(-alphaStep);
+          upperArm.rotateZ(-thetaStep);
         }
         requestAnimationFrame(() => animateRobotArm(t));
       }
@@ -227,18 +241,18 @@ function main() {
 
         // Calculate distance between first
         // rotation point and the ball picked
-        const pToC = robot_arm.children[3].position.distanceTo(pickHelper.pickedObject.position);
+        const pToC = lowerArm.position.distanceTo(pickHelper.pickedObject.position);
 
         // Calculate distance between first
         // and second rotation point
         // (lower part arm length)
-        const cToC = robot_arm.children[3].position.distanceTo(robot_arm.children[3].children[0].children[2].position);
+        const cToC = lowerArm.position.distanceTo(robot_arm.children[3].children[0].children[2].position);
 
         // Calculate distance between second
         // rotation point and end of robot hand
         // (upper part arm length)
-        const cToH = robot_arm.children[3].children[0].children[2].position.distanceTo(
-                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
+        const cToH = upperArm.position.distanceTo(
+                        robotHand.children[5].position);
 
         // Calculate rotation angle around
         // first rotation point (lower arm
@@ -265,18 +279,18 @@ function main() {
         
         // Calculate distance between first
         // rotation point and the ball picked
-        const rToC = ring.position.distanceTo(robot_arm.children[3].position);
+        const rToC = ring.position.distanceTo(lowerArm.position);
 
         // Calculate distance between first
         // and second rotation point
         // (lower part arm length)
-        const cToC = robot_arm.children[3].position.distanceTo(robot_arm.children[3].children[0].children[2].position);
+        const cToC = lowerArm.position.distanceTo(upperArm.position);
 
         // Calculate distance between second
         // rotation point and end of robot hand
         // (upper part arm length)
-        const cToH = robot_arm.children[3].children[0].children[2].position.distanceTo(
-                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
+        const cToH = upperArm.position.distanceTo(
+                        robotHand.children[5].position);
 
         // Calculate rotation angle around
         // first rotation point (lower arm
