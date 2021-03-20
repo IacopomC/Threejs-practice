@@ -1,5 +1,6 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import createRobot from './robot.js';
 import PickHelper from './pick_helper.js';
 import generateBalls from './ball.js';
@@ -8,6 +9,10 @@ import createRing from './ring.js';
 function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({canvas});
+
+  // Enable WebXR and add VR button to page
+  renderer.xr.enabled = true;
+  document.body.appendChild(VRButton.createButton(renderer));
 
   // Camera
   const fov = 75;
@@ -99,9 +104,9 @@ function main() {
 
     renderer.render(scene, camera);
 
-    requestAnimationFrame(render);
   }
-  requestAnimationFrame(render);
+  // Let three js handle render loop
+  renderer.setAnimationLoop(render);
 
   function getCanvasRelativePosition(event) {
     const rect = canvas.getBoundingClientRect();
