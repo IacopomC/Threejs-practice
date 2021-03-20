@@ -281,7 +281,7 @@ function main() {
                     bevelSegments: 5,
                 });
 
-                addSolidGeometry(-1, -1, z, geometry);
+                addSolidGeometry(-1.5, -1, z, geometry);
             }
             doit();
 
