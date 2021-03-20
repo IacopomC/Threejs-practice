@@ -18,20 +18,20 @@ function createRobot() {
     // Robot primitives
     const arm_group = new THREE.Group();
 
-    const grey_base_geometry = new THREE.CylinderGeometry(2.5, 2.5, 0.8, 32);
+    const grey_base_geometry = new THREE.CylinderGeometry(0.25, 0.25, 0.08, 32);
     const gray_base = new THREE.Mesh(grey_base_geometry, grey_mesh);
-    gray_base.position.set(0, 0.4, 0);
+    gray_base.position.set(0, 0.04, 0);
     arm_group.add(gray_base);
   
-    const orange_base_geometry = new THREE.CylinderGeometry(2, 2, 0.5, 32);
+    const orange_base_geometry = new THREE.CylinderGeometry(0.2, 0.2, 0.05, 32);
     const orange_base = new THREE.Mesh(orange_base_geometry, orange_mesh);
-    orange_base.position.set(0, 0.7, 0);
+    orange_base.position.set(0, 0.07, 0);
 
     arm_group.add(orange_base);
     
-    const base_box_geometry = new THREE.BoxGeometry(0.8, 2.0, 0.3);
+    const base_box_geometry = new THREE.BoxGeometry(0.08, 0.2, 0.03);
     const base_box = new THREE.Mesh(base_box_geometry, orange_mesh);
-    base_box.position.set(-0.4, 1.2, -0.2);
+    base_box.position.set(-0.04, 0.12, -0.02);
     base_box.rotation.z = Math.PI/4;
 
     arm_group.add(base_box);
@@ -46,21 +46,21 @@ function createRobot() {
 
     // Offset the two arms to change the center
     // of rotation from center to cylinder position
-    first_junc_group.position.set(0.9, -1.9, 0);
+    first_junc_group.position.set(0.09, -0.19, 0);
 
     // Place group in desired position
-    bbox.position.set(-0.9, 1.9, 0);
+    bbox.position.set(-0.09, 0.19, 0);
 
-    const junction_geometry = new THREE.CylinderGeometry(0.6, 0.6, 0.8, 32);
+    const junction_geometry = new THREE.CylinderGeometry(0.06, 0.06, 0.08, 32);
     const first_junction = new THREE.Mesh(junction_geometry, grey_mesh);
-    first_junction.position.set(-0.9, 1.9, 0);
+    first_junction.position.set(-0.09, 0.19, 0);
     first_junction.rotation.x = Math.PI/2;
 
     first_junc_group.add(first_junction);
     
-    const first_arm_geometry = new THREE.BoxGeometry(0.8, 3.5, 0.3);
+    const first_arm_geometry = new THREE.BoxGeometry(0.08, 0.35, 0.03);
     const first_arm = new THREE.Mesh(first_arm_geometry, orange_mesh);
-    first_arm.position.set(-2.4, 3.4, 0.2);
+    first_arm.position.set(-0.24, 0.34, 0.02);
     first_arm.rotation.z = Math.PI/4;
 
     first_junc_group.add(first_arm);
@@ -75,128 +75,128 @@ function createRobot() {
 
     // Offset the upper arm to change the center
     // of rotation from center to second cylinder position
-    second_junc_group.position.set(3.9, -4.5, 0);
+    second_junc_group.position.set(0.39, -0.45, 0);
 
     // Place group in desired position
-    bbox2.position.set(-3.9, 4.5, 0);
+    bbox2.position.set(-0.39, 0.45, 0);
  
     const second_junction = new THREE.Mesh(junction_geometry, grey_mesh);
-    second_junction.position.set(-3.9, 4.5, 0);
+    second_junction.position.set(-0.39, 0.45, 0);
     second_junction.rotation.x = Math.PI/2;
 
     second_junc_group.add(second_junction);
 
-    const second_base_geometry = new THREE.CylinderGeometry(0.4, 0.6, 3, 32);
+    const second_base_geometry = new THREE.CylinderGeometry(0.04, 0.06, 0.3, 32);
     const second_base = new THREE.Mesh(second_base_geometry, orange_mesh);
-    second_base.position.set(-3.5, 4.9, -0.8);
+    second_base.position.set(-0.35, 0.49, -0.08);
     second_base.rotation.z = -Math.PI/3;
 
     second_junc_group.add(second_base);
     
-    const second_arm_geometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32);
+    const second_arm_geometry = new THREE.CylinderGeometry(0.03, 0.03, 0.2, 32);
     const second_arm = new THREE.Mesh(second_arm_geometry, grey_mesh);
-    second_arm.position.set(-1.5, 6.1, -0.8);
+    second_arm.position.set(-0.15, 0.61, -0.08);
     second_arm.rotation.z = -Math.PI/3;
 
     second_junc_group.add(second_arm);
 
-    const side_arm_geometry = new THREE.BoxGeometry(0.8, 2.0, 0.3);
+    const side_arm_geometry = new THREE.BoxGeometry(0.08, 0.2, 0.03);
     const arm_sides = new THREE.Mesh(side_arm_geometry, orange_mesh);
-    arm_sides.position.set(-1.5, 6.1, -0.8);
+    arm_sides.position.set(-0.15, 0.61, -0.08);
     arm_sides.rotation.z = -Math.PI/3;
 
     second_junc_group.add(arm_sides);
 
     const hand_group = new THREE.Group();
 
-    const hand_junction_geometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const hand_junction_geometry = new THREE.BoxGeometry(0.08, 0.08, 0.08);
     const hand_junction = new THREE.Mesh(hand_junction_geometry, orange_mesh);
-    hand_junction.position.set(-0.5, 6.65, -0.8);
+    hand_junction.position.set(-0.05, 0.665, -0.08);
     hand_junction.rotation.z = -Math.PI/3;
 
     hand_group.add(hand_junction);
 
-    const lateral_geometry = new THREE.BoxGeometry(0.8, 1.2, 0.1);
+    const lateral_geometry = new THREE.BoxGeometry(0.08, 0.12, 0.01);
     const lateral_junc_1 = new THREE.Mesh(lateral_geometry, orange_mesh);
-    lateral_junc_1.position.set(-0.42, 6.72, -1.2);
+    lateral_junc_1.position.set(-0.042, 0.672, -0.12);
     lateral_junc_1.rotation.z = -Math.PI/3;
 
     hand_group.add(lateral_junc_1);
 
     const lateral_junc_2 = new THREE.Mesh(lateral_geometry, orange_mesh);
-    lateral_junc_2.position.set(-0.42, 6.72, -0.4);
+    lateral_junc_2.position.set(-0.042, 0.672, -0.04);
     lateral_junc_2.rotation.z = -Math.PI/3;
 
     hand_group.add(lateral_junc_2);
 
-    const wrist_bottom_geometry = new THREE.CylinderGeometry(0.45, 0.3, 0.8, 32);
+    const wrist_bottom_geometry = new THREE.CylinderGeometry(0.045, 0.03, 0.08, 32);
     const wrist_bottom = new THREE.Mesh(wrist_bottom_geometry, grey_mesh);
-    wrist_bottom.position.set(-0.12, 6.85, -0.8);
+    wrist_bottom.position.set(-0.012, 0.685, -0.08);
     wrist_bottom.rotation.z = -Math.PI/3;
 
     hand_group.add(wrist_bottom);
 
-    const wrist_top_geometry = new THREE.CylinderGeometry(0.3, 0.45, 0.3, 32);
+    const wrist_top_geometry = new THREE.CylinderGeometry(0.03, 0.045, 0.03, 32);
     const wrist_top = new THREE.Mesh(wrist_top_geometry, orange_mesh);
-    wrist_top.position.set(0.35, 7.1, -0.8);
+    wrist_top.position.set(0.035, 0.71, -0.08);
     wrist_top.rotation.z = -Math.PI/3;
 
     hand_group.add(wrist_top);
-    const pliersBaseGeometry = new THREE.BoxGeometry(0.2, 0.4, 0.1);
+    const pliersBaseGeometry = new THREE.BoxGeometry(0.02, 0.04, 0.01);
     const pliersBase = new THREE.Mesh(pliersBaseGeometry, grey_mesh);
-    pliersBase.position.set(0.5, 7.2, -0.8);
+    pliersBase.position.set(0.05, 0.72, -0.08);
     pliersBase.rotation.x = Math.PI/2;
     pliersBase.rotation.y = -Math.PI/3;
 
     hand_group.add(pliersBase);
 
-    const pliersRotGeometry = new THREE.SphereGeometry(0.1, 12, 8);
+    const pliersRotGeometry = new THREE.SphereGeometry(0.01, 12, 8);
 
     const pliersleftRot = new THREE.Mesh(pliersRotGeometry, grey_mesh);
-    pliersleftRot.position.set(0.5, 7.2, -0.6);
+    pliersleftRot.position.set(0.05, 0.72, -0.06);
 
     hand_group.add(pliersleftRot);
 
     const pliersrightRot = new THREE.Mesh(pliersRotGeometry, grey_mesh);
-    pliersrightRot.position.set(0.5, 7.2, -1);
+    pliersrightRot.position.set(0.05, 0.72, -0.1);
 
     hand_group.add(pliersrightRot);
 
-    const lowLeftPlierGeom = new THREE.CylinderGeometry(0.05, 0.1, 0.5);
+    const lowLeftPlierGeom = new THREE.CylinderGeometry(0.005, 0.01, 0.05);
     const lowLeftPlier = new THREE.Mesh(lowLeftPlierGeom, grey_mesh);
-    lowLeftPlier.position.set(0.6, 7.26, -0.54);
+    lowLeftPlier.position.set(0.06, 0.726, -0.054);
     lowLeftPlier.rotation.z = -Math.PI/3;
     lowLeftPlier.rotation.y = -Math.PI/6;
 
     hand_group.add(lowLeftPlier);
 
     const lowRightPlier = new THREE.Mesh(lowLeftPlierGeom, grey_mesh);
-    lowRightPlier.position.set(0.6, 7.26, -1.06);
+    lowRightPlier.position.set(0.06, 0.726, -0.106);
     lowRightPlier.rotation.z = -Math.PI/3;
     lowRightPlier.rotation.y = Math.PI/6;
 
     hand_group.add(lowRightPlier);
 
     const leftPlierMid = new THREE.Mesh(pliersRotGeometry, grey_mesh);
-    leftPlierMid.position.set(0.8, 7.38, -0.42);
+    leftPlierMid.position.set(0.08, 0.738, -0.042);
 
     hand_group.add(leftPlierMid);
 
     const rightPlierMid = new THREE.Mesh(pliersRotGeometry, grey_mesh);
-    rightPlierMid.position.set(0.8, 7.38, -1.16);
+    rightPlierMid.position.set(0.08, 0.738, -0.116);
 
     hand_group.add(rightPlierMid);
 
-    const leftPlierTopGeom = new THREE.CylinderGeometry(0.02, 0.08, 0.3);
+    const leftPlierTopGeom = new THREE.CylinderGeometry(0.002, 0.008, 0.03);
     const leftPlierTop = new THREE.Mesh(leftPlierTopGeom, grey_mesh);
-    leftPlierTop.position.set(0.88, 7.42, -0.47);
+    leftPlierTop.position.set(0.088, 0.742, -0.047);
     leftPlierTop.rotation.z = -Math.PI/3;
     leftPlierTop.rotation.y = Math.PI/6;
 
     hand_group.add(leftPlierTop);
 
     const rightPlierTop = new THREE.Mesh(leftPlierTopGeom, grey_mesh);
-    rightPlierTop.position.set(0.88, 7.42, -1.11);
+    rightPlierTop.position.set(0.088, 0.742, -0.111);
     rightPlierTop.rotation.z = -Math.PI/3;
     rightPlierTop.rotation.y = -Math.PI/6;
 
@@ -204,9 +204,9 @@ function createRobot() {
 
     // Create invisible box just to better
     // calculate ball picking motion angle
-    const invisibleBoxGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const invisibleBoxGeometry = new THREE.BoxGeometry(0.08, 0.08, 0.08);
     const invisibleBox = new THREE.Mesh(invisibleBoxGeometry, orange_mesh);
-    invisibleBox.position.set(0.35, 7.1, 0);
+    invisibleBox.position.set(0.035, 0.71, 0);
     invisibleBox.rotation.z = -Math.PI/3;
     invisibleBox.visible = false;
 
