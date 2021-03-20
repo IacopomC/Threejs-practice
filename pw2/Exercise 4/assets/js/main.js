@@ -130,9 +130,21 @@ function main() {
       
       angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
 
+      // Rotation correction between
+      // box and tobot hand position
+      const boxDist = robot_arm.children[3].children[0].children[2].position.distanceTo(
+          robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
+      
+      const handDist = robot_arm.children[3].children[0].children[2].position.distanceTo(
+          robot_arm.children[3].children[0].children[2].children[0].children[4].children[4].position);
+      const corrAngle = Math.acos(boxDist/handDist);
+
       // Calculate the angle increment
-      // from current orientation 
+      // from current orientation
       let rotationAngle = angle - currentOrientation;
+
+      // Apply correction
+      rotationAngle += corrAngle;
 
       // Updated current angle for new rotation
       currentOrientation = angle;
@@ -160,6 +172,7 @@ function main() {
       }
 
       function calculateAngles(){
+
         // Calculate distance between first
         // rotation point and the ball picked
         const pToC = robot_arm.children[3].position.distanceTo(pickHelper.pickedObject.position);
@@ -173,7 +186,7 @@ function main() {
         // rotation point and end of robot hand
         // (upper part arm length)
         const cToH = robot_arm.children[3].children[0].children[2].position.distanceTo(
-                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[4].position);
+                      robot_arm.children[3].children[0].children[2].children[0].children[4].children[5].position);
 
         // Calculate rotation angle around
         // first rotation point (lower arm
@@ -181,11 +194,11 @@ function main() {
         let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(pToC, 2) - Math.pow(cToH, 2))/(2*cToC*pToC));
         //alpha = Math.PI/2 - alpha - initialAlpha;
 
-        const ballRadius = -0.4;
+        let ballRadius = 0.4;
 
         let extraAngle = Math.PI/2 - Math.acos((robot_arm.children[3].position.y - ballRadius)/pToC);
 
-        alpha = Math.PI/2 + extraAngle - alpha - initialAlpha;
+        alpha = Math.PI/2 - alpha - initialAlpha + 0.3;
         
         // Calculate rotation angle around
         // second rotation point (upper arm
@@ -194,7 +207,11 @@ function main() {
 
         let extraAngle2 = Math.PI/2 - alpha;
 
-        theta = Math.PI/2 - theta - extraAngle2 - (Math.PI/2 - initialTheta);
+        alpha += 0.1;
+
+        console.log('EXTRA THETA ', extraAngle2);
+
+        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + 0.05;
 
         return [theta, alpha]
       }
