@@ -221,18 +221,18 @@ function main() {
         // rotation) using cosine law
         let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(pToC, 2) - Math.pow(cToH, 2))/(2*cToC*pToC));
 
-        //let ballRadius = 0.4;
+        const alphaCorrection = 0.3;
 
-        //let extraAngle = Math.PI/2 - Math.acos((robot_arm.children[3].position.y - ballRadius)/pToC);
-
-        alpha = Math.PI/2 - alpha - initialAlpha + 0.3;
+        alpha = Math.PI/2 - alpha - initialAlpha + alphaCorrection;
         
         // Calculate rotation angle around
         // second rotation point (upper arm
         // rotation) using cosine law
         let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(pToC, 2))/(2*cToH*cToC));
 
-        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + 0.1;
+        const thetaCorrection = 0.1; 
+
+        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + thetaCorrection;
 
         return [theta, alpha]
       }
