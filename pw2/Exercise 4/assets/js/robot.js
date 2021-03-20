@@ -143,12 +143,15 @@ function createRobot() {
 
     hand_group.add(wrist_top);
 
-    const extraBox_g = new THREE.BoxGeometry(0.8, 0.8, 0.8);
-    const extraBox = new THREE.Mesh(extraBox_g, orange_mesh);
-    extraBox.position.set(0.35, 7.1, 0);
-    extraBox.rotation.z = -Math.PI/3;
+    // Create invisible box just to better
+    // calculate ball picking motion angle
+    const invisibleBoxGeometry = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const invisibleBox = new THREE.Mesh(invisibleBoxGeometry, orange_mesh);
+    invisibleBox.position.set(0.35, 7.1, 0);
+    invisibleBox.rotation.z = -Math.PI/3;
+    invisibleBox.visible = false;
 
-    hand_group.add(extraBox);
+    hand_group.add(invisibleBox);
 
     second_junc_group.add(hand_group);
 
