@@ -142,6 +142,65 @@ function createRobot() {
     wrist_top.rotation.z = -Math.PI/3;
 
     hand_group.add(wrist_top);
+    const pliersBaseGeometry = new THREE.BoxGeometry(0.2, 0.4, 0.1);
+    const pliersBase = new THREE.Mesh(pliersBaseGeometry, grey_mesh);
+    pliersBase.position.set(0.5, 7.2, -0.8);
+    pliersBase.rotation.x = Math.PI/2;
+    pliersBase.rotation.y = -Math.PI/3;
+
+    hand_group.add(pliersBase);
+
+    const pliersRotGeometry = new THREE.SphereGeometry(0.1, 12, 8);
+
+    const pliersleftRot = new THREE.Mesh(pliersRotGeometry, grey_mesh);
+    pliersleftRot.position.set(0.5, 7.2, -0.6);
+
+    hand_group.add(pliersleftRot);
+
+    const pliersrightRot = new THREE.Mesh(pliersRotGeometry, grey_mesh);
+    pliersrightRot.position.set(0.5, 7.2, -1);
+
+    hand_group.add(pliersrightRot);
+
+    const lowLeftPlierGeom = new THREE.CylinderGeometry(0.05, 0.1, 0.5);
+    const lowLeftPlier = new THREE.Mesh(lowLeftPlierGeom, grey_mesh);
+    lowLeftPlier.position.set(0.6, 7.26, -0.54);
+    lowLeftPlier.rotation.z = -Math.PI/3;
+    lowLeftPlier.rotation.y = -Math.PI/6;
+
+    hand_group.add(lowLeftPlier);
+
+    const lowRightPlier = new THREE.Mesh(lowLeftPlierGeom, grey_mesh);
+    lowRightPlier.position.set(0.6, 7.26, -1.06);
+    lowRightPlier.rotation.z = -Math.PI/3;
+    lowRightPlier.rotation.y = Math.PI/6;
+
+    hand_group.add(lowRightPlier);
+
+    const leftPlierMid = new THREE.Mesh(pliersRotGeometry, grey_mesh);
+    leftPlierMid.position.set(0.8, 7.38, -0.42);
+
+    hand_group.add(leftPlierMid);
+
+    const rightPlierMid = new THREE.Mesh(pliersRotGeometry, grey_mesh);
+    rightPlierMid.position.set(0.8, 7.38, -1.16);
+
+    hand_group.add(rightPlierMid);
+
+    const leftPlierTopGeom = new THREE.CylinderGeometry(0.02, 0.08, 0.3);
+    const leftPlierTop = new THREE.Mesh(leftPlierTopGeom, grey_mesh);
+    leftPlierTop.position.set(0.88, 7.42, -0.47);
+    leftPlierTop.rotation.z = -Math.PI/3;
+    leftPlierTop.rotation.y = Math.PI/6;
+
+    hand_group.add(leftPlierTop);
+
+    const rightPlierTop = new THREE.Mesh(leftPlierTopGeom, grey_mesh);
+    rightPlierTop.position.set(0.88, 7.42, -1.11);
+    rightPlierTop.rotation.z = -Math.PI/3;
+    rightPlierTop.rotation.y = -Math.PI/6;
+
+    hand_group.add(rightPlierTop);
 
     // Create invisible box just to better
     // calculate ball picking motion angle
