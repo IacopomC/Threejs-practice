@@ -1,6 +1,6 @@
-import * as THREE from '../../../../node_modules/three/build/three.module.js';
-import {FirstPersonControls} from "../../../../node_modules/three/examples/jsm/controls/FirstPersonControls.js";
-import { OrbitControls } from '../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import {FirstPersonControls} from "../../../../../node_modules/three/examples/jsm/controls/FirstPersonControls.js";
+import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import createPrimitives from './primitive.js';
 
 let left, right, renderer1, renderer2;
