@@ -39,46 +39,7 @@ function main() {
 
     initMeshes(scene);
 
-    {
-        const c = 0.6; //coverage
-        let step;
-        let points = [];
-        let  centers = [];
-        const size = 100;
-        for (var i = -size; i <= size; i+=7){
-            for (var j = -size; j <= size; j+=7){
-                points.push(new THREE.Vector3(i, j, 0));
-            }
-        }
-
-
-        step = points[0].distanceTo(points[1]);
-        points.forEach((point) => {
-            centers.push(new THREE.Vector3(point.x - (c*step/2), point.y, 0));
-            centers.push(new THREE.Vector3(point.x + (c*step/2), point.y, 0));
-            let geometry = new THREE.BufferGeometry().setFromPoints( centers );
-            const material = new THREE.LineBasicMaterial( {
-                color: 0xffffff,
-                linewidth: 1,
-                linecap: 'round', //ignored by WebGLRenderer
-                linejoin:  'round' //ignored by WebGLRenderer
-            } );
-            let line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
-            scene.add(line);
-            
-            centers = [];
-            centers.push(new THREE.Vector3(point.x, point.y - (c*step/2), 0));
-            centers.push(new THREE.Vector3(point.x, point.y + (c*step/2), 0));
-            geometry = new THREE.BufferGeometry().setFromPoints( centers );
-            line = new THREE.Line(geometry, material);
-            line.computeLineDistances();
-            scene.add(line);
-            
-            centers = [];
-        });   
-
-    }
+    createGroundPattern(scene);
 
     function resizeRendererToDisplaySize(renderer) {
         const canvas = renderer.domElement;
@@ -118,6 +79,46 @@ function initMeshes(scene) {
         primitive_gr.forEach((primitive) => {
             scene.add(primitive);
         });
+    });
+}
+
+function createGroundPattern(scene) {
+
+    const c = 0.6; //coverage
+    let step;
+    let points = [];
+    let  centers = [];
+    const size = 100;
+    for (var i = -size; i <= size; i+=7){
+        for (var j = -size; j <= size; j+=7){
+            points.push(new THREE.Vector3(i, j, 0));
+        }
+    }
+
+    step = points[0].distanceTo(points[1]);
+    points.forEach((point) => {
+        centers.push(new THREE.Vector3(point.x - (c*step/2), point.y, 0));
+        centers.push(new THREE.Vector3(point.x + (c*step/2), point.y, 0));
+        let geometry = new THREE.BufferGeometry().setFromPoints( centers );
+        const material = new THREE.LineBasicMaterial( {
+            color: 0xffffff,
+            linewidth: 1,
+            linecap: 'round', //ignored by WebGLRenderer
+            linejoin:  'round' //ignored by WebGLRenderer
+        } );
+        let line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+        scene.add(line);
+        
+        centers = [];
+        centers.push(new THREE.Vector3(point.x, point.y - (c*step/2), 0));
+        centers.push(new THREE.Vector3(point.x, point.y + (c*step/2), 0));
+        geometry = new THREE.BufferGeometry().setFromPoints( centers );
+        line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
+        scene.add(line);
+        
+        centers = [];
     });
 }
 
