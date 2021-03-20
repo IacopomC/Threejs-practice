@@ -4,7 +4,6 @@ import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/co
 function main() {
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({canvas});
-    renderer.setSize( window.innerWidth, window.innerHeight );
 
     THREE.Object3D.DefaultUp.set(0, 0, 1);
 
@@ -346,6 +345,17 @@ function main() {
     addLayer(1.5);
     addLayer(2.5);
 
+    function resizeRendererToDisplaySize(renderer) {
+        const canvas = renderer.domElement;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        const needResize = canvas.width !== width || canvas.height !== height;
+        if (needResize) {
+          renderer.setSize(width, height, false);
+        }
+        return needResize;
+    }
+
     function render(time) {
         time *= 0.001;  // convert to seconds;
     
@@ -362,16 +372,5 @@ function main() {
       requestAnimationFrame(render);
 
 }
-
-function resizeRendererToDisplaySize(renderer) {
-    const canvas = renderer.domElement;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-      renderer.setSize(width, height, false);
-    }
-    return needResize;
-  }
 
 main();
