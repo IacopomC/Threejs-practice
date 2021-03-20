@@ -10,9 +10,7 @@ let controlsL, controlsR;
 
 const clock = new THREE.Clock();
 
-init();
-
-function init() {
+function main() {
 
     left = document.querySelector( '#left' );
     right = document.querySelector( '#right' );
@@ -62,6 +60,7 @@ function init() {
     renderer2.setSize( window.innerWidth/2, window.innerHeight);
     right.appendChild( renderer2.domElement );
 
+    requestAnimationFrame( animate );
 }
 
 function initMeshes() {
@@ -130,4 +129,4 @@ function animate() {
 
 }
 
-animate()
+main();
