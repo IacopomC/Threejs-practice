@@ -3,6 +3,7 @@ import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/co
 import createRobot from './robot.js';
 import PickHelper from './pick_helper.js';
 import generateBalls from './ball.js';
+import createRing from './ring.js';
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -57,6 +58,11 @@ function main() {
   const robot_arm = createRobot();
 
   scene.add(robot_arm);
+
+  // Ring
+  const ring = createRing();
+
+  scene.add( ring );
 
   // Balls
   const balls = generateBalls();
@@ -183,16 +189,22 @@ function main() {
         };
 
         if(ballPicked) {
-          if (t >= 2) return;
-          t += step;  // Increment time
-          robot_arm.rotation.y += angleStep; // Increment rotation
-          robot_arm.children[3].rotateZ(alphaStep);
-          robot_arm.children[3].children[0].children[2].rotateZ(thetaStep);
 
+          // Ball picked, hand back to original position
+          if (t >= 2) {
+
+          }
+          // Move back to original position
+          else {
+            t += step;  // Increment time
+            robot_arm.rotation.y += angleStep;
+            robot_arm.children[3].rotateZ(alphaStep);
+            robot_arm.children[3].children[0].children[2].rotateZ(thetaStep);
+          }
         }
         else{
           t += step;  // Increment time
-          robot_arm.rotation.y -= angleStep; // Increment rotation
+          robot_arm.rotation.y -= angleStep;
           robot_arm.children[3].rotateZ(-alphaStep);
           robot_arm.children[3].children[0].children[2].rotateZ(-thetaStep);
         }
