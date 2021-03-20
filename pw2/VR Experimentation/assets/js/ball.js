@@ -4,7 +4,7 @@ function generateBalls() {
 
     let balls = [];
 
-    const radius = 0.4;
+    const radius = 0.04;
     const widthSegments = 12;
     const heightSegments = 8;
     const geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
@@ -19,7 +19,7 @@ function generateBalls() {
       
       let z = min + (max - min) * Math.random();
 
-      while( x**2+z**2 < 9){
+      while( x**2+z**2 < 0.09){
         x = min + (max - min) * Math.random();
       
         z = min + (max - min) * Math.random();
@@ -48,7 +48,7 @@ function generateBalls() {
      
       const ball = new THREE.Mesh(geometry, material);
 
-      let ballCoor = rand(-5, 5);
+      let ballCoor = rand(-0.5, 0.5);
      
       ball.position.set(ballCoor[0], ballCoor[1], ballCoor[2]);
 
