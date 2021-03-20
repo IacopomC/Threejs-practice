@@ -122,6 +122,9 @@ function main() {
   function pickBall() {
 
     if (pickHelper.pickedObject){
+
+      let ballObj = pickHelper.pickedObject;
+      
       let fps = 60;           // fps/seconds
       let tau = 2;            // 2 seconds
       const step = 1 / (tau * fps);  // step per frame
@@ -164,11 +167,35 @@ function main() {
 
       function animateRobotArm(t){
 
-        if (t >= 1) return; // Motion ended
-        t += step;  // Increment time
-        robot_arm.rotation.y -= angleStep; // Increment rotation
-        robot_arm.children[3].rotateZ(-alphaStep);
-        robot_arm.children[3].children[0].children[2].rotateZ(-thetaStep);
+        let ballPicked = false;
+
+        // Forward motion ended, ball picked
+        if (t >= 1) {
+          ballPicked = true;
+          
+          // Attach ball picked to robot hand
+          // by addind it as a child
+          robot_arm.children[3].children[0].children[2].children[0].children[4].add(ballObj);
+
+          // Change ball position in the new frame
+          // to match hand position
+          ballObj.position.set(0.35, 7.1, -0.8);
+        };
+
+        if(ballPicked) {
+          if (t >= 2) return;
+          t += step;  // Increment time
+          robot_arm.rotation.y += angleStep; // Increment rotation
+          robot_arm.children[3].rotateZ(alphaStep);
+          robot_arm.children[3].children[0].children[2].rotateZ(thetaStep);
+
+        }
+        else{
+          t += step;  // Increment time
+          robot_arm.rotation.y -= angleStep; // Increment rotation
+          robot_arm.children[3].rotateZ(-alphaStep);
+          robot_arm.children[3].children[0].children[2].rotateZ(-thetaStep);
+        }
         requestAnimationFrame(() => animateRobotArm(t));
       }
 
