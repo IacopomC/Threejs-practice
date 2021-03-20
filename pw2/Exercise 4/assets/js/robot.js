@@ -143,6 +143,13 @@ function createRobot() {
 
     hand_group.add(wrist_top);
 
+    const extraBox_g = new THREE.BoxGeometry(0.8, 0.8, 0.8);
+    const extraBox = new THREE.Mesh(extraBox_g, orange_mesh);
+    extraBox.position.set(0.35, 7.1, 0);
+    extraBox.rotation.z = -Math.PI/3;
+
+    hand_group.add(extraBox);
+
     second_junc_group.add(hand_group);
 
     first_junc_group.add(bbox2);
