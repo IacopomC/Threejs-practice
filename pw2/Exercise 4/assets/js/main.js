@@ -151,7 +151,8 @@ function main() {
 
       const angleStep = rotationAngle * step;
       let t = 0;
-
+      
+      // Define inital offset angles for the two arms
       let initialTheta = Math.PI/3;
       let initialAlpha = -Math.PI/4;
 
@@ -192,11 +193,10 @@ function main() {
         // first rotation point (lower arm
         // rotation) using cosine law
         let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(pToC, 2) - Math.pow(cToH, 2))/(2*cToC*pToC));
-        //alpha = Math.PI/2 - alpha - initialAlpha;
 
-        let ballRadius = 0.4;
+        //let ballRadius = 0.4;
 
-        let extraAngle = Math.PI/2 - Math.acos((robot_arm.children[3].position.y - ballRadius)/pToC);
+        //let extraAngle = Math.PI/2 - Math.acos((robot_arm.children[3].position.y - ballRadius)/pToC);
 
         alpha = Math.PI/2 - alpha - initialAlpha + 0.3;
         
@@ -205,13 +205,7 @@ function main() {
         // rotation) using cosine law
         let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(pToC, 2))/(2*cToH*cToC));
 
-        let extraAngle2 = Math.PI/2 - alpha;
-
-        alpha += 0.1;
-
-        console.log('EXTRA THETA ', extraAngle2);
-
-        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + 0.05;
+        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + 0.1;
 
         return [theta, alpha]
       }
