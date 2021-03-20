@@ -3,8 +3,8 @@ import * as THREE from '../../../../../node_modules/three/build/three.module.js'
 function createRing() {
 
     // Torus parameters
-    const radius = 1;  
-    const tubeRadius = 0.15;  
+    const radius = 0.1;  
+    const tubeRadius = 0.015;  
     const radialSegments = 8;  
     const tubularSegments = 24;  
 
@@ -16,7 +16,7 @@ function createRing() {
     
     // Define position and orientation
     ring.rotation.x = Math.PI/2;
-    ring.position.set(5, 5, 0);
+    ring.position.set(0.5, 0.5, 0);
 
     return ring;
 }
