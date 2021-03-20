@@ -144,12 +144,11 @@ function main() {
 
       // Rotation correction between invisible
       // box and robot hand position
-      const boxDist = upperArm.position.distanceTo(
-                          robotHand.children[5].position);
+      const boxDist = upperArm.position.distanceTo(robotHand.children[14].position);
       
-      const handDist = upperArm.position.distanceTo(
-                          robotHand.children[4].position);
-      const corrAngle = Math.acos(boxDist/handDist);
+      const handDist = upperArm.position.distanceTo(robotHand.children[4].position);
+      
+       const corrAngle = Math.acos(boxDist/handDist);
 
       // Calculate the angle increment
       // from current orientation
@@ -191,7 +190,7 @@ function main() {
 
           // Change ball position in the new frame
           // to match hand position
-          ballObj.position.set(0.35, 7.1, -0.8);
+          ballObj.position.set(0.8, 7.38, -0.79);
         };
 
         if(ballPicked) {

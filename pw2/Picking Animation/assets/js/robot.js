@@ -142,7 +142,6 @@ function createRobot() {
     wrist_top.rotation.z = -Math.PI/3;
 
     hand_group.add(wrist_top);
-
     const pliersBaseGeometry = new THREE.BoxGeometry(0.2, 0.4, 0.1);
     const pliersBase = new THREE.Mesh(pliersBaseGeometry, grey_mesh);
     pliersBase.position.set(0.5, 7.2, -0.8);
