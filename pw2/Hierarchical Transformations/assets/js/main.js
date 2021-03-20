@@ -3,7 +3,6 @@ import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/co
 import createRobot from './robot.js';
 import PickHelper from './pick_helper.js';
 import generateBalls from './ball.js';
-import createRing from './ring.js';
 
 function main() {
   const canvas = document.querySelector('#c');
@@ -58,11 +57,6 @@ function main() {
   const robot_arm = createRobot();
 
   scene.add(robot_arm);
-
-  // Ring
-  const ring = createRing();
-
-  scene.add( ring );
 
   // Balls
   const balls = generateBalls();
@@ -170,13 +164,6 @@ function main() {
       const alphaStep = alpha*step;
       const thetaStep = theta*step;
 
-      // Define angles compared to ring position
-      const [thetaRing, alphaRing] = calculateRingAngles();
-
-      const alphaRStep = alphaRing*step;
-      const thetaRStep = thetaRing*step;
-      const angleRStep = corrAngle * step;
-
       function animateRobotArm(t){
 
         let ballPicked = false;
@@ -199,25 +186,7 @@ function main() {
           // Ball picked, hand back to original position
           if (t >= 2) {
 
-            // Ball reached ring
-            if (t >= 3) {
-              if (t >= 4) {
-                // Restore mouse click
-                document.removeEventListener('pointerdown', stopClick);
-                return;
-              }
-              t += step;  // Increment time
-              robot_arm.rotation.y += angleRStep;
-              lowerArm.rotateZ(alphaRStep);
-              upperArm.rotateZ(thetaRStep);
-              robotHand.children[robotHand.children.length - 1].visible = false;
-            }
-            else{
-              t += step;  // Increment time
-              robot_arm.rotation.y -= angleRStep;
-              lowerArm.rotateZ(-alphaRStep);
-              upperArm.rotateZ(-thetaRStep);
-            }
+            return
           }
           // Move back to original position
           else {
@@ -269,44 +238,6 @@ function main() {
         // second rotation point (upper arm
         // rotation) using cosine law
         let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(pToC, 2))/(2*cToH*cToC));
-
-        const thetaCorrection = 0.1; 
-
-        theta = Math.PI/2 - theta - (Math.PI/2 - initialTheta) + thetaCorrection;
-
-        return [theta, alpha]
-      }
-
-      function calculateRingAngles(){
-        
-        // Calculate distance between first
-        // rotation point and the ball picked
-        const rToC = ring.position.distanceTo(lowerArm.position);
-
-        // Calculate distance between first
-        // and second rotation point
-        // (lower part arm length)
-        const cToC = lowerArm.position.distanceTo(upperArm.position);
-
-        // Calculate distance between second
-        // rotation point and end of robot hand
-        // (upper part arm length)
-        const cToH = upperArm.position.distanceTo(
-                        robotHand.children[5].position);
-
-        // Calculate rotation angle around
-        // first rotation point (lower arm
-        // rotation) using cosine law
-        let alpha = Math.acos((Math.pow(cToC, 2) + Math.pow(rToC, 2) - Math.pow(cToH, 2))/(2*cToC*rToC));
-
-        const alphaCorrection = -Math.PI/7;
-
-        alpha = Math.PI/2 - alpha - initialAlpha + alphaCorrection;
-        
-        // Calculate rotation angle around
-        // second rotation point (upper arm
-        // rotation) using cosine law
-        let theta = Math.acos((Math.pow(cToH, 2) + Math.pow(cToC, 2) - Math.pow(rToC, 2))/(2*cToH*cToC));
 
         const thetaCorrection = 0.1; 
 
