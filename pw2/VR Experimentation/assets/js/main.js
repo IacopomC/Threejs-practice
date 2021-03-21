@@ -2,7 +2,6 @@ import * as THREE from '../../../../../node_modules/three/build/three.module.js'
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import createRobot from './robot.js';
-import PickHelper from './pick_helper.js';
 import ControllerPickHelper from './controller_pick_helper.js';
 import generateBalls from './ball.js';
 import createRing from './ring.js';
@@ -95,7 +94,6 @@ function main() {
 
   controllerPickHelper.addEventListener('selectstart', (event) => {
     if (event.selectedObject){
-      console.log(event);
       setPickPosition(event);
       pickBall(); 
     }   
