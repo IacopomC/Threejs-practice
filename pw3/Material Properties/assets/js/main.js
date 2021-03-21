@@ -37,23 +37,19 @@ function main() {
     const cornellBoxObj = cornellBox();
     scene.add(cornellBoxObj);
 
-    let sphereCallback = function scaleSphere(value) {
-      let sphere = cornellBoxObj.children[7];
-      let radius = sphere.geometry.parameters.radius;
-      let  scale = radius * value; // adjust the multiplier to whatever
-      sphere.scale.x = scale;
-      sphere.scale.y = scale;
-      sphere.scale.z = scale;
-    }
+    const sphere = cornellBoxObj.children[7];
+    const cylinder = cornellBoxObj.children[6];
+    const cone = cornellBoxObj.children[5];
 
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
-    ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
-    ui.add( cornellBoxObj.children[6].rotation, 'y',
-            { type:'Circular', min:-5, max:5, size:80, rename:'Cylinder Orientation' } ).listen();
-    ui.add( 'Knob',
-            {name:'Sphere radius',
-             callback: sphereCallback, value:1, min:0, max:2}).listen();
+    // Wireframe
+    ui.add('bool', { name:'Wireframe', }).onChange(
+      function(value){
+        sphere.material.wireframe = value;
+        cylinder.material.wireframe = value;
+      }
+    );
     
     function render() {
     
