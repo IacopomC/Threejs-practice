@@ -4,7 +4,7 @@ import 'http://lo-th.github.io/uil/examples/js/math.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import cornellBox from './cornell_box.js';
 
-var cw = 128*5, ch=148;
+var cw = 128*4, ch=148;
 var screen = null;
 
 let raycaster = new THREE.Raycaster();
@@ -31,18 +31,16 @@ function main() {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0xB1ABA7);
 
-  // Light
-  {
-      const color = 0xFFFFFF;
-      const intensity = 0.8;
-      const light = new THREE.PointLight(color, intensity);
-      light.position.set(0, 4, 0);
-      scene.add(light);
-  }
-  {
-    const light = new THREE.AmbientLight( 0x404040 ); // soft white light
-    scene.add( light );
-  }
+  // Point Light
+  const color = 0xFFFFFF;
+  const intensity = 0.8;
+  const pointLight = new THREE.PointLight(color, intensity);
+  pointLight.position.set(0, 4, 0);
+  scene.add(pointLight);
+  
+  // Ambient Light
+  const amblight = new THREE.AmbientLight( 0x404040 ); // soft white light
+  scene.add( amblight );
 
   // Cornel Box
   const cornellBoxObj = cornellBox();
@@ -52,27 +50,34 @@ function main() {
   const interactive = new THREE.Group();
   scene.add(interactive);
 
-  const plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 20, 4.625 , 5, 1 ), new THREE.MeshBasicMaterial( { transparent:true } ) );
+  const plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 10, 4 ), new THREE.MeshBasicMaterial( { transparent:true } ) );
   plane.geometry.rotateX( -Math.PI90 );
-  plane.position.set(4, 0, 7);
+  plane.position.set(0, 0, 7);
   plane.visible = false;
   plane.name = 'p1';
 
   interactive.add( plane );
 
-  let sets = {
-    intensity: 1,
-    rotation:0,
-    scale:1
+  let sphereCallback = function scaleSphere(value) {
+    let sphere = cornellBoxObj.children[7];
+    let radius = sphere.geometry.parameters.radius;
+    let  scale = radius * value; // adjust the multiplier to whatever
+    sphere.scale.x = scale;
+    sphere.scale.y = scale;
+    sphere.scale.z = scale;
+  }
+
+  let callbackLoadTexture = function loadTexture(value) {
+    console.log(value);
   }
 
   let ui = new UIL.Gui(
-              { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:false, transparent:true }
+              { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true }
               );
 
-  ui.add( sets, 'intensity', { type:'Circular', min:0, max:10, w:128, precision:2, fontColor:'black' } );
-  ui.add( sets, 'rotation', { type:'joystick', w:128, precision:2, fontColor:'black' } );
-  ui.add( sets, 'scale', { type:'graph', w:128, precision:2, multiplicator:0.25, fontColor:'black', autoWidth:false } );
+  ui.add( pointLight, 'intensity', { type:'Circular', min:0, max:10, w:80, precision:2, fontColor:'black' } ).listen();
+  ui.add( cornellBoxObj.children[6].rotation, 'y', { type:'Knob', min:0, max:10, w:80, precision:2, fontColor:'black' } ).listen();
+  ui.add('button', { name:'LOAD TEXTURE', callback:callbackLoadTexture, fontColor:'#D4B87B', w:20, h:25, radius:10, pos:{ left:'10px', top:'10px' }, loader:true }).listen();
 
   ui.onDraw = function () {
 
@@ -135,15 +140,13 @@ function main() {
     var intersects = raycaster.intersectObjects( interactive.children );
   
     if ( intersects.length > 0 ){
-  
-       //console.log(intersects[ 0 ])
-  
-        var uv = intersects[ 0 ].uv;
-        mouse2d.x = Math.round( uv.x*cw );
-        mouse2d.y = ch - Math.round( uv.y*ch );
-  
-        if( intersects[ 0 ].object.name === 'p1' ) ui.setMouse( mouse2d );
-        return true;
+    
+      var uv = intersects[ 0 ].uv;
+      mouse2d.x = Math.round( uv.x*cw );
+      mouse2d.y = ch - Math.round( uv.y*ch );
+
+      if( intersects[ 0 ].object.name === 'p1' ) ui.setMouse( mouse2d );
+      return true;
   
     } else {
   
@@ -154,10 +157,9 @@ function main() {
    
   }
   
-
-  document.addEventListener( 'mouseup', onMouseUp, false );
-  document.addEventListener( 'mousedown', onMouseDown, false );
-  document.addEventListener( 'mousemove', onMouseMove, false );
+  document.addEventListener( 'pointerup', onMouseUp, false );
+  document.addEventListener( 'pointerdown', onMouseDown, false );
+  document.addEventListener( 'pointermove', onMouseMove, false );
 }
 
 function resizeRendererToDisplaySize(renderer) {
