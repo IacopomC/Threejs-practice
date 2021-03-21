@@ -1,8 +1,9 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
-import { RectAreaLightUniformsLib } from '../../../../../node_modules/three/examples/jsm/lights/RectAreaLightUniformsLib.js'
-import 'http://lo-th.github.io/uil/build/uil.js';
+import { RectAreaLightUniformsLib } from '../../../../../node_modules/three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import cornellBox from './cornell_box.js';
+import 'http://lo-th.github.io/uil/build/uil.js';
 
 
 function main() {
@@ -11,6 +12,10 @@ function main() {
 
     // Turn on shadows in renderer
     renderer.shadowMap.enabled = true;
+
+    // Enable WebXR and add VR button to page
+    renderer.xr.enabled = true;
+    document.body.appendChild(VRButton.createButton(renderer));
 
     // Camera
     const fov = 75;
@@ -208,9 +213,9 @@ function main() {
       
       renderer.render(scene, camera);
   
-      requestAnimationFrame(render);
     }
-      requestAnimationFrame(render);
+    // Let three js handle render loop
+    renderer.setAnimationLoop(render);
 }
 
 function resizeRendererToDisplaySize(renderer) {
