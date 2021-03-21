@@ -5,7 +5,6 @@ import cornelBox from './cornel_box.js';
 function main() {
     const canvas = document.querySelector('#c');
     const renderer = new THREE.WebGLRenderer({canvas});
-    renderer.setSize( window.innerWidth, window.innerHeight );
 
     // Camera
     const fov = 75;
