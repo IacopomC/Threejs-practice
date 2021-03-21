@@ -48,10 +48,15 @@ function main() {
     const cornellBoxObj = cornellBox();
     scene.add(cornellBoxObj);
 
+    // Set initiale light object to Point Light
+    let lightSelected = 'Point Light';
+    let lightObj = pointLight;
+
     // Define change light callback
     let changeLightCallback = function changeLight(value) {
       switch (value) {
         case 'Point Light':
+          lightSelected = 'Point Light';
           pointLight.intensity = 1;
           directionalLight.intensity = 0;
           spotLight.intensity = 0;
@@ -128,6 +133,10 @@ function addSettings(guiObj, lightObj, callback, lightSelected, value){
       lightObj.color.setHex(color);
     }
   );
+}
+
+function displayGui() {
+  return None;
 }
 
 main();
