@@ -48,10 +48,15 @@ function main() {
     const cornellBoxObj = cornellBox();
     scene.add(cornellBoxObj);
 
+    // Set initiale light object to Point Light
+    let lightSelected = 'Point Light';
+    let lightObj = pointLight;
+
     // Define change light callback
     let changeLightCallback = function changeLight(value) {
       switch (value) {
         case 'Point Light':
+          lightSelected = 'Point Light';
           pointLight.intensity = 1;
           directionalLight.intensity = 0;
           spotLight.intensity = 0;
@@ -83,25 +88,29 @@ function main() {
       }
     }
 
-    // Gui
-    var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
-    ui.add( 'list', {name:'Light', list:lightTypes}).onChange(changeLightCallback);
-
-    addLightGui(ui, pointLight);
-
-    function render(time) {
-        time *= 0.001;  // convert to seconds;
+    // GUIs
+    var pointGUI = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
+    var dirGUI = new UIL.Gui( { css:'top:10px; right:10%;', size:300, center:true } );
+    var spotGUI = new UIL.Gui( { css:'top:300px; left:20%;', size:300, center:true } );
+    var hemGUI = new UIL.Gui( { css:'top:300px; right:10%;', size:300, center:true } );
     
-        if (resizeRendererToDisplaySize(renderer)) {
-          const canvas = renderer.domElement;
-          camera.aspect = canvas.clientWidth / canvas.clientHeight;
-          camera.updateProjectionMatrix();
-        }
-        
-        renderer.render(scene, camera);
+    addSettings(pointGUI, pointLight, changeLightCallback, 'Point Light', 1);
+    addSettings(dirGUI, directionalLight, changeLightCallback, 'Directional Light', 0);
+    addSettings(spotGUI, spotLight, changeLightCallback, 'Spot Light', 0);
+    addSettings(hemGUI, hemisphereLight, changeLightCallback, 'Hemisphere Light', 0);
     
-        requestAnimationFrame(render);
+    function render() {
+    
+      if (resizeRendererToDisplaySize(renderer)) {
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
       }
+      
+      renderer.render(scene, camera);
+  
+      requestAnimationFrame(render);
+    }
       requestAnimationFrame(render);
 }
 
@@ -116,12 +125,18 @@ function resizeRendererToDisplaySize(renderer) {
     return needResize;
 }
 
-function addLightGui(guiObj, lightObj){
+function addSettings(guiObj, lightObj, callback, lightSelected, value){
+  guiObj.add( 'button', {name: lightSelected, value:lightSelected}).onChange(callback);
   guiObj.add( lightObj, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
   guiObj.add('color', { name:'Color', type:'rgba', value:[0,1,1,1]}).onChange(
     function(color){
       lightObj.color.setHex(color);
-    });
+    }
+  );
+}
+
+function displayGui() {
+  return None;
 }
 
 main();
