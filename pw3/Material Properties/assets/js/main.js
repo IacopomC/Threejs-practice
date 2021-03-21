@@ -43,6 +43,8 @@ function main() {
 
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
+    // Light intensity
+    ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
     // Wireframe
     ui.add('bool', { name:'Wireframe', }).onChange(
       function(value){
