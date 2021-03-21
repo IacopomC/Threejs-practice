@@ -10,6 +10,9 @@ function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({canvas});
 
+  // Turn on shadows in renderer
+  renderer.shadowMap.enabled = true;
+
   // Enable WebXR and add VR button to page
   renderer.xr.enabled = true;
   document.body.appendChild(VRButton.createButton(renderer));
@@ -56,6 +59,7 @@ function main() {
     const intensity = 3;
     const light = new THREE.PointLight(color, intensity);
     light.position.set(0, 10, 0);
+    light.castShadow = true; // set light to cast shadow
     scene.add(light);
   }
   

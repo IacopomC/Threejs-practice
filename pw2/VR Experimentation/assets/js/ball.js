@@ -52,6 +52,8 @@ function generateBalls() {
      
       ball.position.set(ballCoor[0], ballCoor[1], ballCoor[2]);
 
+      ball.receiveShadow = true;
+
       balls.push(ball);
     }
 

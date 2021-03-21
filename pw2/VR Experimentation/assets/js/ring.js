@@ -18,6 +18,8 @@ function createRing() {
     ring.rotation.x = Math.PI/2;
     ring.position.set(0.5, 0.5, 0);
 
+    ring.receiveShadow = true;
+
     return ring;
 }
 
