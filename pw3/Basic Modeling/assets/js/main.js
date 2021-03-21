@@ -1,6 +1,6 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import cornelBox from './cornel_box.js';
+import cornellBox from './cornell_box.js';
 
 function main() {
     const canvas = document.querySelector('#c');
@@ -36,8 +36,8 @@ function main() {
 
 
     // Cornel Box
-    const corbelBox = cornelBox();
-    scene.add(corbelBox);
+    const cornellBoxObj = cornellBox();
+    scene.add(cornellBoxObj);
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
