@@ -35,6 +35,8 @@ function main() {
     pointLight.castShadow = true; // set light to cast shadow
     scene.add(pointLight);
 
+    console.log(pointLight.shadow);
+
     const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add(ambientLight);
 
@@ -190,6 +192,11 @@ function main() {
         cylinder.material.needsUpdate = true;
       }
     );
+
+    // Light Shadow Properties
+    ui.add( pointLight.shadow.mapSize, 'x', { min:0, max:512, value:512, rename:'Shadow X' } ).listen();
+    ui.add( pointLight.shadow.mapSize, 'y', { min:0, max:512, value:512, rename:'Shadow Y' } ).listen();
+    ui.add( pointLight.shadow, 'radius', { min:0, max:100, value:1, rename:'Shadow R' } ).listen();
 
     function render() {
     
