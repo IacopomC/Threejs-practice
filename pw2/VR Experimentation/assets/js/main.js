@@ -89,12 +89,20 @@ function main() {
   }
 
   const pickPosition = {x: 0, y: 0};
-  const pickHelper = new PickHelper();
   clearPickPosition();
 
   const controllerPickHelper = new ControllerPickHelper(scene, renderer);
-  controllerPickHelper.addEventListener('select', (event) => {
-    console.log(event);
+
+  controllerPickHelper.addEventListener('selectstart', (event) => {
+    if (event.selectedObject){
+      console.log(event);
+      setPickPosition(event);
+      pickBall(); 
+    }   
+  });
+  
+  controllerPickHelper.addEventListener('selectend', () => {
+    clearPickPosition();
   });
 
   function render(time) {
@@ -106,8 +114,6 @@ function main() {
       camera.updateProjectionMatrix();
     }
 
-    pickHelper.pick(pickPosition, scene, camera, balls, time);
-
     controllerPickHelper.update(balls, time);
 
     renderer.render(scene, camera);
@@ -116,18 +122,9 @@ function main() {
   // Let three js handle render loop
   renderer.setAnimationLoop(render);
 
-  function getCanvasRelativePosition(event) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: (event.clientX - rect.left) * canvas.width  / rect.width,
-      y: (event.clientY - rect.top ) * canvas.height / rect.height,
-    };
-  }
-
   function setPickPosition(event) {
-    const pos = getCanvasRelativePosition(event);
-    pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
-    pickPosition.y = - (pos.y / canvas.height) * 2 + 1;  // note we flip Y
+    pickPosition.x = event.selectedObject.position.x;
+    pickPosition.y = - event.selectedObject.position.z;  // note we flip Y
   }
 
   function clearPickPosition() {
@@ -138,14 +135,14 @@ function main() {
 
   function pickBall() {
 
-    if (pickHelper.pickedObject){
+    if (controllerPickHelper.pickedObject){
 
       // Define useful varaibles
       const robotHand = robot_arm.children[3].children[0].children[2].children[0].children[4];
       const lowerArm = robot_arm.children[3];
       const upperArm = robot_arm.children[3].children[0].children[2];
 
-      let ballObj = pickHelper.pickedObject;
+      let ballObj = controllerPickHelper.pickedObject;
       
       let fps = 60;           // fps/seconds
       let tau = 2;            // 2 seconds
@@ -153,7 +150,7 @@ function main() {
 
       let angle = 0;
       
-      angle  = Math.atan2(pickHelper.pickedObject.position.z, pickHelper.pickedObject.position.x);
+      angle  = Math.atan2(controllerPickHelper.pickedObject.position.z, controllerPickHelper.pickedObject.position.x);
 
       // Rotation correction between invisible
       // box and robot hand position
@@ -255,7 +252,7 @@ function main() {
 
         // Calculate distance between first
         // rotation point and the ball picked
-        const pToC = lowerArm.position.distanceTo(pickHelper.pickedObject.position);
+        const pToC = lowerArm.position.distanceTo(controllerPickHelper.pickedObject.position);
 
         // Calculate distance between first
         // and second rotation point
@@ -332,12 +329,6 @@ function main() {
     }
     
   }
-
-  window.addEventListener('mousemove', setPickPosition);
-  window.addEventListener('mouseout', clearPickPosition);
-  window.addEventListener('mouseleave', clearPickPosition);
-  window.addEventListener('pointerdown', pickBall);
-
 }
 
 function stopClick(e) {
