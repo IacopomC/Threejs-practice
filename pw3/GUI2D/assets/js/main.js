@@ -38,11 +38,7 @@ function main() {
 
     let sphereCallback = function scaleSphere(value) {
       let sphere = cornellBoxObj.children[7];
-      let radius = sphere.geometry.parameters.radius;
-      let  scale = radius * value; // adjust the multiplier to whatever
-      sphere.scale.x = scale;
-      sphere.scale.y = scale;
-      sphere.scale.z = scale;
+      sphere.scale.set(1,1,1).multiplyScalar( value );
     }
 
     // Gui
