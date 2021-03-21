@@ -146,7 +146,7 @@ function main() {
 
       let ballObj = controllerPickHelper.pickedObject;
       
-      let fps = 60;           // fps/seconds
+      let fps = 90;           // fps/seconds
       let tau = 2;            // 2 seconds
       const step = 1 / (tau * fps);  // step per frame
 
