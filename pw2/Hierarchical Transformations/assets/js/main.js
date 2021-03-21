@@ -1,11 +1,13 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import createRobot from './robot.js';
-import PickHelper from './pick_helper.js';
 
 function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({canvas});
+
+  // Turn on shadows in renderer
+  renderer.shadowMap.enabled = true;
 
   // Camera
   const fov = 75;
@@ -49,6 +51,7 @@ function main() {
     const intensity = 3;
     const light = new THREE.PointLight(color, intensity);
     light.position.set(0, 10, 0);
+    light.castShadow = true; // set light to cast shadow
     scene.add(light);
   }
   
