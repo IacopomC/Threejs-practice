@@ -48,8 +48,6 @@ function main() {
     const cornellBoxObj = cornellBox();
     scene.add(cornellBoxObj);
 
-    console.log(cornellBoxObj);
-
     // Define change light callback
     let changeLightCallback = function changeLight(value) {
       switch (value) {
@@ -81,14 +79,18 @@ function main() {
           pointLight.intensity = 1;
           directionalLight.intensity = 0;
           spotLight.intensity = 0;
-          hemisphereLight.skyColor = 0x000000;
-
+          hemisphereLight.visible = false;
       }
     }
 
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
     ui.add( 'list', {name:'Light', list:lightTypes}).onChange(changeLightCallback);
+    ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
+    ui.add('color', { name:'Color', type:'rgba', value:[0,1,1,1]}).onChange(
+      function(color){
+        pointLight.color.setHex(color);
+      });
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
