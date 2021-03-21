@@ -330,17 +330,6 @@ function main() {
   window.addEventListener('mouseleave', clearPickPosition);
   window.addEventListener('pointerdown', pickBall);
 
-  window.addEventListener('touchstart', (event) => {
-    // prevent the window from scrolling
-    event.preventDefault();
-    setPickPosition(event.touches[0]);
-  }, {passive: false});
-
-  window.addEventListener('touchmove', (event) => {
-    setPickPosition(event.touches[0]);
-  });
-
-  window.addEventListener('touchend', clearPickPosition);
 }
 
 function stopClick(e) {
