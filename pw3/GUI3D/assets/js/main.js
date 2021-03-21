@@ -4,7 +4,7 @@ import 'http://lo-th.github.io/uil/examples/js/math.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import cornellBox from './cornell_box.js';
 
-var cw = 128*4, ch=148;
+var cw = 120*3, ch=170;
 var screen = null;
 
 let raycaster = new THREE.Raycaster();
@@ -60,25 +60,20 @@ function main() {
 
   let sphereCallback = function scaleSphere(value) {
     let sphere = cornellBoxObj.children[7];
-    let radius = sphere.geometry.parameters.radius;
-    let  scale = radius * value; // adjust the multiplier to whatever
-    sphere.scale.x = scale;
-    sphere.scale.y = scale;
-    sphere.scale.z = scale;
+    sphere.scale.set(1,1,1).multiplyScalar( value );
   }
 
-  let callbackLoadTexture = function loadTexture(value) {
-    console.log(value);
+  let rotateCylinderCallback = function rotateCylinder(value) {
+    let cylinder = cornellBoxObj.children[6];
+    cylinder.rotation.y += value;
   }
 
-  let ui = new UIL.Gui(
-              { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true }
-              );
-
-  ui.add( pointLight, 'intensity', { type:'Circular', min:0, max:10, w:80, precision:2, fontColor:'black' } ).listen();
-  ui.add( cornellBoxObj.children[6].rotation, 'y', { type:'Knob', min:0, max:10, w:80, precision:2, fontColor:'black' } ).listen();
-  ui.add('button', { name:'LOAD TEXTURE', callback:callbackLoadTexture, fontColor:'#D4B87B', w:20, h:25, radius:10, pos:{ left:'10px', top:'10px' }, loader:true }).listen();
-
+  let ui = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true });
+  ui.add( 'Knob', {name:'Cylinder Rot', titleColor:'black', callback: rotateCylinderCallback, min:0, max:10, w:120, precision:1, fontColor:'black' });
+  ui.add( pointLight, 'intensity', { type:'Circular', titleColor:'black', min:0, max:10, w:120, precision:1, fontColor:'black' } ).listen();
+  ui.add( 'Knob', {name:'Sphere R', titleColor:'black', callback: sphereCallback, min:0, max:2, w:120, precision:1, fontColor:'black' });
+  
+  
   ui.onDraw = function () {
 
     if( screen === null ){
