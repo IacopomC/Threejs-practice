@@ -1,5 +1,5 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
-import './uil/uil.js'
+import 'http://lo-th.github.io/uil/build/uil.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import cornelBox from './cornel_box.js';
 
