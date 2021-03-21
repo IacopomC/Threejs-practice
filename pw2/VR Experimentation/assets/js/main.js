@@ -3,6 +3,7 @@ import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/co
 import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import createRobot from './robot.js';
 import PickHelper from './pick_helper.js';
+import ControllerPickHelper from './controller_pick_helper.js';
 import generateBalls from './ball.js';
 import createRing from './ring.js';
 
@@ -20,7 +21,7 @@ function main() {
   const near = 0.1;
   const far = 50;
   const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-  camera.position.set( 1, 1, 1);
+  camera.position.set( 1, 0.5, 1);
 
   // Controls
   const controls = new OrbitControls(camera, canvas);
@@ -91,6 +92,11 @@ function main() {
   const pickHelper = new PickHelper();
   clearPickPosition();
 
+  const controllerPickHelper = new ControllerPickHelper(scene, renderer);
+  controllerPickHelper.addEventListener('select', (event) => {
+    console.log(event);
+  });
+
   function render(time) {
     time *= 0.001;  // convert to seconds;
 
@@ -101,6 +107,8 @@ function main() {
     }
 
     pickHelper.pick(pickPosition, scene, camera, balls, time);
+
+    controllerPickHelper.update(balls, time);
 
     renderer.render(scene, camera);
 
