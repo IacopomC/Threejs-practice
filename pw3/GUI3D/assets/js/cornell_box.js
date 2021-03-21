@@ -1,6 +1,6 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 
-function cornelBox() {
+function cornellBox() {
 
     // Meshes
     const cone_material =  new THREE.MeshLambertMaterial( {
@@ -75,4 +75,4 @@ function createWallMaterial(color) {
     return material;
 }
 
-export default cornelBox;
+export default cornellBox;

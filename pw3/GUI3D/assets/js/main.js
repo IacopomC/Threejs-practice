@@ -2,7 +2,7 @@ import * as THREE from '../../../../../node_modules/three/build/three.module.js'
 import 'http://lo-th.github.io/uil/build/uil.js';
 import 'http://lo-th.github.io/uil/examples/js/math.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import cornelBox from './cornel_box.js';
+import cornellBox from './cornell_box.js';
 
 var cw = 128*5, ch=148;
 var screen = null;
@@ -45,8 +45,8 @@ function main() {
   }
 
   // Cornel Box
-  const corbelBox = cornelBox();
-  scene.add(corbelBox);
+  const cornellBoxObj = cornellBox();
+  scene.add(cornellBoxObj);
   
   // Gui
   const interactive = new THREE.Group();
