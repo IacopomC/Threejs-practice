@@ -69,9 +69,14 @@ function main() {
   }
 
   let ui = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true });
-  ui.add( 'Knob', {name:'Cylinder Rot', titleColor:'black', callback: rotateCylinderCallback, min:0, max:10, w:120, precision:1, fontColor:'black' });
-  ui.add( pointLight, 'intensity', { type:'Circular', titleColor:'black', min:0, max:10, w:120, precision:1, fontColor:'black' } ).listen();
-  ui.add( 'Knob', {name:'Sphere R', titleColor:'black', callback: sphereCallback, min:0, max:2, w:120, precision:1, fontColor:'black' });
+  ui.add( 'Knob',
+    {name:'Cylinder Rot', titleColor:'black', callback: rotateCylinderCallback,
+    min:0, max:10, w:120, precision:1, fontColor:'black', color: 'red' });
+  ui.add( pointLight, 'intensity',
+    { type:'Circular', titleColor:'black', min:0, max:10, w:120, precision:1, fontColor:'black'} ).listen();
+  ui.add( 'Knob',
+    {name:'Sphere R', titleColor:'black', callback: sphereCallback,
+    min:0, max:2, w:120, precision:1, fontColor:'black', color: 'green'});
   
   
   ui.onDraw = function () {
