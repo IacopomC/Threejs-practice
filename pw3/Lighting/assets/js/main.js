@@ -86,11 +86,8 @@ function main() {
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
     ui.add( 'list', {name:'Light', list:lightTypes}).onChange(changeLightCallback);
-    ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
-    ui.add('color', { name:'Color', type:'rgba', value:[0,1,1,1]}).onChange(
-      function(color){
-        pointLight.color.setHex(color);
-      });
+
+    addLightGui(ui, pointLight);
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
@@ -117,6 +114,14 @@ function resizeRendererToDisplaySize(renderer) {
       renderer.setSize(width, height, false);
     }
     return needResize;
+}
+
+function addLightGui(guiObj, lightObj){
+  guiObj.add( lightObj, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
+  guiObj.add('color', { name:'Color', type:'rgba', value:[0,1,1,1]}).onChange(
+    function(color){
+      lightObj.color.setHex(color);
+    });
 }
 
 main();
