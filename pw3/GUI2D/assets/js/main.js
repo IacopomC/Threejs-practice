@@ -32,7 +32,7 @@ function main() {
     const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add(ambientLight);
 
-    // Cornel Box
+    // Cornell Box
     const cornellBoxObj = cornellBox();
     scene.add(cornellBoxObj);
 
