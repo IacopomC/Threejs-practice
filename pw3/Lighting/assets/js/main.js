@@ -1,7 +1,9 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 import 'http://lo-th.github.io/uil/build/uil.js';
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import cornelBox from './cornel_box.js';
+import cornellBox from './cornell_box.js';
+
+const lightTypes = ['Point Light', 'Directional Light', 'Spot Light', 'Hemisphere Light'];
 
 function main() {
     const canvas = document.querySelector('#c');
@@ -22,37 +24,71 @@ function main() {
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0xB1ABA7);
 
-    // Light
-    const color = 0xFFFFFF;
-    const intensity = 0.8;
-    const pointLight = new THREE.PointLight(color, intensity);
+    // Lights
+    const pointLight = new THREE.PointLight();
     pointLight.position.set(0, 4, 0);
     scene.add(pointLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0);
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
+
+    const spotLight = new THREE.SpotLight(0xFFFFFF, 0);
+    spotLight.position.set(0, 6, 0);
+    scene.add(spotLight);
+
+    const hemisphereLight = new THREE.HemisphereLight();
+    hemisphereLight.visible = false;
+    scene.add(hemisphereLight);
 
     const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add(ambientLight);
 
-    // Cornel Box
-    const corbelBox = cornelBox();
-    scene.add(corbelBox);
+    // Cornell Box
+    const cornellBoxObj = cornellBox();
+    scene.add(cornellBoxObj);
 
-    let sphereCallback = function scaleSphere(value) {
-      let sphere = corbelBox.children[7];
-      let radius = sphere.geometry.parameters.radius;
-      let  scale = radius * value; // adjust the multiplier to whatever
-      sphere.scale.x = scale;
-      sphere.scale.y = scale;
-      sphere.scale.z = scale;
+    console.log(cornellBoxObj);
+
+    // Define change light callback
+    let changeLightCallback = function changeLight(value) {
+      switch (value) {
+        case 'Point Light':
+          pointLight.intensity = 1;
+          directionalLight.intensity = 0;
+          spotLight.intensity = 0;
+          hemisphereLight.visible = false;
+          break;
+        case 'Directional Light':
+          pointLight.intensity = 0;
+          directionalLight.intensity = 1;
+          spotLight.intensity = 0;
+          hemisphereLight.visible = false;
+          break;
+        case 'Spot Light':
+          pointLight.intensity = 0;
+          directionalLight.intensity = 0;
+          spotLight.intensity = 1;
+          hemisphereLight.visible = false;
+          break;
+        case 'Hemisphere Light':
+          pointLight.intensity = 0;
+          directionalLight.intensity = 0;
+          spotLight.intensity = 0;
+          hemisphereLight.visible = true;
+          break;
+        default:
+          pointLight.intensity = 1;
+          directionalLight.intensity = 0;
+          spotLight.intensity = 0;
+          hemisphereLight.skyColor = 0x000000;
+
+      }
     }
 
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
-    ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
-    ui.add( corbelBox.children[6].rotation, 'y',
-            { type:'Circular', min:-5, max:5, size:80, rename:'Cylinder Orientation' } ).listen();
-    ui.add( 'Knob',
-            {name:'Sphere radius',
-             callback: sphereCallback, value:1, min:0, max:2}).listen();
+    ui.add( 'list', {name:'Light', list:lightTypes}).onChange(changeLightCallback);
 
     function render(time) {
         time *= 0.001;  // convert to seconds;
