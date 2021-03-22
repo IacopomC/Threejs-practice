@@ -71,26 +71,19 @@ function main() {
     scene.add( rectLightBack )
 
     // Retrieve Meshes
-    const leftWall = cornellBoxObj.children[0];
-    const rightWall = cornellBoxObj.children[1];
-    const backWall = cornellBoxObj.children[2];
-    const floor = cornellBoxObj.children[3];
     const sphere = cornellBoxObj.children[7];
     const cylinder = cornellBoxObj.children[6];
     const cone = cornellBoxObj.children[5];
 
-    // Set each mesh to cast or receive a shadow
-    leftWall.receiveShadow = true;
-    rightWall.receiveShadow = true;
-    backWall.receiveShadow = true;
-    floor.receiveShadow = true;
-    sphere.receiveShadow = true;
-    cylinder.receiveShadow = true;
-    cone.receiveShadow = true;
-
+    // Set each mesh to cast shadow
     sphere.castShadow = true;
     cylinder.castShadow = true;
     cone.castShadow = true;
+
+    // Set each mesh to receive a shadow
+    cornellBoxObj.children.forEach( (element) => {
+      element.receiveShadow = true;
+    })
     
     // Gui
     var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
