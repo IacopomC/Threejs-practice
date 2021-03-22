@@ -3,7 +3,7 @@ import { RectAreaLightUniformsLib } from '../../../../../node_modules/three/exam
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import cornellBox from './cornell_box.js';
-import 'http://lo-th.github.io/uil/build/uil.js';
+import 'https://lo-th.github.io/uil/build/uil.js';
 
 
 function main() {
@@ -39,8 +39,6 @@ function main() {
     pointLight.position.set(0, 4, 0);
     pointLight.castShadow = true; // set light to cast shadow
     scene.add(pointLight);
-
-    console.log(pointLight.shadow);
 
     const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
     scene.add(ambientLight);
