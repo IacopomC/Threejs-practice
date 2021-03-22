@@ -8,9 +8,6 @@ function createGui(scene, pointLight, cornellBoxObj){
     var cw = 120*3, ch=170;
     var screen = null;
 
-    let raycaster = new THREE.Raycaster();
-    let mouse2d = new THREE.Vector2();
-
     const sphere = cornellBoxObj.children[7];
     const cylinder = cornellBoxObj.children[6];
     const cone = cornellBoxObj.children[5];
