@@ -9,7 +9,6 @@ function createGui(scene, pointLight, cornellBoxObj){
     var screen = null;
 
     let raycaster = new THREE.Raycaster();
-    let mouse = new THREE.Vector2();
     let mouse2d = new THREE.Vector2();
 
     const sphere = cornellBoxObj.children[7];
@@ -137,28 +136,7 @@ function createGui(scene, pointLight, cornellBoxObj){
 
     }
 
-    function raytest ( e ) {
-  
-    mouse.set( (e.clientX / window.innerWidth) * 2 - 1, - ( e.clientY / window.innerHeight) * 2 + 1 );
-    raycaster.setFromCamera( mouse, camera );
-    var intersects = raycaster.intersectObjects( interactive.children );
-  
-    if ( intersects.length > 0 ){
-    
-      var uv = intersects[ 0 ].uv;
-      mouse2d.x = Math.round( uv.x*cw );
-      mouse2d.y = ch - Math.round( uv.y*ch );
-
-      if( intersects[ 0 ].object.name === 'p1' ) ui3D.setMouse( mouse2d );
-      return true;
-  
-    } else {
-  
-        if(ui3D)ui3D.reset( true );
-        return false;
-    }
-  
-  }
+    return [ui3D, interactive];
 
 }
 

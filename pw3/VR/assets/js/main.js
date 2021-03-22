@@ -11,7 +11,6 @@ import 'https://lo-th.github.io/uil/build/uil.js';
 import 'https://lo-th.github.io/uil/examples/js/math.js';
 
 var cw = 120*3, ch=170;
-var screen = null;
 
 let raycaster = new THREE.Raycaster();
 let mouse = new THREE.Vector2();
@@ -101,7 +100,7 @@ function main() {
   })
 
   //Gui
-  createGui(scene, pointLight, cornellBoxObj);
+  const [gui3D, interactive] = createGui(scene, pointLight, cornellBoxObj);
   
   function render() {
   
@@ -127,14 +126,14 @@ function main() {
   function onMouseDown( e ){
   
     e.preventDefault();
-    controls.enabled = raytest( e ) ? false : true;
+    controls.enabled = raytest( e , gui3D, mouse, camera, interactive) ? false : true;
   
   }
   
   function onMouseMove( e ) {
   
     e.preventDefault();
-    raytest( e );
+    raytest( e , gui3D, mouse, camera, interactive);
   
   }
   
@@ -153,6 +152,29 @@ function resizeRendererToDisplaySize(renderer) {
       renderer.setSize(width, height, false);
     }
     return needResize;
+}
+
+function raytest ( e, gui3D, mouse, camera, interactive ) {
+  
+  mouse.set( (e.clientX / window.innerWidth) * 2 - 1, - ( e.clientY / window.innerHeight) * 2 + 1 );
+  raycaster.setFromCamera( mouse, camera );
+  var intersects = raycaster.intersectObjects( interactive.children );
+
+  if ( intersects.length > 0 ){
+  
+      var uv = intersects[ 0 ].uv;
+      mouse2d.x = Math.round( uv.x*cw );
+      mouse2d.y = ch - Math.round( uv.y*ch );
+
+      if( intersects[ 0 ].object.name === 'p1' ) gui3D.setMouse( mouse2d );
+      return true;
+
+  } else {
+
+      if(gui3D)gui3D.reset( true );
+      return false;
+  }
+
 }
 
 main();
