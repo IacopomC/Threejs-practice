@@ -185,33 +185,6 @@ function createPrimitives(z) {
         addSolidGeometry(-2, -1, z, new THREE.TetrahedronGeometry(radius));
     }
     {
-        const loader = new THREE.FontLoader();
-        // promisify font loading
-        function loadFont(url) {
-        return new Promise((resolve, reject) => {
-            loader.load(url, resolve, undefined, reject);
-        });
-        }
-
-        async function doit() {
-        const font = await loadFont('https://threejsfundamentals.org/threejs/resources/threejs/fonts/helvetiker_regular.typeface.json');  
-        const geometry = new THREE.TextGeometry('three.js', {
-            font: font,
-            size: 3.0,
-            height: .2,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: 0.15,
-            bevelSize: .3,
-            bevelSegments: 5,
-        });
-
-        addSolidGeometry(-2, -1, z, geometry);
-        }
-        doit();
-
-    }
-    {
         const radius = 5;
         const tubeRadius = 2;
         const radialSegments = 8;
