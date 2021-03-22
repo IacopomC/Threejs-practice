@@ -101,6 +101,16 @@ function main() {
 
   //Gui
   const [gui3D, interactive] = createGui(scene, pointLight, cornellBoxObj);
+
+  // VR Controllers
+  const controllerPickHelper = new ControllerPickHelper(scene, renderer);
+
+  controllerPickHelper.addEventListener('selectstart', (event) => {
+    console.log(event) 
+  });
+  
+  controllerPickHelper.addEventListener('selectend', () => {
+  });
   
   function render() {
   
@@ -109,7 +119,8 @@ function main() {
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
       camera.updateProjectionMatrix();
     }
-    
+    controllerPickHelper.update(interactive.children);
+
     renderer.render(scene, camera);
 
   }
