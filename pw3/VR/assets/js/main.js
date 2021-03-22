@@ -106,7 +106,8 @@ function main() {
   const controllerPickHelper = new ControllerPickHelper(scene, renderer);
 
   controllerPickHelper.addEventListener('selectstart', (event) => {
-    console.log(event) 
+    console.log(event);
+    guiInteract( event , gui3D, mouse, camera, interactive);
   });
   
   controllerPickHelper.addEventListener('selectend', () => {
@@ -127,31 +128,6 @@ function main() {
   // Let three js handle render loop
   renderer.setAnimationLoop(render);
   
-  function onMouseUp( e ){
-
-    e.preventDefault();
-    if(!controls.enabled) controls.enabled = true;
-  
-  }
-  
-  function onMouseDown( e ){
-  
-    e.preventDefault();
-    controls.enabled = raytest( e , gui3D, mouse, camera, interactive) ? false : true;
-  
-  }
-  
-  function onMouseMove( e ) {
-  
-    e.preventDefault();
-    raytest( e , gui3D, mouse, camera, interactive);
-  
-  }
-  
-  document.addEventListener( 'pointerup', onMouseUp, false );
-  document.addEventListener( 'pointerdown', onMouseDown, false );
-  document.addEventListener( 'pointermove', onMouseMove, false );
-
 }
 
 function resizeRendererToDisplaySize(renderer) {
@@ -165,25 +141,24 @@ function resizeRendererToDisplaySize(renderer) {
     return needResize;
 }
 
-function raytest ( e, gui3D, mouse, camera, interactive ) {
+function guiInteract ( e, gui3D, camera, interactive ) {
   
-  mouse.set( (e.clientX / window.innerWidth) * 2 - 1, - ( e.clientY / window.innerHeight) * 2 + 1 );
-  raycaster.setFromCamera( mouse, camera );
+  raycaster.setFromCamera( e.selectedObject.position, camera );
   var intersects = raycaster.intersectObjects( interactive.children );
 
   if ( intersects.length > 0 ){
   
-      var uv = intersects[ 0 ].uv;
-      mouse2d.x = Math.round( uv.x*cw );
-      mouse2d.y = ch - Math.round( uv.y*ch );
+    var uv = intersects[ 0 ].uv;
+    mouse2d.x = Math.round( uv.x*cw );
+    mouse2d.y = ch - Math.round( uv.y*ch );
 
-      if( intersects[ 0 ].object.name === 'p1' ) gui3D.setMouse( mouse2d );
-      return true;
+    if( intersects[ 0 ].object.name === 'p1' ) gui3D.setMouse( mouse2d );
+    return true;
 
   } else {
 
-      if(gui3D)gui3D.reset( true );
-      return false;
+    if(gui3D)gui3D.reset( true );
+    return false;
   }
 
 }
