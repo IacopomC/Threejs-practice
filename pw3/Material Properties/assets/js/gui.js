@@ -26,6 +26,7 @@ function addGui(pointLight, cornellBoxObj) {
   // Vertex Colors
   ui.add('bool', { name:'Vertex Colors', }).onChange(
     function(value){
+      console.log(sphere.material);
       sphere.material.vertexColors = value;
       cone.material.vertexColors = value;
       cylinder.material.vertexColors = value;
