@@ -31,7 +31,7 @@ function main() {
   const near = 0.1;
   const far = 1000;
   const camera = new THREE.PerspectiveCamera( fov, aspect, near, far );
-  camera.position.set( 0, 12, 12 );
+  camera.position.set( 0, 4, 10 );
 
   // Controls
   const controls = new OrbitControls(camera, canvas);
@@ -103,35 +103,34 @@ function main() {
   cylinder.castShadow = true;
   cone.castShadow = true;
   
-  // Gui
-  var ui = new UIL.Gui( { css:'top:10px; left:20%;', size:300, center:true } );
+  // Gui 3D
+  const interactive = new THREE.Group();
+  scene.add(interactive);
+
+  const plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 3, 2 ), new THREE.MeshBasicMaterial( { transparent:true } ) );
+  //plane.geometry.rotateX( -Math.PI90 );
+  plane.position.set(1, 3, -2);
+  plane.visible = false;
+  plane.name = 'p1';
+
+  interactive.add( plane );
+
+  let ui3D = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true });
+  // Light intensity
+  ui3D.add( pointLight, 'intensity',
+  { type:'slide', titleColor:'black', min:0, max:10, precision:1, fontColor:'black'} ).listen();
   // Wireframe
-  ui.add('bool', { name:'Wireframe', }).onChange(
+  ui3D.add('bool', { name:'Wireframe', titleColor:'black' }).onChange(
     function(value){
       sphere.material.wireframe = value;
       cone.material.wireframe = value;
       cylinder.material.wireframe = value;
     }
   );
-  // Reflectivity
-  ui.add('slide', { min:0, max:1, value: 0.5, rename:'Reflective' }).onChange(
-    function(value){
-      sphere.material.reflectivity = value;
-      cone.material.reflectivity = value;
-      cylinder.material.reflectivity = value;
-    }
-  );
-  // Color
-  ui.add('color', { name:'Color', type:'rgba', value:[0,1,1,1]}).onChange(
-    function(color){
-      sphere.material.color.setHex(color);
-      cone.material.color.setHex(color);
-      cylinder.material.color.setHex(color);
-    }
-  );
+
   // Map
   const texture = new THREE.TextureLoader().load('./assets/img/earth.jpg');
-  ui.add('bool', { name:'Map'}).onChange(
+  ui3D.add('bool', { name:'Map', titleColor:'black'}).onChange(
     function(v){
       if (v) {
         sphere.material.color.setHex(0xFFFFFF);
@@ -160,7 +159,7 @@ function main() {
   // Alpha Map
   const textureChain = new THREE.TextureLoader().load('./assets/img/chainlink.png');
   const textureChainAlpha = new THREE.TextureLoader().load('./assets/img/chainlink_alpha.png');
-  ui.add('bool', { name:'Alpha Map'}).onChange(
+  ui3D.add('bool', { name:'Alpha Map', titleColor:'black'}).onChange(
     function(v){
       if (v) {
         sphere.material.color.setHex(0xFFFFFF);
@@ -203,28 +202,9 @@ function main() {
   );
 
   // Light Shadow Properties
-  ui.add( pointLight.shadow.mapSize, 'x', { min:0, max:512, value:512, rename:'Shadow X' } ).listen();
-  ui.add( pointLight.shadow.mapSize, 'y', { min:0, max:512, value:512, rename:'Shadow Y' } ).listen();
-  ui.add( pointLight.shadow, 'radius', { min:0, max:100, value:1, rename:'Shadow R' } ).listen();
-
-  // Gui 3D
-  const interactive = new THREE.Group();
-  scene.add(interactive);
-
-  const plane = new THREE.Mesh( new THREE.PlaneBufferGeometry( 6, 6 ), new THREE.MeshBasicMaterial( { transparent:true } ) );
-  //plane.geometry.rotateX( -Math.PI90 );
-  plane.position.set(0, 3, -3);
-  plane.visible = false;
-  plane.name = 'p1';
-
-  interactive.add( plane );
-
-  let ui3D = new UIL.Gui( { w:cw, maxHeight:ch, parent:null, isCanvas:true, close:true, transparent:true });
-  // Light intensity
-  ui3D.add( pointLight, 'intensity',
-  { type:'Circular', titleColor:'black', min:0, max:10, w:120, precision:1, fontColor:'black'} ).listen();
-  
-  //ui.add( pointLight, 'intensity', { min:0, max:5, rename:'Intensity' } ).listen();
+  ui3D.add( pointLight.shadow.mapSize, 'x', { min:0, max:512, value:512, rename:'Shadow X', titleColor:'black', color: 'black'} ).listen();
+  ui3D.add( pointLight.shadow.mapSize, 'y', { min:0, max:512, value:512, rename:'Shadow Y', titleColor:'black', color: 'black'} ).listen();
+  ui3D.add( pointLight.shadow, 'radius', { min:0, max:100, value:1, rename:'Shadow R', titleColor:'black', color: 'black'} ).listen();
 
   ui3D.onDraw = function () {
 
