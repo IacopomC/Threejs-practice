@@ -1,8 +1,10 @@
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+
+import cornellBox from './cornell_box.js';
+
 import 'https://lo-th.github.io/uil/build/uil.js';
 import 'https://lo-th.github.io/uil/examples/js/math.js';
-import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import cornellBox from './cornell_box.js';
 
 var cw = 120*3, ch=170;
 var screen = null;
