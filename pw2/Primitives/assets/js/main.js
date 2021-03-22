@@ -2,7 +2,7 @@ import * as THREE from '../../../../../node_modules/three/build/three.module.js'
 import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import createPrimitives from './primitives.js';
 
-const fontUrl = 'https://threejsfundamentals.org/threejs/resources/threejs/fonts/helvetiker_regular.typeface.json';
+const fontUrl = '../../../../../node_modules/three/examples/fonts/helvetiker_regular.typeface.json';
 const spread = 15;
 const z_spread = 50;
 
