@@ -8,6 +8,10 @@ let sceneL, sceneR;
 let cameraL, cameraR;
 let controlsL, controlsR;
 
+const fontUrl = '../../../../../node_modules/three/examples/fonts/helvetiker_regular.typeface.json';
+const spread = 15;
+const z_spread = 50;
+
 const clock = new THREE.Clock();
 
 function main() {
@@ -75,6 +79,14 @@ function initMeshes() {
             sceneR.add(primitive.clone());
         });
     });
+
+    addTextMesh(fontUrl, 0.5, sceneL);
+    addTextMesh(fontUrl, 1.5, sceneL);
+    addTextMesh(fontUrl, 2.5, sceneL);
+
+    addTextMesh(fontUrl, 0.5, sceneR);
+    addTextMesh(fontUrl, 1.5, sceneR);
+    addTextMesh(fontUrl, 2.5, sceneR);
 }
 
 function createGroundPattern(scene) {
@@ -115,6 +127,60 @@ function createGroundPattern(scene) {
         
         centers = [];
     });
+}
+
+function addObject(x, y, z, obj, scene) {
+    obj.position.x = x * spread;
+    obj.position.y = y * spread;
+    obj.position.z = z * z_spread;
+
+    scene.add(obj);
+}
+
+function createMaterial() {
+    const material = new THREE.MeshPhongMaterial({
+    side: THREE.DoubleSide,
+    });
+
+    const hue = Math.random();
+    const saturation = 1;
+    const luminance = .5;
+    material.color.setHSL(hue, saturation, luminance);
+
+    return material;
+}
+
+function addSolidGeometry(x, y, z, geometry, scene) {
+    const mesh = new THREE.Mesh(geometry, createMaterial());
+    addObject(x, y, z, mesh, scene);
+}
+
+function addTextMesh(fontUrl, z, scene) {
+    const loader = new THREE.FontLoader();
+    // promisify font loading
+    function loadFont(url) {
+    return new Promise((resolve, reject) => {
+        loader.load(url, resolve, undefined, reject);
+    });
+    }
+
+    async function doit() {
+    const font = await loadFont(fontUrl);  
+    const geometry = new THREE.TextGeometry('3D-XR', {
+        font: font,
+        size: 3.0,
+        height: .2,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.15,
+        bevelSize: .3,
+        bevelSegments: 5,
+    });
+
+    addSolidGeometry(-1.5, -1, z, geometry, scene);
+    }
+    doit();
+
 }
 
 function animate() {
