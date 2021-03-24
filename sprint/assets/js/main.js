@@ -5,6 +5,7 @@ import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRB
 import { BoxLineGeometry } from '../../../../../node_modules/three/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ControllerPickHelper from './controller_pick_helper.js';
+import PickHelper from './pick_helper.js';
 
 import {vertexShader, fragmentShader,
         elevationVertexShader, elevationFragmentShader,
@@ -57,13 +58,12 @@ init();
 
 function init() {
 
-  container = document.createElement('div');
-  document.body.appendChild(container);
+  const canvas = document.querySelector('#c');
+  const renderer = new THREE.WebGLRenderer({canvas});
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color( 0x505050 );
 
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.autoClear = false;
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -74,8 +74,6 @@ function init() {
   // Enable WebXR and add VR button to page
   renderer.xr.enabled = true;
   document.body.appendChild(VRButton.createButton(renderer));
-
-  container.appendChild(renderer.domElement);
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.001, 10);
   camera.position.set(0, 3, 3);
@@ -199,7 +197,7 @@ function init() {
     scene.add(plane);
 
     // Color Cloud
-    const colClDiscret = 1;
+    /* const colClDiscret = 1;
 
     var colorSpaceMaterial = new THREE.ShaderMaterial({
       vertexShader: colorCloudVertexShader,
@@ -229,7 +227,7 @@ function init() {
     points.position.set(-0.8, 1.8, 0.3);
     points.scale.set(0.5, 0.5, 0.5);
     scene.add(points);
-
+ */
     var pausePlayObj =
     {
       pausePlay: function () {
@@ -271,6 +269,40 @@ function init() {
     }   
   });
 
+  // Pick Helper mouse
+  const pickPosition = {x: 0, y: 0};
+  const pickHelper = new PickHelper();
+  clearPickPosition();
+
+  window.addEventListener('mousemove', setPickPosition);
+  window.addEventListener('mouseout', clearPickPosition);
+  window.addEventListener('mouseleave', clearPickPosition);
+  window.addEventListener('pointerdown', clickButton);
+
+  function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left) * canvas.width  / rect.width,
+      y: (event.clientY - rect.top ) * canvas.height / rect.height,
+    };
+  }
+
+  function setPickPosition(event) {
+    const pos = getCanvasRelativePosition(event);
+    pickPosition.x = (pos.x / canvas.width ) *  2 - 1;
+    pickPosition.y = - (pos.y / canvas.height) * 2 + 1;  // note we flip Y
+  }
+
+  function clearPickPosition() {
+    // Pick a value unlikely to pick something
+    pickPosition.x = -100000;
+    pickPosition.y = -100000;
+  }
+
+  function clickButton(event){
+    console.log(event);
+  }
+
   function render() {
     renderer.clear();
   
@@ -284,6 +316,7 @@ function init() {
     time *= 0.001;  // convert to seconds;
 
     controllerPickHelper.update(buttons, time);
+    pickHelper.pick(pickPosition, camera, buttons, time);
     render();
     // Let three js handle render loop
   }
