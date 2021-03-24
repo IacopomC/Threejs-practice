@@ -4,6 +4,7 @@ import {GUI} from "../../../../../node_modules/three/examples/jsm/libs/dat.gui.m
 import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
 import { BoxLineGeometry } from '../../../../../node_modules/three/examples/jsm/geometries/BoxLineGeometry.js';
 
+import ControllerPickHelper from './controller_pick_helper.js';
 
 import {vertexShader, fragmentShader,
         elevationVertexShader, elevationFragmentShader,
@@ -40,8 +41,9 @@ function IVprocess(imageProcessing, renderer) {
   renderer.setRenderTarget(null);
 };
 
-let camera, controls, scene, renderer, container;
+let camera, controls, scene, renderer, container, controllerPickHelper;
 let plane;
+const buttons = [];
 
 // VIDEO AND THE ASSOCIATED TEXTURE
 var video, videoTexture;
@@ -52,7 +54,6 @@ var imageProcessing, imageProcessingMaterial;
 var gui;
 
 init();
-animate();
 
 function init() {
 
@@ -148,21 +149,21 @@ function init() {
     // Add console buttons
     {
       const radius = 0.1;
-      addSolidGeometry(0.65, 2, 0, Math.PI/4, 0, -Math.PI/4, new THREE.TetrahedronGeometry(radius), 0xff0000, scene);
+      addSolidGeometry(0.65, 2, 0, Math.PI/4, 0, -Math.PI/4, new THREE.TetrahedronGeometry(radius), 0xff0000, scene, buttons);
     }
 
     {
       const width = 0.1;
       const height = 0.1;
       const depth = 0.05;
-      addSolidGeometry(0.65, 2.2, 0, 0, 0, 0, new THREE.BoxGeometry(width, height, depth), 0x00ff00, scene);
+      addSolidGeometry(0.65, 2.2, 0, 0, 0, 0, new THREE.BoxGeometry(width, height, depth), 0x00ff00, scene, buttons);
     }
 
     {
       const radius = 0.07;
       const widthSegments = 12;
       const heightSegments = 8;
-      addSolidGeometry(0.65, 1.8, 0, 0, 0, 0, new THREE.SphereGeometry(radius, widthSegments, heightSegments), 0x0000ff, scene);
+      addSolidGeometry(0.65, 1.8, 0, 0, 0, 0, new THREE.SphereGeometry(radius, widthSegments, heightSegments), 0x0000ff, scene, buttons);
     }
 
     // Elevation Map
@@ -261,22 +262,34 @@ function init() {
   video.muted = true;
   video.loop = true;
 
+  // Pick Helper controllers
+  const controllerPickHelper = new ControllerPickHelper(scene, renderer);
+
+  controllerPickHelper.addEventListener('selectstart', (event) => {
+    if (event.selectedObject){
+      console.log('item selected ', event.selectedObject)
+    }   
+  });
+
+  function render() {
+    renderer.clear();
+  
+    if (typeof imageProcessing !== "undefined")
+      IVprocess(imageProcessing, renderer);
+    renderer.render(scene, camera);
+  }
+  
+  function animate(time) {
+    controls.update();
+    time *= 0.001;  // convert to seconds;
+
+    controllerPickHelper.update(buttons, time);
+    render();
+    // Let three js handle render loop
+  }
+  renderer.setAnimationLoop(animate);
+
   window.addEventListener('resize', onWindowResize, false);
-}
-
-function render() {
-  renderer.clear();
-
-  if (typeof imageProcessing !== "undefined")
-    IVprocess(imageProcessing, renderer);
-  renderer.render(scene, camera);
-}
-
-function animate() {
-  controls.update();
-  render();
-  // Let three js handle render loop
-  renderer.setAnimationLoop(render);
 }
 
 function onWindowResize() {
@@ -286,16 +299,16 @@ function onWindowResize() {
   render();
 }
 
-function addSolidGeometry(x, y, z, thetax, thetay, thetaz, geometry, color, scene) {
+function addSolidGeometry(x, y, z, thetax, thetay, thetaz, geometry, color, scene, buttons) {
   const material = new THREE.MeshPhongMaterial({
     side: THREE.DoubleSide,
     color: color
   });
   const mesh = new THREE.Mesh(geometry, material);
-  addObject(x, y, z, thetax, thetay, thetaz, mesh, scene);
+  addObject(x, y, z, thetax, thetay, thetaz, mesh, scene, buttons);
 }
 
-function addObject(x, y, z, thetax, thetay, thetaz, obj, scene) {
+function addObject(x, y, z, thetax, thetay, thetaz, obj, scene, buttons) {
   obj.position.x = x;
   obj.position.y = y;
   obj.position.z = z;
@@ -306,4 +319,5 @@ function addObject(x, y, z, thetax, thetay, thetaz, obj, scene) {
   obj.rotation.set(thetax, thetay, thetaz);
 
   scene.add(obj);
+  buttons.push(obj)
 }
