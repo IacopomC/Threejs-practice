@@ -225,6 +225,8 @@ function init() {
     geometry.computeBoundingSphere();
 
     const points = new THREE.Points(geometry, colorSpaceMaterial);
+    points.position.set(-0.8, 1.8, 0.3);
+    points.scale.set(0.5, 0.5, 0.5);
     scene.add(points);
 
     var pausePlayObj =
