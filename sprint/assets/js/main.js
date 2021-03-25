@@ -231,6 +231,7 @@ function init() {
     points.scale.set(0.5, 0.5, 0.5);
     scene.add(points);
  */
+    // comment
 
     //video.play();
 
