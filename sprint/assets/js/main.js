@@ -45,7 +45,12 @@ function IVprocess(imageProcessing, renderer) {
 
 let camera, controls, scene, renderer;
 let plane;
+
+
 let buttons = [];
+let colorSpace = 0;
+let colorChannel = 0;
+let colorSpaceRange = 1.0;
 
 // VIDEO AND THE ASSOCIATED TEXTURE
 var video, videoTexture;
@@ -155,9 +160,6 @@ function init() {
     // Add play/stop buttons
     buttons = createConsole(scene);
 
-    let colorSpace = 1;
-    let colorChannel = 0;
-    let colorSpaceRange = 100.0;
     // Elevation Map
     elevationMap(scene, video, videoTexture, colorSpace, colorChannel, colorSpaceRange);
 
@@ -232,6 +234,51 @@ function init() {
           break;
         case 'addSecs':
           video.currentTime = video.currentTime + 10;
+          break;
+        case 'stop':
+          video.pause();
+          break;
+        case 'channel1':
+          console.log(selecteObj.name);
+          colorChannel = 0;
+          break;
+        case 'channel2':
+          console.log(selecteObj.name);
+          colorChannel = 1;
+          break;
+        case 'channel3':
+          console.log(selecteObj.name);
+          colorChannel = 2;
+          break;
+        case 'RGB':
+          console.log(selecteObj.name);
+          colorSpace = 1;
+          colorSpaceRange = 1.0;
+          break;
+        case 'Yxy':
+          console.log(selecteObj.name);
+          colorSpace = 1;
+          colorSpaceRange = 100.0;
+          break;
+        case 'LAB':
+          console.log(selecteObj.name);
+          colorSpace = 2;
+          colorSpaceRange = 200.0;
+          break;
+        case 'HCV':
+          console.log(selecteObj.name);
+          colorSpace = 3;
+          colorSpaceRange = 1.0;
+          break;
+        case 'HSV':
+          console.log(selecteObj.name);
+          colorSpace = 4;
+          colorSpaceRange = 1.0;
+          break;
+        case 'HSL':
+          console.log(selecteObj.name);
+          colorSpace = 5;
+          colorSpaceRange = 1.0;
           break;
         default:
           console.log('Select action');
