@@ -163,6 +163,7 @@ function init() {
 
     // Add play/stop buttons
     buttons = createConsole(scene);
+    console.log(buttons)
 
     // Elevation Map
     elevationMapPlane = elevationMap(scene, video, videoTexture, colorSpace, colorChannel);

@@ -97,3 +97,65 @@ function addObject(x, y, z, thetax, thetay, thetaz, obj, scene, buttons, name) {
     scene.add(obj);
     buttons.push(obj);
 }
+
+function createChannelButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene, text, name, buttons) {
+
+    const loader = new THREE.FontLoader();
+    // promisify font loading
+    function loadFont(url) {
+    return new Promise((resolve, reject) => {
+        loader.load(url, resolve, undefined, reject);
+    });
+    }
+
+    async function doit() {
+    const font = await loadFont(fontUrl);  
+    let geometry = new THREE.TextGeometry(text, {
+        font: font,
+        size: 3.0,
+        height: .2,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.015,
+        bevelSize: .03,
+        bevelSegments: 5,
+    });
+
+    let material = new THREE.MeshLambertMaterial({
+        side: THREE.DoubleSide,
+        color: 'black'
+    });
+    let mesh = new THREE.Mesh(geometry, material);
+
+    //mesh.scale.set(0.009, 0.009, 0.009);
+    mesh.position.set(x, y, z);
+    mesh.rotation.set(thetax, thetay, thetaz);
+
+    scene.add(mesh);
+
+    const radius = 0.05;
+    const widthSegments = 12;
+    const heightSegments = 8;
+
+    geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+
+    material = new THREE.MeshLambertMaterial({
+        side: THREE.DoubleSide,
+        color: 0x0000ff
+    });
+
+    mesh = new THREE.Mesh(geometry, material);
+
+    mesh.name = name;
+
+    mesh.position.set(x, y, z);
+    mesh.rotation.set(thetax, thetay, thetaz);
+
+    scene.add(mesh);
+
+    buttons.push(mesh);
+
+    }
+    doit();
+
+}
