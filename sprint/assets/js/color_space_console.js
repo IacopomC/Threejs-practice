@@ -11,7 +11,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 1.9, 0.2, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'channel1');
     }
 
     {
@@ -20,7 +20,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 1.9, 0.5, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'channel2');
     }
 
     {
@@ -29,7 +29,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 1.9, 0.8, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'channel3');
     }
 
     {
@@ -38,7 +38,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.1, 0.2, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'RGB');
     }
 
     {
@@ -47,7 +47,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.1, 0.5, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'Yxy');
     }
 
     {
@@ -56,7 +56,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.1, 0.8, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'LAB');
     }
 
     {
@@ -65,7 +65,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.3, 0.2, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'HCV');
     }
 
     {
@@ -74,7 +74,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.3, 0.5, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'HSV');
     }
 
     {
@@ -83,7 +83,7 @@ function colorSpaceConsole(scene) {
         const depth = 0.05;
         addSolidGeometry(1.4, 2.3, 0.8, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'stop');
+            buttons, 'HSL');
     }
 
     return buttons

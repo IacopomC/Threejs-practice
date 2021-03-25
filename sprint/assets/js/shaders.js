@@ -103,7 +103,7 @@ const elevationVertexShader =
 			selColSpace = color.rgb;
 		}
 		else if(colorSpace == 1) {
-			selColSpace = rgb2xyz( color.rgb );
+			selColSpace = rgb2yxy( color.rgb );
 		}
 		else if(colorSpace == 2) {
 			selColSpace = rgb2lab( color.rgb );
@@ -116,9 +116,6 @@ const elevationVertexShader =
 		}
 		else if(colorSpace == 5) {
 			selColSpace = RGBtoHSL( color.rgb );
-		}
-		else if(colorSpace == 6) {
-			selColSpace = rgb2yxy( color.rgb );
 		}
 		
 		if(colorChannel == 0) {
@@ -243,7 +240,7 @@ const colorCloudVertexShader =
 			selColSpace = color.rgb;
 		}
 		else if(colorSpace == 1) {
-			selColSpace = rgb2xyz( color.rgb );
+			selColSpace = rgb2yxy( color.rgb );
 		}
 		else if(colorSpace == 2) {
 			selColSpace = rgb2lab( color.rgb );
@@ -256,9 +253,6 @@ const colorCloudVertexShader =
 		}
 		else if(colorSpace == 5) {
 			selColSpace = RGBtoHSL( color.rgb );
-		}
-		else if(colorSpace == 6) {
-			selColSpace = rgb2yxy( color.rgb );
 		}
 
 		return selColSpace;
