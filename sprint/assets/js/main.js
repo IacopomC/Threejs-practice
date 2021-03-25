@@ -182,7 +182,9 @@ function init() {
         discret: { value: discret },
         scaleElevation: { value: scaleElevation },
         tex: { value: videoTexture },
-        stepPixel: { type: '2f', value: new THREE.Vector2( 1.0/(video.videoWidth-1.0), 1.0/(video.videoHeight-1.0) )}
+        stepPixel: { type: '2f', value: new THREE.Vector2( 1.0/(video.videoWidth-1.0), 1.0/(video.videoHeight-1.0) )},
+        colorSpace: {type: "i", value: 0},
+        colorChannel: {type: "i", value: 0}
         },
 
         vertexShader: elevationVertexShader,
@@ -200,13 +202,14 @@ function init() {
     scene.add(plane);
 
     // Color Cloud
-    /* const colClDiscret = 1;
+    const colClDiscret = 1;
 
     var colorSpaceMaterial = new THREE.ShaderMaterial({
       vertexShader: colorCloudVertexShader,
       fragmentShader: colorCloudFragmentShader,
       uniforms: {
         tex: { value: videoTexture },
+        colorSpace: {value: 0}
       }
     });
 
@@ -230,9 +233,7 @@ function init() {
     points.position.set(-0.8, 1.8, 0.3);
     points.scale.set(0.5, 0.5, 0.5);
     scene.add(points);
- */
-    // comment
-
+ 
     //video.play();
 
   };

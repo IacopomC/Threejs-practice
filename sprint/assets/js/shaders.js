@@ -25,6 +25,8 @@ const elevationVertexShader =
 	uniform vec3 lightDir;
 	uniform float lightIntensity;
 	uniform sampler2D tex;
+	uniform int colorSpace;
+	uniform int colorChannel;
 	
 	varying vec2 vUv;
 	varying float NdotL;
@@ -32,8 +34,21 @@ const elevationVertexShader =
 
 	float function ( vec4 color )
 	{
+		vec4 colorRGB = color;
+		if(colorSpace == 0) {
+			color = colorRGB;
+		}
+		if(colorChannel == 0) {
+			return length ( color.x );
+		}
+		else if(colorChannel == 1) {
+			return length ( color.y );
+		}
+		if(colorChannel == 2) {
+			return length ( color.z );
+		}
 		return length ( color.rgb );
-	} 
+	}
 
 	void main() {
 		vUv = uv;
