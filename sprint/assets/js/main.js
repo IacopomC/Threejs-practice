@@ -196,7 +196,10 @@ function init() {
   window.addEventListener('mousemove', setPickPosition);
   window.addEventListener('mouseout', clearPickPosition);
   window.addEventListener('mouseleave', clearPickPosition);
-  window.addEventListener('pointerdown', clickButton);
+  window.addEventListener('pointerdown', () => {
+      clickButton(pickHelper.pickedObject);
+    }
+  );
 
   function getCanvasRelativePosition(event) {
     const rect = canvas.getBoundingClientRect();
@@ -218,9 +221,9 @@ function init() {
     pickPosition.y = -100000;
   }
 
-  function clickButton(){
-    if(pickHelper.pickedObject) {
-      switch(pickHelper.pickedObject.name){
+  function clickButton(selecteObj){
+    if(selecteObj) {
+      switch(selecteObj.name){
         case 'stop':
           video.pause();
           break;
