@@ -42,7 +42,7 @@ function IVprocess(imageProcessing, renderer) {
   renderer.setRenderTarget(null);
 };
 
-let camera, controls, scene, renderer, container, controllerPickHelper;
+let camera, controls, scene, renderer;
 let plane;
 let buttons = [];
 
@@ -107,11 +107,20 @@ function init() {
   }
 
   const room = new THREE.LineSegments(
-    new BoxLineGeometry( 3, 3, 3, 10, 10, 10 ),
+    new BoxLineGeometry( 3, 2.99, 3, 10, 10, 10 ),
     new THREE.LineBasicMaterial( { color: 0x808080 } )
   );
   room.geometry.translate( 0, 1.5, 0 );
   scene.add( room );
+
+  // Add floor
+  const floor_geometry = new THREE.PlaneGeometry(3, 3);
+  var floor_material = new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide});
+  const floor = new THREE.Mesh(floor_geometry, floor_material);
+  floor.position.set(0, 0, 0);
+  floor.rotation.set(Math.PI/2, 0, 0);
+  floor.receiveShadow = false;
+  scene.add(floor);
 
   video = document.createElement('video');
 
@@ -142,13 +151,16 @@ function init() {
     plane.castShadow = true;
     scene.add(plane);
 
+    // Add play/stop buttons
     buttons = createConsole(scene);
 
     // Elevation Map
     elevationMap(scene, video, videoTexture);
 
     // Color Cloud
-    colorCloud(scene, video, videoTexture);
+    //colorCloud(scene, video, videoTexture);
+
+    // Add color space buttons
  
     //video.play();
 
