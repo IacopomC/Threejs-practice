@@ -63,10 +63,12 @@ function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.computeBoundingSphere();
 
-    points = new THREE.Points(geometry, colorSpaceMaterial);
-    points.position.set(-0.8, 1.8, 0.3);
-    points.scale.set(0.5, 0.5, 0.5);
-    scene.add(points);
+    let pointsShadow = new THREE.Points(geometry, colorSpaceMaterial);
+    pointsShadow.position.set(-0.8, 1.8, 0.3);
+    pointsShadow.scale.set(0.5, 0.5, 0.5);
+    scene.add(pointsShadow);
+
+    return [points, pointsShadow];
 }
 
 export default colorCloud;

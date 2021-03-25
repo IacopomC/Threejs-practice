@@ -52,6 +52,10 @@ let colorSpace = 1;
 let colorChannel = 2;
 let ccLab = 1.0;
 
+let elevationMapPlane;
+let colorCloudObj;
+let colorCloudObjShadow;
+
 // VIDEO AND THE ASSOCIATED TEXTURE
 var video, videoTexture;
 
@@ -161,10 +165,10 @@ function init() {
     buttons = createConsole(scene);
 
     // Elevation Map
-    elevationMap(scene, video, videoTexture, colorSpace, colorChannel);
+    elevationMapPlane = elevationMap(scene, video, videoTexture, colorSpace, colorChannel);
 
     // Color Cloud
-    colorCloud(scene, video, videoTexture, colorSpace, ccLab);
+    [colorCloudObj, colorCloudObjShadow] = colorCloud(scene, video, videoTexture, colorSpace, ccLab);
 
     // Add color space buttons
     const colorSpaceButtons = colorSpaceConsole(scene);
@@ -240,35 +244,55 @@ function init() {
           break;
         case 'channel1':
           console.log(selecteObj.name);
-          colorChannel = 0;
+          elevationMapPlane.material.uniforms.colorChannel.value = 0;
           break;
         case 'channel2':
           console.log(selecteObj.name);
-          colorChannel = 1;
+          elevationMapPlane.material.uniforms.colorChannel.value = 1;
           break;
         case 'channel3':
           console.log(selecteObj.name);
-          colorChannel = 2;
+          elevationMapPlane.material.uniforms.colorChannel.value = 2;
           break;
         case 'RGB':
           console.log(selecteObj.name);
-          colorSpace = 1;
-          ccLab = 1.0;
+          elevationMapPlane.material.uniforms.colorSpace.value = 0;
+
+          colorCloudObj.material.uniforms.colorSpace.value = 0;
+          colorCloudObj.material.uniforms.ccLab.value = 1.0;
+
+          colorCloudObjShadow.material.uniforms.colorSpace.value = 0;
+          colorCloudObjShadow.material.uniforms.ccLab.value = 1.0;
           break;
         case 'Yxy':
           console.log(selecteObj.name);
-          colorSpace = 1;
-          ccLab = 1.0;
+          elevationMapPlane.material.uniforms.colorSpace.value = 1;
+
+          colorCloudObj.material.uniforms.colorSpace.value = 1;
+          colorCloudObj.material.uniforms.ccLab.value = 1.0;
+
+          colorCloudObjShadow.material.uniforms.colorSpace.value = 1;
+          colorCloudObjShadow.material.uniforms.ccLab.value = 1.0;
           break;
         case 'LAB':
           console.log(selecteObj.name);
-          colorSpace = 2;
-          ccLab = 100.0;
+          elevationMapPlane.material.uniforms.colorSpace.value = 2;
+
+          colorCloudObj.material.uniforms.colorSpace.value = 2;
+          colorCloudObj.material.uniforms.ccLab.value = 100.0;
+
+          colorCloudObjShadow.material.uniforms.colorSpace.value = 2;
+          colorCloudObjShadow.material.uniforms.ccLab.value = 100.0;
           break;
         case 'HSV':
           console.log(selecteObj.name);
-          colorSpace = 3;
-          ccLab = 1.0;
+          elevationMapPlane.material.uniforms.colorSpace.value = 3;
+
+          colorCloudObj.material.uniforms.colorSpace.value = 3;
+          colorCloudObj.material.uniforms.ccLab.value = 1.0;
+
+          colorCloudObjShadow.material.uniforms.colorSpace.value = 3;
+          colorCloudObjShadow.material.uniforms.ccLab.value = 1.0;
           break;
         default:
           console.log('Select action');

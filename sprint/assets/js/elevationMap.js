@@ -36,6 +36,8 @@ function elevationMap (scene, video, videoTexture, colorSpace, colorChannel) {
     plane.rotation.set(-Math.PI/2, 0, -Math.PI/2);
 
     scene.add(plane);
+
+    return plane;
 }
 
 export default elevationMap;
