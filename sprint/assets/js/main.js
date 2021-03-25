@@ -8,6 +8,7 @@ import PickHelper from './pick_helper.js';
 import createConsole from './console_buttons.js';
 import elevationMap from './elevationMap.js';
 import colorCloud from './color_cloud.js';
+import colorSpaceConsole from './color_space_console.js';
 
 import {vertexShader, fragmentShader} from "./shaders.js";
 
@@ -164,6 +165,9 @@ function init() {
     colorCloud(scene, video, videoTexture, colorSpace);
 
     // Add color space buttons
+    const colorSpaceButtons = colorSpaceConsole(scene);
+
+    buttons = [...buttons, ...colorSpaceButtons];
  
     //video.play();
 
