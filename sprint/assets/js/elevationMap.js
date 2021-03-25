@@ -1,7 +1,7 @@
 import {elevationVertexShader, elevationFragmentShader} from "./shaders.js";
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 
-function elevationMap (scene, video, videoTexture) {
+function elevationMap (scene, video, videoTexture, colorSpace, colorChannel, colorSpaceRange) {
 
     // Elevation Map
     const lightDir = new THREE.Vector3 (-.5,-.5,.9);
@@ -19,8 +19,9 @@ function elevationMap (scene, video, videoTexture) {
         scaleElevation: { value: scaleElevation },
         tex: { value: videoTexture },
         stepPixel: { type: '2f', value: new THREE.Vector2( 1.0/(video.videoWidth-1.0), 1.0/(video.videoHeight-1.0) )},
-        colorSpace: {type: "i", value: 1},
-        colorChannel: {type: "i", value: 0}
+        colorSpace: {type: "i", value: colorSpace},
+        colorSpaceRange: {value: colorSpaceRange},
+        colorChannel: {type: "i", value:colorChannel}
         },
 
         vertexShader: elevationVertexShader,

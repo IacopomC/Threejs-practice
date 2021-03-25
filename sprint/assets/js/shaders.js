@@ -27,6 +27,7 @@ const elevationVertexShader =
 	uniform sampler2D tex;
 	uniform int colorSpace;
 	uniform int colorChannel;
+	uniform float colorSpaceRange;
 	
 	varying vec2 vUv;
 	varying float NdotL;
@@ -121,7 +122,7 @@ const elevationVertexShader =
 		vUv = uv;
 		float l = function ( texture2D ( tex, vUv ) );
 		vec3 tmp = position;
-		tmp.z = -(tmp.z + l*scaleElevation);
+		tmp.z = -(tmp.z + l*scaleElevation) / colorSpaceRange;
 
 		float diffX = function(texture2D (tex, vUv+vec2 (stepPixel.x*discret,0.0 ) ))-function(texture2D (tex, vUv+vec2 (-stepPixel.x*discret,0.0 ) ));
 		float diffY = function(texture2D (tex, vUv+vec2 (0.0,stepPixel.y*discret ) ))-function(texture2D (tex, vUv+vec2 (0.0,-stepPixel.y*discret ) ));

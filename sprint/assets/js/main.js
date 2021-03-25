@@ -154,8 +154,11 @@ function init() {
     // Add play/stop buttons
     buttons = createConsole(scene);
 
+    let colorSpace = 1;
+    let colorChannel = 2;
+    let colorSpaceRange = 100.0;
     // Elevation Map
-    elevationMap(scene, video, videoTexture);
+    elevationMap(scene, video, videoTexture, colorSpace, colorChannel, colorSpaceRange);
 
     // Color Cloud
     //colorCloud(scene, video, videoTexture);
