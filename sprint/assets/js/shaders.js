@@ -169,6 +169,7 @@ const colorCloudVertexShader =
 	`
 	uniform sampler2D tex;
 	uniform int colorSpace;
+	uniform float shadow;
 	
 	varying vec3 color;
 
@@ -265,6 +266,7 @@ const colorCloudVertexShader =
 
 	void main() {
 		color = function(texture2D ( tex, position.xy ));
+		color.y = shadow * color.y;
 		gl_PointSize = 1.0;
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(color-vec3(.5,.5,.5), 1.0);
 	}
