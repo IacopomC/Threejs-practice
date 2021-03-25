@@ -34,6 +34,7 @@ const elevationVertexShader =
 
 	const float EPSILON = 1e-10;
 
+	// RGB to XYZ
 	vec3 rgb2xyz( vec3 c ) {
 		vec3 tmp;
 		tmp.x = ( c.r > 0.04045 ) ? pow( ( c.r + 0.055 ) / 1.055, 2.4 ) : c.r / 12.92;
@@ -44,7 +45,16 @@ const elevationVertexShader =
 				  0.2126, 0.7152, 0.0722,
 				  0.0193, 0.1192, 0.9505 );
 	}
+
+	// RGB to Yxy via xyz
+	vec3 xyz2yxy(vec3 c){
+		float s=c.x+c.y+c.z;
+		return vec3(c.y,c.x/s,c.y/s); //Blue's within s.
+	}
+
+	vec3 rgb2yxy(vec3 c){return xyz2yxy(rgb2xyz(c));}
 	
+	// RGB to LAB via xyz
 	vec3 xyz2lab( vec3 c ) {
 		vec3 n = c / vec3( 95.047, 100, 108.883 );
 		vec3 v;
@@ -59,6 +69,7 @@ const elevationVertexShader =
 		return vec3( lab.x / 100.0, 0.5 + 0.5 * ( lab.y / 127.0 ), 0.5 + 0.5 * ( lab.z / 127.0 ));
 	}
 
+	// RGB to HSV via HCV
 	vec3 RGBtoHCV(vec3 rgb)
 	{
 		vec4 p = (rgb.g < rgb.b) ? vec4(rgb.bg, -1., 2. / 3.) : vec4(rgb.gb, 0., -1. / 3.);
@@ -75,6 +86,7 @@ const elevationVertexShader =
 		return vec3(hcv.x, s, hcv.z);
 	}
 
+	// RGB to HSL via HCV
 	vec3 RGBtoHSL(vec3 rgb)
 	{
 		vec3 hcv = RGBtoHCV(rgb);
@@ -104,6 +116,9 @@ const elevationVertexShader =
 		}
 		else if(colorSpace == 5) {
 			selColSpace = RGBtoHSL( color.rgb );
+		}
+		else if(colorSpace == 6) {
+			selColSpace = rgb2yxy( color.rgb );
 		}
 		
 		if(colorChannel == 0) {
