@@ -49,7 +49,7 @@ let plane;
 
 let buttons = [];
 let colorSpace = 1;
-let colorChannel = 2;
+let colorChannel = 0;
 let colorSpaceRange = 100.0;
 
 // VIDEO AND THE ASSOCIATED TEXTURE
@@ -164,7 +164,7 @@ function init() {
     elevationMap(scene, video, videoTexture, colorSpace, colorChannel, colorSpaceRange);
 
     // Color Cloud
-    colorCloud(scene, video, videoTexture, colorSpace);
+    //colorCloud(scene, video, videoTexture, colorSpace);
 
     // Add color space buttons
     const colorSpaceButtons = colorSpaceConsole(scene);
