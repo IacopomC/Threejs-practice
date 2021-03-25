@@ -183,7 +183,7 @@ function init() {
         scaleElevation: { value: scaleElevation },
         tex: { value: videoTexture },
         stepPixel: { type: '2f', value: new THREE.Vector2( 1.0/(video.videoWidth-1.0), 1.0/(video.videoHeight-1.0) )},
-        colorSpace: {type: "i", value: 0},
+        colorSpace: {type: "i", value: 1},
         colorChannel: {type: "i", value: 0}
         },
 
