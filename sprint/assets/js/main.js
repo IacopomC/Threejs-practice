@@ -48,9 +48,9 @@ let plane;
 
 
 let buttons = [];
-let colorSpace = 0;
-let colorChannel = 0;
-let colorSpaceRange = 1.0;
+let colorSpace = 1;
+let colorChannel = 2;
+let colorSpaceRange = 100.0;
 
 // VIDEO AND THE ASSOCIATED TEXTURE
 var video, videoTexture;
@@ -265,19 +265,9 @@ function init() {
           colorSpace = 2;
           colorSpaceRange = 200.0;
           break;
-        case 'HCV':
-          console.log(selecteObj.name);
-          colorSpace = 3;
-          colorSpaceRange = 1.0;
-          break;
         case 'HSV':
           console.log(selecteObj.name);
-          colorSpace = 4;
-          colorSpaceRange = 1.0;
-          break;
-        case 'HSL':
-          console.log(selecteObj.name);
-          colorSpace = 5;
+          colorSpace = 3;
           colorSpaceRange = 1.0;
           break;
         default:

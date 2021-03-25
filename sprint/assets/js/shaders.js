@@ -109,10 +109,10 @@ const elevationVertexShader =
 			selColSpace = rgb2lab( color.rgb );
 		}
 		else if(colorSpace == 3) {
-			selColSpace = RGBtoHCV( color.rgb );
+			selColSpace = RGBtoHSV( color.rgb );
 		}
 		else if(colorSpace == 4) {
-			selColSpace = RGBtoHSV( color.rgb );
+			selColSpace = RGBtoHCV( color.rgb );
 		}
 		else if(colorSpace == 5) {
 			selColSpace = RGBtoHSL( color.rgb );
@@ -246,10 +246,10 @@ const colorCloudVertexShader =
 			selColSpace = rgb2lab( color.rgb );
 		}
 		else if(colorSpace == 3) {
-			selColSpace = RGBtoHCV( color.rgb );
+			selColSpace = RGBtoHSV( color.rgb );
 		}
 		else if(colorSpace == 4) {
-			selColSpace = RGBtoHSV( color.rgb );
+			selColSpace = RGBtoHCV( color.rgb );
 		}
 		else if(colorSpace == 5) {
 			selColSpace = RGBtoHSL( color.rgb );

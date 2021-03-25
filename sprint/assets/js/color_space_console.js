@@ -63,27 +63,9 @@ function colorSpaceConsole(scene) {
         const width = 0.2;
         const height = 0.1;
         const depth = 0.05;
-        addSolidGeometry(1.4, 2.3, 0.2, 0, Math.PI/2, 0,
-            new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'HCV');
-    }
-
-    {
-        const width = 0.2;
-        const height = 0.1;
-        const depth = 0.05;
         addSolidGeometry(1.4, 2.3, 0.5, 0, Math.PI/2, 0,
             new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
             buttons, 'HSV');
-    }
-
-    {
-        const width = 0.2;
-        const height = 0.1;
-        const depth = 0.05;
-        addSolidGeometry(1.4, 2.3, 0.8, 0, Math.PI/2, 0,
-            new THREE.BoxGeometry(width, height, depth), 0xd15241, scene,
-            buttons, 'HSL');
     }
 
     return buttons
