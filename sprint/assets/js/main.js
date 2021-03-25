@@ -49,8 +49,8 @@ let plane;
 
 let buttons = [];
 let colorSpace = 1;
-let colorChannel = 0;
-let colorSpaceRange = 100.0;
+let colorChannel = 2;
+let ccLab = 1.0;
 
 // VIDEO AND THE ASSOCIATED TEXTURE
 var video, videoTexture;
@@ -161,10 +161,10 @@ function init() {
     buttons = createConsole(scene);
 
     // Elevation Map
-    elevationMap(scene, video, videoTexture, colorSpace, colorChannel, colorSpaceRange);
+    elevationMap(scene, video, videoTexture, colorSpace, colorChannel);
 
     // Color Cloud
-    //colorCloud(scene, video, videoTexture, colorSpace);
+    colorCloud(scene, video, videoTexture, colorSpace, ccLab);
 
     // Add color space buttons
     const colorSpaceButtons = colorSpaceConsole(scene);
@@ -253,22 +253,22 @@ function init() {
         case 'RGB':
           console.log(selecteObj.name);
           colorSpace = 1;
-          colorSpaceRange = 1.0;
+          ccLab = 1.0;
           break;
         case 'Yxy':
           console.log(selecteObj.name);
           colorSpace = 1;
-          colorSpaceRange = 100.0;
+          ccLab = 1.0;
           break;
         case 'LAB':
           console.log(selecteObj.name);
           colorSpace = 2;
-          colorSpaceRange = 200.0;
+          ccLab = 100.0;
           break;
         case 'HSV':
           console.log(selecteObj.name);
           colorSpace = 3;
-          colorSpaceRange = 1.0;
+          ccLab = 1.0;
           break;
         default:
           console.log('Select action');

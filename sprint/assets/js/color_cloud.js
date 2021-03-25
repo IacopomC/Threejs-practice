@@ -1,7 +1,7 @@
 import {colorCloudVertexShader, colorCloudFragmentShader} from "./shaders.js";
 import * as THREE from '../../../../../node_modules/three/build/three.module.js';
 
-function colorCloud(scene, video, videoTexture, colorSpace) {
+function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     const colClDiscret = 1;
 
     let colorSpaceMaterial = new THREE.ShaderMaterial({
@@ -10,6 +10,7 @@ function colorCloud(scene, video, videoTexture, colorSpace) {
       uniforms: {
         tex: { value: videoTexture },
         colorSpace: {value: colorSpace},
+        ccLab: {value: ccLab},
         shadow : {value: 1.0}
       }
     });
@@ -41,6 +42,7 @@ function colorCloud(scene, video, videoTexture, colorSpace) {
       uniforms: {
         tex: { value: videoTexture },
         colorSpace: {value: colorSpace},
+        ccLab: {value: ccLab},
         shadow : {value: 0.0}
       }
     });

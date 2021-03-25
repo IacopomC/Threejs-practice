@@ -27,7 +27,6 @@ const elevationVertexShader =
 	uniform sampler2D tex;
 	uniform int colorSpace;
 	uniform int colorChannel;
-	uniform float colorSpaceRange;
 	
 	varying vec2 vUv;
 	varying float NdotL;
@@ -40,7 +39,7 @@ const elevationVertexShader =
 		tmp.x = ( c.r > 0.04045 ) ? pow( ( c.r + 0.055 ) / 1.055, 2.4 ) : c.r / 12.92;
 		tmp.y = ( c.g > 0.04045 ) ? pow( ( c.g + 0.055 ) / 1.055, 2.4 ) : c.g / 12.92,
 		tmp.z = ( c.b > 0.04045 ) ? pow( ( c.b + 0.055 ) / 1.055, 2.4 ) : c.b / 12.92;
-		return 100.0 * tmp *
+		return tmp *
 			mat3( 0.4124, 0.3576, 0.1805,
 				  0.2126, 0.7152, 0.0722,
 				  0.0193, 0.1192, 0.9505 );
@@ -134,7 +133,7 @@ const elevationVertexShader =
 		vUv = uv;
 		float l = function ( texture2D ( tex, vUv ) );
 		vec3 tmp = position;
-		tmp.z = -(tmp.z + l*scaleElevation) / colorSpaceRange;
+		tmp.z = -(tmp.z + l*scaleElevation);
 
 		float diffX = function(texture2D (tex, vUv+vec2 (stepPixel.x*discret,0.0 ) ))-function(texture2D (tex, vUv+vec2 (-stepPixel.x*discret,0.0 ) ));
 		float diffY = function(texture2D (tex, vUv+vec2 (0.0,stepPixel.y*discret ) ))-function(texture2D (tex, vUv+vec2 (0.0,-stepPixel.y*discret ) ));
@@ -167,6 +166,7 @@ const colorCloudVertexShader =
 	uniform sampler2D tex;
 	uniform int colorSpace;
 	uniform float shadow;
+	uniform float ccLab;
 	
 	varying vec3 color;
 
@@ -178,7 +178,7 @@ const colorCloudVertexShader =
 		tmp.x = ( c.r > 0.04045 ) ? pow( ( c.r + 0.055 ) / 1.055, 2.4 ) : c.r / 12.92;
 		tmp.y = ( c.g > 0.04045 ) ? pow( ( c.g + 0.055 ) / 1.055, 2.4 ) : c.g / 12.92,
 		tmp.z = ( c.b > 0.04045 ) ? pow( ( c.b + 0.055 ) / 1.055, 2.4 ) : c.b / 12.92;
-		return tmp *
+		return ccLab * tmp *
 			mat3( 0.4124, 0.3576, 0.1805,
 				  0.2126, 0.7152, 0.0722,
 				  0.0193, 0.1192, 0.9505 );
@@ -259,6 +259,8 @@ const colorCloudVertexShader =
 	}
 
 	void main() {
+		vec3 tmp = position;
+		tmp = tmp * ccLab;
 		color = function(texture2D ( tex, position.xy ));
 		color.y = shadow * color.y;
 		gl_PointSize = 1.0;
