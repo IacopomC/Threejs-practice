@@ -6,13 +6,21 @@ function createConsole(scene) {
   let buttons = [];
   // Add console buttons
   {
-    const width = 0.1;
+    const width = 0.03;
     const height = 0.1;
     const depth = 0.05;
     addSolidGeometry(0.65, 2.2, 0, 0, 0, 0,
         new THREE.BoxGeometry(width, height, depth), 0x131414, scene,
         buttons, 'stop');
-    }
+  }
+  {
+    const width = 0.03;
+    const height = 0.1;
+    const depth = 0.05;
+    addSolidGeometry(0.6, 2.2, 0, 0, 0, 0,
+        new THREE.BoxGeometry(width, height, depth), 0x131414, scene,
+        buttons, 'stop');
+  }
 
   {
   const radius = 0.05;
