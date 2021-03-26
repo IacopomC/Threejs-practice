@@ -1,6 +1,6 @@
-import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
 
-const fontUrl = '../../../../../node_modules/three/examples/fonts/helvetiker_regular.typeface.json';
+const fontUrl = 'https://threejsfundamentals.org/threejs/resources/threejs/fonts/helvetiker_regular.typeface.json';
 
 function colorSpaceConsole(scene) {
 

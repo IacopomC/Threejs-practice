@@ -1,5 +1,5 @@
 import {colorCloudVertexShader, colorCloudFragmentShader} from "./shaders.js";
-import * as THREE from '../../../../../node_modules/three/build/three.module.js';
+import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
 
 function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     const colClDiscret = 1;

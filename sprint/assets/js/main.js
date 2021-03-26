@@ -1,7 +1,7 @@
-import * as THREE from '../../../../../node_modules/three/build/three.module.js';
-import { OrbitControls } from '../../../../../node_modules/three/examples/jsm/controls/OrbitControls.js';
-import {VRButton} from '../../../../../node_modules/three/examples/jsm/webxr/VRButton.js';
-import { BoxLineGeometry } from '../../../../../node_modules/three/examples/jsm/geometries/BoxLineGeometry.js';
+import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/build/three.module.js';
+import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/examples/jsm/controls/OrbitControls.js';
+import {VRButton} from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/examples/jsm/webxr/VRButton.js';
+import { BoxLineGeometry } from 'https://threejsfundamentals.org/threejs/resources/threejs/r125/examples/jsm/geometries/BoxLineGeometry.js';
 
 import ControllerPickHelper from './controller_pick_helper.js';
 import PickHelper from './pick_helper.js';
