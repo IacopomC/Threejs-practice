@@ -278,7 +278,7 @@ const colorCloudFragmentShader =
 
 	void main() {
 		if (shadow == 0.0) {
-			gl_FragColor.rgba = vec4 (0.0, 0.0, 0.0, 0.75);
+			gl_FragColor.rgba = vec4 (0.4, 0.4, 0.4, 0.75);
 		}
 		else {
 			gl_FragColor.rgb = color;
