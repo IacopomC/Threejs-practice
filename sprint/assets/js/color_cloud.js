@@ -39,7 +39,7 @@ function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     // Add axis
     const axesHelper = new THREE.AxesHelper( 0.7 );
     axesHelper.position.set(-0.8, 1.55, 0.3);
-    axesHelper.scale.set(0.5, 0.5, 0.5);
+    axesHelper.scale.set(0.7, 0.7, 0.7);
     scene.add( axesHelper );
 
     // Add grid 

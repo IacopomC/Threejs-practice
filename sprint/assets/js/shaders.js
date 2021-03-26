@@ -259,11 +259,13 @@ const colorCloudVertexShader =
 	}
 
 	void main() {
+
+		vec4 mvPosition =  modelViewMatrix * vec4(position, 1.0);
 		
 		color = function(texture2D ( tex, position.xy ));
 		
 		color.y = shadow * color.y;
-		gl_PointSize = 1.0;
+		gl_PointSize = 5.0 / (-mvPosition.z + 2.0);
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(color-vec3(.5,.5,.5), 1.0);
 	}
 	`
