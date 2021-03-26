@@ -153,12 +153,26 @@ function init() {
 
     imageProcessing = new IVimageProcessing(video.videoHeight, video.videoWidth, imageProcessingMaterial);
 
-    var geometry = new THREE.PlaneGeometry(1, video.videoHeight / video.videoWidth);
-    var material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
+    // Curved plane parameters
+    const radius = 0.7;  
+    const widthSegments = 12;  
+    const heightSegments = 12;  
+    const phiStart = Math.PI;  
+    const phiLength = Math.PI;  
+    const thetaStart = Math.PI * 0.3;  
+    const thetaLength = Math.PI * 0.35;  
+
+    let geometry = new THREE.SphereGeometry(
+    radius,
+    widthSegments, heightSegments,
+    phiStart, phiLength,
+    thetaStart, thetaLength);
+
+    let material = new THREE.MeshBasicMaterial({ map: videoTexture, side: THREE.DoubleSide });
+
     plane = new THREE.Mesh(geometry, material);
-    plane.position.set(0, 2, 0);
-    plane.receiveShadow = false;
-    plane.castShadow = true;
+    plane.position.set(-0.2, 2, 0);
+
     scene.add(plane);
 
     // Add play/stop buttons
