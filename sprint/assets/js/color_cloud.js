@@ -32,13 +32,13 @@ function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     geometry.computeBoundingSphere();
 
     let points = new THREE.Points(geometry, colorSpaceMaterial);
-    points.position.set(-0.8, 1.8, 0.3);
+    points.position.set(-1.1, 1.8, 0.3);
     points.scale.set(0.5, 0.5, 0.5);
     scene.add(points);
 
     // Add axis
     const axesHelper = new THREE.AxesHelper( 0.7 );
-    axesHelper.position.set(-0.8, 1.55, 0.3);
+    axesHelper.position.set(-1.1, 1.55, 0.3);
     axesHelper.scale.set(0.7, 0.7, 0.7);
     scene.add( axesHelper );
 
@@ -47,7 +47,7 @@ function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     const divisions = 10;
 
     const gridHelper = new THREE.GridHelper( size, divisions );
-    gridHelper.position.set(-0.8, 1.55, 0.3);
+    gridHelper.position.set(-1.1, 1.55, 0.3);
     gridHelper.scale.set(0.5, 0.5, 0.5);
     scene.add( gridHelper );
     
@@ -79,7 +79,7 @@ function colorCloud(scene, video, videoTexture, colorSpace, ccLab) {
     geometry.computeBoundingSphere();
 
     let pointsShadow = new THREE.Points(geometry, colorSpaceMaterial);
-    pointsShadow.position.set(-0.8, 1.8, 0.3);
+    pointsShadow.position.set(-1.1, 1.8, 0.3);
     pointsShadow.scale.set(0.5, 0.5, 0.5);
     scene.add(pointsShadow);
 
