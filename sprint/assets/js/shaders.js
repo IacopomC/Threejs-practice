@@ -270,11 +270,19 @@ const colorCloudVertexShader =
 const colorCloudFragmentShader =
 
 	`
+	uniform float shadow;
+	
 	varying vec3 color;
 
 	void main() {
-		gl_FragColor.rgb = color;
-		gl_FragColor.a = 1.0;
+		if (shadow == 0.0) {
+			gl_FragColor.rgba = vec4 (0.0, 0.0, 0.0, 0.75);
+		}
+		else {
+			gl_FragColor.rgb = color;
+			gl_FragColor.a = 1.0;
+		}
+		
 	}
 	`
 export {vertexShader, fragmentShader,

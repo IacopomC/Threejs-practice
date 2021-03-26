@@ -175,7 +175,7 @@ function init() {
 
     buttons = [...buttons, ...colorSpaceButtons];
  
-    //video.play();
+    video.play();
 
   };
 
