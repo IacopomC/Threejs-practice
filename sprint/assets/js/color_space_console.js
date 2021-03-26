@@ -40,12 +40,12 @@ function createChannelButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene, te
     const font = await loadFont(fontUrl);  
     let geometry = new THREE.TextGeometry(text, {
         font: font,
-        size: 3.0,
+        size: 6.0,
         height: .2,
         curveSegments: 12,
         bevelEnabled: true,
-        bevelThickness: 0.015,
-        bevelSize: .03,
+        bevelThickness: 0.1,
+        bevelSize: .3,
         bevelSegments: 5,
     });
 
@@ -55,8 +55,7 @@ function createChannelButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene, te
     });
     let mesh = new THREE.Mesh(geometry, material);
 
-    //mesh.scale.set(0.009, 0.009, 0.009);
-    mesh.position.set(x-0.05, y, z-0.05);
+    mesh.position.set(x, y, z);
     mesh.rotation.set(thetax, thetay, thetaz);
     mesh.scale.set(0.008, 0.008, 0.008);
 
@@ -73,7 +72,8 @@ function createChannelButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene, te
 
     const material = new THREE.MeshLambertMaterial({
         side: THREE.DoubleSide,
-        color: 0x0000ff
+        color: 0x0000ff,
+        visible : false
     });
 
     const mesh = new THREE.Mesh(geometry, material);
@@ -103,12 +103,12 @@ function createColorSpaceButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene,
     const font = await loadFont(fontUrl);  
     let geometry = new THREE.TextGeometry(text, {
         font: font,
-        size: 3.0,
+        size: 8.0,
         height: .2,
         curveSegments: 12,
         bevelEnabled: true,
-        bevelThickness: 0.015,
-        bevelSize: .03,
+        bevelThickness: 0.1,
+        bevelSize: .3,
         bevelSegments: 5,
     });
 
@@ -118,8 +118,7 @@ function createColorSpaceButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene,
     });
     let mesh = new THREE.Mesh(geometry, material);
 
-    //mesh.scale.set(0.009, 0.009, 0.009);
-    mesh.position.set(x-0.05, y, z-0.05);
+    mesh.position.set(x, y, z);
     mesh.rotation.set(thetax, thetay, thetaz);
     mesh.scale.set(0.008, 0.008, 0.008);
 
@@ -136,7 +135,8 @@ function createColorSpaceButton(fontUrl, x, y, z, thetax, thetay, thetaz, scene,
 
     const material = new THREE.MeshLambertMaterial({
         side: THREE.DoubleSide,
-        color: 0xd15241
+        color: 0xd15241,
+        visible: false
     });
 
     const mesh = new THREE.Mesh(geometry, material);
