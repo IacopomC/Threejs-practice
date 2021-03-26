@@ -132,7 +132,7 @@ function init() {
   floor.receiveShadow = false;
   scene.add(floor);
 
-  video = document.createElement('video');
+  const video = document.getElementById( 'video' );
 
   const videoProcessing = function () {
     videoTexture = new THREE.VideoTexture(video);
@@ -179,7 +179,7 @@ function init() {
 
   };
 
-  video.src = './assets/video/video.mp4';
+  //video.src = './assets/video/video.mp4';
   video.load();
   video.onloadeddata = videoProcessing;
   video.muted = true;
@@ -190,7 +190,8 @@ function init() {
 
   controllerPickHelper.addEventListener('selectstart', (event) => {
     if (event.selectedObject){
-      console.log('item selected ', event.selectedObject)
+      console.log('item selected ', event.selectedObject);
+      clickButton(event.selectedObject);
     }   
   });
 
@@ -243,19 +244,15 @@ function init() {
           video.pause();
           break;
         case 'channel1':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorChannel.value = 0;
           break;
         case 'channel2':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorChannel.value = 1;
           break;
         case 'channel3':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorChannel.value = 2;
           break;
         case 'RGB':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorSpace.value = 0;
 
           colorCloudObj.material.uniforms.colorSpace.value = 0;
@@ -265,7 +262,6 @@ function init() {
           colorCloudObjShadow.material.uniforms.ccLab.value = 1.0;
           break;
         case 'Yxy':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorSpace.value = 1;
 
           colorCloudObj.material.uniforms.colorSpace.value = 1;
@@ -275,7 +271,6 @@ function init() {
           colorCloudObjShadow.material.uniforms.ccLab.value = 1.0;
           break;
         case 'LAB':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorSpace.value = 2;
 
           colorCloudObj.material.uniforms.colorSpace.value = 2;
@@ -285,7 +280,6 @@ function init() {
           colorCloudObjShadow.material.uniforms.ccLab.value = 100.0;
           break;
         case 'HSV':
-          console.log(selecteObj.name);
           elevationMapPlane.material.uniforms.colorSpace.value = 3;
 
           colorCloudObj.material.uniforms.colorSpace.value = 3;
@@ -319,13 +313,14 @@ function init() {
   }
   renderer.setAnimationLoop(animate);
 
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    render();
+  }
+
   window.addEventListener('resize', onWindowResize, false);
 }
 
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  render();
-}
 

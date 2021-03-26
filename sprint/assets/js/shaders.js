@@ -259,9 +259,9 @@ const colorCloudVertexShader =
 	}
 
 	void main() {
-		vec3 tmp = position;
-		tmp = tmp * ccLab;
+		
 		color = function(texture2D ( tex, position.xy ));
+		
 		color.y = shadow * color.y;
 		gl_PointSize = 1.0;
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(color-vec3(.5,.5,.5), 1.0);
