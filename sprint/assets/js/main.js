@@ -163,19 +163,17 @@ function init() {
 
     // Add play/stop buttons
     buttons = createConsole(scene);
-    console.log(buttons)
 
     // Elevation Map
     elevationMapPlane = elevationMap(scene, video, videoTexture, colorSpace, colorChannel);
 
     // Color Cloud
-    //[colorCloudObj, colorCloudObjShadow] = colorCloud(scene, video, videoTexture, colorSpace, ccLab);
+    [colorCloudObj, colorCloudObjShadow] = colorCloud(scene, video, videoTexture, colorSpace, ccLab);
 
     // Add color space buttons
     const colorSpaceButtons = colorSpaceConsole(scene);
 
     buttons = [...buttons, ...colorSpaceButtons];
-    console.log(buttons);
  
     //video.play();
 
