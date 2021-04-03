@@ -9,7 +9,7 @@ Clone the Github Repository and start a local server
 Description
 ---
 
-Primitives:
+Primitives
 ---
 Create a scene with all the Three.js primitives available on the same plane. Build three layers and stack them along the z-direction. A crossed pattern for the floor is implementing making use of Line Segments.
 
